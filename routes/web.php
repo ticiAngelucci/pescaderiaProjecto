@@ -18,3 +18,5 @@ Route::get('/', function () {
 });
 
 Route::get('/productos', "App\Http\Controllers\MySQlControlador@obtenerProductos");
+Route::view('/registro','registro')->name('registro');
+Route::post('/registro', "App\Http\Controllers\MySQlControlador@registrarCliente");
