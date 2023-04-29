@@ -9,7 +9,7 @@
 <body>
     <h1>Escollera</h1>
     <h3>Registrarse</h3>
-    <form action="/registro" method="post">
+    <form action="" method="post">
         @csrf
         <input class="" type="text" name="nombre" id="nombre" placeholder="Ingrese su nombre">
         {!! $errors->first('nombre','<small>:message</small>')!!}<br> 
