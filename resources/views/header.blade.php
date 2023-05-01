@@ -19,6 +19,7 @@
                 background-image:url("https://previews.123rf.com/images/natuskadpi/natuskadpi1701/natuskadpi170100042/70133428-patr%C3%B3n-sin-fisuras-con-picas-verdes-fondo-de-pantalla-con-peces-de-r%C3%ADo-ilustraci%C3%B3n-vectorial.jpg");
                 background-position: center center;
             }
+            
         </style>
     </head>
     <body class="antialiased">

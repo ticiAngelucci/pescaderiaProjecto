@@ -19,5 +19,8 @@ Route::get('/login', function () {
 Route::get('/', function () {
     return view('catalogo');
 });
+Route::get('/editarUsuario', function () {
+    return view('editarUsuario');
+});
 
 Route::get('/productos', "App\Http\Controllers\MySQlControlador@obtenerProductos");
