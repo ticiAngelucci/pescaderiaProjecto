@@ -20,21 +20,18 @@ class registroCliente extends Controller
     }
 
     public function index(Request $request){
-        $clientes=Clientes::all();
+        $clientes=clientes::all();
         return view('google.com',compact('clientes'));
 
     }
 
 
-    public function store(Request $request){
-        $clientes= new Clientes;
-        $clientes->nombre=$request->input('nombre');
-        $clientes->apellido=$request->input('apellido');
-        $clientes->dni=$request->input('dni');
-        $clientes->email=$request->input('email');
-        $clientes->password=$request->input('password');
+    public function store(){
+        $nombre=$request('nombre');
+        $apellido=$request('apellido');
+        $dni=$request('dni');
+        $email=$request('email');
+        $password=$request('password');
         
-        $clientes->save();
-        return redirect()->route('google.com');
     }
 }

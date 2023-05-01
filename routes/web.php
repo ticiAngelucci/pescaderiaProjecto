@@ -26,4 +26,4 @@ Route::get('/editarUsuario', function () {
 Route::get('/productos', "App\Http\Controllers\MySQlControlador@obtenerProductos");
 Route::view('/registro','registro')->name('registro');
 Route::post('/registro', "App\Http\Controllers\RegistroCliente@registrarCliente");
-Route::post('registro/exitoso','App\Http\Controllers\RegistroCliente@store')->name('RegistroCliente.store');
+Route::post('/registro/EXITOSO','App\Http\Controllers\RegistroCliente@store')->name('RegistroCliente.store');
