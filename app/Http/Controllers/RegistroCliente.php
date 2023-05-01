@@ -27,11 +27,11 @@ class registroCliente extends Controller
 
 
     public function store(){
-        $nombre=$request('nombre');
-        $apellido=$request('apellido');
-        $dni=$request('dni');
-        $email=$request('email');
-        $password=$request('password');
+        $nombre=request('nombre');
+        $apellido=request('apellido');
+        $dni=request('dni');
+        $email=request('email');
+        $password=request('password');
         
     }
 }
