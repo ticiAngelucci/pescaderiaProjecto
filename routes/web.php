@@ -19,6 +19,9 @@ Route::get('/login', function () {
 Route::get('/', function () {
     return view('catalogo');
 });
+Route::get('/quienesSomos', function () {
+    return view('quienesSomos');
+});
 Route::get('/editarUsuario', function () {
     return view('editarUsuario');
 });
