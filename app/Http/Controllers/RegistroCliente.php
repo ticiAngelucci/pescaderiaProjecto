@@ -19,6 +19,13 @@ class registroCliente extends Controller
         return 'Registro exitoso';
     }
 
+    public function index(Request $request){
+        $clientes=Clientes::all();
+        return view('google.com',compact('clientes'));
+
+    }
+
+
     public function store(Request $request){
         $clientes= new Clientes;
         $clientes->nombre=$request->input('nombre');
@@ -28,6 +35,6 @@ class registroCliente extends Controller
         $clientes->password=$request->input('password');
         
         $clientes->save();
-        return redirect()->route('http://127.0.0.1:8000/');
+        return redirect()->route('google.com');
     }
 }

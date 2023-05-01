@@ -9,7 +9,7 @@
 <body>
     <h1>Escollera</h1>
     <h3>Registrarse</h3>
-    <form action="" method="post">
+    <form action="{{route('RegistroCliente.store')}}" method="post">
         @csrf
         <input class="" type="text" name="nombre" id="nombre" placeholder="Ingrese su nombre">
         {!! $errors->first('nombre','<small>:message</small>')!!}<br> 
