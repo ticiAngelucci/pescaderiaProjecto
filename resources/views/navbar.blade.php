@@ -15,17 +15,15 @@
         <li class="nav-item">
           <a class="nav-link" href=""><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4RLdcADFuofIEayYB56NsmNwD5u5GL6KMQe5d6w0&s" width=30/></a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img src="https://images.vexels.com/media/users/3/137047/isolated/preview/5831a17a290077c646a48c4db78a81bb-icono-de-perfil-de-usuario-azul.png" width=30/>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-            <a class="dropdown-item" href="{{ url('editarUsuario') }}">Editar Usuario</a>
+       
+         <div class="dropdown">
+  <img onclick="myFunction()" class="dropbtn" src="https://images.vexels.com/media/users/3/137047/isolated/preview/5831a17a290077c646a48c4db78a81bb-icono-de-perfil-de-usuario-azul.png" width=30/>
+  <div id="myDropdown" class="dropdown-content">
+    <a class="dropdown-item" href="{{ url('editarUsuario') }}">Editar Usuario</a>
             <a class="dropdown-item" href="#">Historial</a>
-            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Cerrar Sesion</a>
-          </div>
-        </li>
+  </div>
+</div> 
       </ul>
     </div>
   </div>
