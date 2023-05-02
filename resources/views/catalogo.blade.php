@@ -1,4 +1,5 @@
 @include('header')
+@include('navbar')
         <div class="container">
             <div class="row">
                 

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,8 @@ Route::get('/editarUsuario', function () {
 });
 
 Route::get('/productos', "App\Http\Controllers\MySQlControlador@obtenerProductos");
+Route::get('/crearProducto', [ProductosController::class, 'index']);
+Route::post('store-form', [ProductosController::class, 'store']);
 Route::view('/registro','registro')->name('registro');
 Route::post('/registro', "App\Http\Controllers\RegistroCliente@registrarCliente");
 Route::post('registro/exitoso','App\Http\Controllers\RegistroCliente@store')->name('RegistroCliente.store');

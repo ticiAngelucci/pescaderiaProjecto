@@ -1,4 +1,5 @@
 @include('header')
+@include('navbar')
 <section class="showcase">
     <div class="text">
       <h2>¿Quienes somos? </h2> 
