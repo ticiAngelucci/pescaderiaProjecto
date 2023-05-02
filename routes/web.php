@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductosController;
-use App\Http\Controllers\RegistroCliente;
+use App\Http\Controllers\RegistroController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,8 +46,7 @@ Route::post('store-form', [ProductosController::class, 'store']);
 
 
 Route::view('/registro', 'registro')->name('registro');
-//Route::post('/registro', "App\Http\Controllers\RegistroCliente@validar");
+//Route::post('/registro', "App\Http\Controllers\RegistroController@validar");
 
-Route::get('registro',[RegistroCliente::class,'index']);
-Route::post('store-form',[RegistroCliente::class,'store']);
-//Route::post('/registro}','App\Http\Controllers\RegistroCliente@store')->name('RegistroCliente.store');
+Route::post('registro',[RegistroController::class,'validar']);
+Route::post('store-form',[RegistroController::class,'store']);

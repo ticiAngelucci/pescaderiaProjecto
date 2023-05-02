@@ -6,7 +6,7 @@ use \DB;
 
 use Illuminate\Http\Request;
 
-class RegistroCliente extends Controller
+class RegistroController extends Controller
 {
     public function validar(){
         
