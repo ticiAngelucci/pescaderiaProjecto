@@ -10,6 +10,7 @@ $productosConImg = [
     'salmon' => 'https://ichef.bbci.co.uk/news/640/amz/worldservice/live/assets/images/2014/12/10/141210153740_salmon_promos__624x351_thinkstock.jpg',
     'queeeeedate' => 'https://www.billboard.com/wp-content/uploads/2023/01/Quevedo-2023-billboard-espanol-1548.jpg?w=942&h=623&crop=1&resize=942%2C623',
     'sprite' => 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/188/828/products/images-111-ae3485bd0f9a65d0be16529739175163-640-0.jpg',
+    'default' => 'https://vanguardia.com.mx/binrepository/1152x648/0c0/0d0/down-right/11604/HPDJ/maxresdefault_1_107_VG3427361_MG1733824.jpg',
 ];
 
 ?>
@@ -28,7 +29,7 @@ $productosConImg = [
             @foreach($productos as $producto)
             <div class="col-md-6 col-lg-4 col-xl-3">
                 <div id="product-1" class="single-product">
-                    <div class="part-1" style="background: url(<?php echo $productosConImg[$producto->nombre] ?>)
+                    <div class="part-1" style="background: url(<?php if(isset($productosConImg[$producto->nombre])) { echo $productosConImg[$producto->nombre]; } else{ echo $productosConImg['default'];}?>)
                          no-repeat center !important;">
 
                     </div>
