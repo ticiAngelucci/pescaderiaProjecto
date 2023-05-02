@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class registroCliente extends Controller
 {
-    public function registrarCliente(){
+    public function validar(){
         
         request()->validate([
          'nombre' => 'required',
@@ -35,7 +35,9 @@ class registroCliente extends Controller
         $post->password=$request->password;
         $post->save();
         return redirect('registro'->with('status','Blog post form data has been inserted'));
-       // $nombre=request('nombre');
+       
+       
+        // $nombre=request('nombre');
         //$apellido=request('apellido');
         //$dni=request('dni');
         //$email=request('email');

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,16 +17,37 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', function () {
     return view('login');
 });
-Route::get('/', function () {
-    return view('catalogo');
+Route::post('/login', function () {
+    $credencial = request()->only('email', 'password');
+    if (Auth::attempt($credencial)) {
+        return 'Iniciaste sesion';
+    } else {
+        return 'Fallo inicio de sesion';
+    }
+});
+Route::get('/', "App\Http\Controllers\ProductosController@index");
+Route::get('producto/{id}', [
+    'as' => 'detalle',
+    'uses' => 'ProductosController@mostrar'
+]);
+Route::get('/quienesSomos', function () {
+    return view('quienesSomos');
 });
 Route::get('/editarUsuario', function () {
     return view('editarUsuario');
 });
 
+
 Route::get('/productos', "App\Http\Controllers\MySQlControlador@obtenerProductos");
-Route::view('/registro','registro')->name('registro');
+Route::get('/crearProducto', function () {
+    return view('crearProducto');
+});
+Route::post('store-form', [ProductosController::class, 'store']);
+
+
+Route::view('/registro', 'registro')->name('registro');
 Route::post('/registro', "App\Http\Controllers\RegistroCliente@registrarCliente");
+
 Route::get('/registro',[RegistroCliente::class,'index']);
 Route::post('/registro/exitoso',[RegistroCliente::class,'store']);
 //Route::get('/registro/EXITOSO','App\Http\Controllers\RegistroCliente@store')->name('RegistroCliente.store');
