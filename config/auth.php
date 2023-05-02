@@ -42,6 +42,13 @@ return [
         ],
     ],
 
+    'guards' => [
+        'tienda' => [
+            'driver' => 'session',
+            'provider' => 'empleados',
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -65,10 +72,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'empleados' => [
+            'driver' => 'eloquent',
+            'model' => App\Empleado::class,
+        ],
     ],
 
     /*

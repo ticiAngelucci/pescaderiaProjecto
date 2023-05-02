@@ -17,6 +17,14 @@ use App\Http\Controllers\ProductosController;
 Route::get('/login', function () {
     return view('login');
 });
+Route::post('/login', function () {
+    $credencial = request()->only('email', 'password');
+    if (Auth::attempt($credencial)) {
+        return 'Iniciaste sesion';
+    } else {
+        return 'Fallo inicio de sesion';
+    }
+});
 Route::get('/', "App\Http\Controllers\ProductosController@index");
 Route::get('producto/{id}', [
     'as' => 'detalle',
@@ -37,4 +45,3 @@ Route::post('store-form', [ProductosController::class, 'store']);
 Route::view('/registro', 'registro')->name('registro');
 Route::post('/registro', "App\Http\Controllers\RegistroCliente@registrarCliente");
 Route::post('registro/exitoso', 'App\Http\Controllers\RegistroCliente@store')->name('RegistroCliente.store');
-Auth::routes();

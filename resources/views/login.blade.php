@@ -8,7 +8,8 @@
                     <div class="text-center">
                         <img class="py-2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRMjiwG9VWb530KHv-6_GX7qNRb7iJDPy3YNSLetgTAOHPySiBKMMZCZS4f_y5JDElA1Y&usqp=CAU"  width="190" alt="Logo Escollera">
                     </div>
-                    <form action="#" class="m-2">
+                    <form action="#" method="POST" class="m-2">
+                        @csrf
                         <div class="mb-4">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" name="email">
