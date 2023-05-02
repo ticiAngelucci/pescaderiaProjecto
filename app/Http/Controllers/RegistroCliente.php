@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\clientes;
+use \DB;
 
 use Illuminate\Http\Request;
 
-class registroCliente extends Controller
+class RegistroCliente extends Controller
 {
     public function validar(){
         
@@ -21,27 +23,22 @@ class registroCliente extends Controller
 
     public function index(Request $request){
         $clientes=clientes::all();
-        return view('google.com',compact('clientes'));
+        return view('registro',compact('clientes'));
 
     }
 
 
     public function store(Request $request){
-        $post = new Post;
-        $post->nombre=$request->nombre;
-        $post->apellido=$request->apellido;
-        $post->dni=$request->dni;
-        $post->email=$request->email;
-        $post->password=$request->password;
-        $post->save();
-        return redirect('registro'->with('status','Blog post form data has been inserted'));
+        $clientes = new clientes;
+        $clientes->nombre=$request->nombre;
+        $clientes->apellido=$request->apellido;
+        $clientes->dni=$request->dni;
+        $clientes->email=$request->email;
+        $clientes->password=$request->password;
+        $clientes->id_localidad=$request->id_localidad;        
+        $clientes->save();
+        return redirect('registro')->with('status','Blog post form data has been inserted');
        
-       
-        // $nombre=request('nombre');
-        //$apellido=request('apellido');
-        //$dni=request('dni');
-        //$email=request('email');
-        //$password=request('password');
-        
+    
     }
 }

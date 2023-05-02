@@ -19,6 +19,7 @@ return new class extends Migration
         $table->text('id_localidad');
         $table->string('email');
         $table->string('password');
+        $table->timestamps();
     });
     }       
 
