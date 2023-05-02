@@ -18,9 +18,10 @@ Route::get('/login', function () {
     return view('login');
 });
 Route::get('/', "App\Http\Controllers\ProductosController@index");
-Route::get('producto/{id}',[ 
-        'as'=>'detalle',
-        'uses'=>'ProductosController@mostrar']);
+Route::get('producto/{id}', [
+    'as' => 'detalle',
+    'uses' => 'ProductosController@mostrar'
+]);
 Route::get('/quienesSomos', function () {
     return view('quienesSomos');
 });
@@ -33,6 +34,7 @@ Route::get('/crearProducto', function () {
     return view('crearProducto');
 });
 Route::post('store-form', [ProductosController::class, 'store']);
-Route::view('/registro','registro')->name('registro');
+Route::view('/registro', 'registro')->name('registro');
 Route::post('/registro', "App\Http\Controllers\RegistroCliente@registrarCliente");
-Route::post('registro/exitoso','App\Http\Controllers\RegistroCliente@store')->name('RegistroCliente.store');
+Route::post('registro/exitoso', 'App\Http\Controllers\RegistroCliente@store')->name('RegistroCliente.store');
+Auth::routes();
