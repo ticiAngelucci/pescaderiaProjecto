@@ -1,30 +1,30 @@
 @include('header')
 @if ($paginator->hasPages())
-<ul class="pager">
+<div class="pager">
     @if ($paginator->onFirstPage())
-    <li class="disabled"><span>← Previous</span></li>
+    <button class="disabled"><span>← Atras</span></button>
     @else
-    <li><a href="{{ $paginator->previousPageUrl() }}" rel="prev">← Atras</a></li>
+    <button><a href="{{ $paginator->previousPageUrl() }}" rel="prev">← Atras</a></button>
     @endif
     @foreach ($elements as $element)
     @if (is_string($element))
-    <li class="disabled"><span>{{ $element }}</span></li>
+    <button class="disabled"><span>{{ $element }}</span></button>
     @endif
     @if (is_array($element))
     @foreach ($element as $page => $url)
     @if ($page == $paginator->currentPage())
-    <li class="active my-active"><span>{{ $page }}</span></li>
+    <button class="active my-active"><span>{{ $page }}</span></button>
     @else
-    <li><a href="{{ $url }}">{{ $page }}</a></li>
+    <button><a href="{{ $url }}">{{ $page }}</a></button>
     @endif
     @endforeach
     @endif
     @endforeach
     @if ($paginator->hasMorePages())
-    <li><a href="{{ $paginator->nextPageUrl() }}" rel="next">Next →</a></li>
+    <button><a href="{{ $paginator->nextPageUrl() }}" rel="next">Siguiente →</a></button>
     @else
-    <li class="disabled"><span>Siguiente →</span></li>
+    <button class="disabled"><span>Siguiente →</span></button>
     @endif
-</ul>
+</div>
 @endif
 @include('footer')
