@@ -26,12 +26,20 @@ class registroCliente extends Controller
     }
 
 
-    public function store(){
-        $nombre=request('nombre');
-        $apellido=request('apellido');
-        $dni=request('dni');
-        $email=request('email');
-        $password=request('password');
+    public function store(Request $request){
+        $post = new Post;
+        $post->nombre=$request->nombre;
+        $post->apellido=$request->apellido;
+        $post->dni=$request->dni;
+        $post->email=$request->email;
+        $post->password=$request->password;
+        $post->save();
+        return redirect('registro'->with('status','Blog post form data has been inserted'));
+       // $nombre=request('nombre');
+        //$apellido=request('apellido');
+        //$dni=request('dni');
+        //$email=request('email');
+        //$password=request('password');
         
     }
 }
