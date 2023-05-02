@@ -10,8 +10,8 @@ class ProductosController extends Controller
 {
     public function index()
     {
-        $productos=Productos::paginate(6);
-        return view('catalogo',compact('productos'));
+        $productos = Productos::paginate(8);
+        return view('catalogo', compact('productos'));
     }
     public function store(Request $request)
     {
@@ -24,8 +24,9 @@ class ProductosController extends Controller
         $productoNuevo->save();
         return redirect('crearProducto')->with('status', 'Producto agregado!');
     }
-    public function mostrar($id){
-        $producto= Productos:: where ('id',$id)->first();
-        return view('catalogo',compact('producto'));
+    public function mostrar($id)
+    {
+        $producto = Productos::where('id', $id)->first();
+        return view('catalogo', compact('producto'));
     }
 }
