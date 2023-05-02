@@ -17,9 +17,10 @@ use App\Http\Controllers\ProductosController;
 Route::get('/login', function () {
     return view('login');
 });
-Route::get('/', function () {
-    return view('catalogo');
-});
+Route::get('/', "App\Http\Controllers\ProductosController@index");
+Route::get('producto/{id}',[ 
+        'as'=>'detalle',
+        'uses'=>'ProductosController@mostrar']);
 Route::get('/quienesSomos', function () {
     return view('quienesSomos');
 });
@@ -28,7 +29,9 @@ Route::get('/editarUsuario', function () {
 });
 
 Route::get('/productos', "App\Http\Controllers\MySQlControlador@obtenerProductos");
-Route::get('/crearProducto', [ProductosController::class, 'index']);
+Route::get('/crearProducto', function () {
+    return view('crearProducto');
+});
 Route::post('store-form', [ProductosController::class, 'store']);
 Route::view('/registro','registro')->name('registro');
 Route::post('/registro', "App\Http\Controllers\RegistroCliente@registrarCliente");

@@ -10,7 +10,8 @@ class ProductosController extends Controller
 {
     public function index()
     {
-        return view('crearProducto');
+        $productos=Productos::paginate(6);
+        return view('catalogo',compact('productos'));
     }
     public function store(Request $request)
     {
@@ -22,5 +23,9 @@ class ProductosController extends Controller
         $productoNuevo->cantidad_disponible = $request->cantidad_disponible;
         $productoNuevo->save();
         return redirect('crearProducto')->with('status', 'Producto agregado!');
+    }
+    public function mostrar($id){
+        $producto= Productos:: where ('id',$id)->first();
+        return view('catalogo',compact('producto'));
     }
 }
