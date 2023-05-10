@@ -25,7 +25,6 @@ $productosConImg = [
             </div>
         </div>
         <div class="row">
-            <!-- Single Product -->
             @foreach($productos as $producto)
             <div class="col-md-6 col-lg-4 col-xl-3">
                 <div id="product-1" class="single-product">

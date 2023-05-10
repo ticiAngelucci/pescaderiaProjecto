@@ -21,12 +21,13 @@ class ProductosController extends Controller
         $productoNuevo->precio_por_gramo = $request->precio_por_gramo;
         $productoNuevo->id_estado_producto = $request->id_estado_producto;
         $productoNuevo->cantidad_disponible = $request->cantidad_disponible;
+        $productoNuevo->descripcion = $request->descripcion;
         $productoNuevo->save();
         return redirect('crearProducto')->with('status', 'Producto agregado!');
     }
-    public function mostrar($id)
+    public function mostrar($id_producto)
     {
-        $producto = Productos::where('id', $id)->first();
-        return view('catalogo', compact('producto'));
+        $producto = Productos::where('id_producto', $id_producto)->first();
+        return view('detalleProducto', ["producto" => $producto]);
     }
 }
