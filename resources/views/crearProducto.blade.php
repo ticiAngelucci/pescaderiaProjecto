@@ -13,8 +13,14 @@
             </div>
             <div class="col-6">
                 <div class="form-floating">
+                    <input type="text" id="descripcion" name="descripcion" class="form-control"
+                        placeholder="descripcion de producto">
+                    <label for="descripcion">Descripcion del Producto:</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-floating">
                     <select id="id_categoria" name="id_categoria" class="form-select">
-                        <option selected>Abrir el menu</option>
                         <!-- Hacer dinamicos los option cuando carguemos categorias por ahora estatico -->
                         <option value="1">Rebozado</option>
                         <option value="2">Mariscos</option>

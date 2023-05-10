@@ -21,12 +21,32 @@ class ProductosController extends Controller
         $productoNuevo->precio_por_gramo = $request->precio_por_gramo;
         $productoNuevo->id_estado_producto = $request->id_estado_producto;
         $productoNuevo->cantidad_disponible = $request->cantidad_disponible;
+        $productoNuevo->descripcion = $request->descripcion;
         $productoNuevo->save();
         return redirect('crearProducto')->with('status', 'Producto agregado!');
     }
-    public function mostrar($id)
+    public function mostrar($id_producto)
     {
-        $producto = Productos::where('id', $id)->first();
-        return view('catalogo', compact('producto'));
+        $producto = Productos::where('id_producto', $id_producto)->first();
+        return view('detalleProducto', ["producto" => $producto]);
+    }
+    public function edit($id_producto)
+    {
+        $producto = Productos::where('id_producto', $id_producto)->first();
+        return view('editarProducto', compact('producto'));
+    }
+    public function update(Request $request, $id_producto)
+    {
+
+        $producto = Productos::whereId_producto($id_producto)->firstOrFail();
+        print($producto);
+        $producto->nombre = $request->get('nombre');
+        $producto->descripcion = $request->get('descripcion');
+        $producto->precio_por_gramo = $request->get('precio_por_gramo');
+        $producto->cantidad_disponible = $request->get('cantidad_disponible');
+        $producto->id_estado_producto = $request->get('id_estado_producto');
+
+        $producto->save();
+        return redirect(action('App\Http\Controllers\ProductosController@edit', $producto->id_producto))->with('El mensaje ' . $id_producto . ' ha sido actualizado');
     }
 }

@@ -13,7 +13,7 @@ use App\Http\Controllers\RegistroController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+//Rutas de login
 Route::get('/login', function () {
     return view('login');
 });
@@ -25,14 +25,21 @@ Route::post('/login', function () {
         return 'Fallo inicio de sesion';
     }
 });
+//Ruta de Catalogo producto
 Route::get('/', "App\Http\Controllers\ProductosController@index");
-Route::get('producto/{id}', [
+//Ruta del detalle del producto
+Route::get('producto/{id_producto}', [
     'as' => 'detalle',
-    'uses' => 'ProductosController@mostrar'
+    'uses' => 'App\Http\Controllers\ProductosController@mostrar'
 ]);
+//RUta para editar producto
+Route::get('producto/{id_producto?}/editar', 'App\Http\Controllers\ProductosController@edit')->name('editarProducto');
+Route::post('producto/{id_producto?}/editar', 'App\Http\Controllers\ProductosController@update');
+//Ruta para quienes somos
 Route::get('/quienesSomos', function () {
     return view('quienesSomos');
 });
+//Ruta editar usuario (solo vista falta agregar id usuario)
 Route::get('/editarUsuario', function () {
     return view('editarUsuario');
 });
@@ -42,6 +49,7 @@ Route::get('/productos', "App\Http\Controllers\MySQlControlador@obtenerProductos
 Route::get('/crearProducto', function () {
     return view('crearProducto');
 });
+//Ruta para enviar el formulario y crear el producto
 Route::post('store-form', [ProductosController::class, 'store']);
 
 
