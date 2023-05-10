@@ -32,6 +32,9 @@ Route::get('producto/{id_producto}', [
     'as' => 'detalle',
     'uses' => 'App\Http\Controllers\ProductosController@mostrar'
 ]);
+//RUta para editar producto
+Route::get('producto/{id_producto?}/editar', 'App\Http\Controllers\ProductosController@edit')->name('editarProducto');
+Route::post('producto/{id_producto?}/editar', 'App\Http\Controllers\ProductosController@update');
 //Ruta para quienes somos
 Route::get('/quienesSomos', function () {
     return view('quienesSomos');

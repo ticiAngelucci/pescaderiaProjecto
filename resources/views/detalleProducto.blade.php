@@ -40,9 +40,10 @@ $productosConImg = [
                             <ul class="spe_ul"></ul>
                             <div class="_p-qty-and-cart">
                                 <div class="_p-add-cart">
-                                    <button class="btn-theme btn buy-btn" tabindex="0">
+                                    <a href="{{route('editarProducto',$producto->id_producto)}}"
+                                        class="btn-theme btn buy-btn" tabindex="0">
                                         <i class="fa fa-shopping-cart"></i> Editar Producto
-                                    </button>
+                                    </a>
                                     <button class="btn-theme btn btn-success" tabindex="0">
                                         <i class="fa fa-shopping-cart"></i> Añadir al carrito
                                     </button>
