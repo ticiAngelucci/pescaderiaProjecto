@@ -48,5 +48,5 @@ Route::post('store-form', [ProductosController::class, 'store']);
 Route::view('/registro', 'registro')->name('registro');
 //Route::post('/registro', "App\Http\Controllers\RegistroController@validar");
 
-Route::post('registro',[RegistroController::class,'validar']);
+//Route::post('registro',[RegistroController::class,'validar']);
 Route::post('store-form',[RegistroController::class,'store']);
