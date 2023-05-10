@@ -50,10 +50,11 @@ Route::get('/crearProducto', function () {
     return view('crearProducto');
 });
 //Ruta para enviar el formulario y crear el producto
-Route::post('store-form', [ProductosController::class, 'store']);
+Route::post('store-form-producto', 'App\Http\Controllers\ProductosController@store');
 
-
+//Ruta para registrar una persona
 Route::view('/registro', 'registro')->name('registro');
+
 //Route::post('/registro', "App\Http\Controllers\RegistroController@validar");
 
 //Route::post('registro',[RegistroController::class,'validar']);
