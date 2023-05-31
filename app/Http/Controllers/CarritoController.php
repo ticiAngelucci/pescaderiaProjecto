@@ -10,8 +10,9 @@ public function index()
 {
     $carrito = session('carrito', []);
 
-    return view('carritoCompras', compact('carrito'));
+    return view('carritoCompras')->with('carrito', $carrito);
 }
+    
 
 
 

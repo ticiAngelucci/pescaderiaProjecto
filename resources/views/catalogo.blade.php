@@ -1,5 +1,6 @@
 @include('header')
 @include('navbar')
+@extends('layouts.app')
 <?php
 $productosConImg = [
     'langostino' => 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/215/401/products/lango-pelado1-5ff98af31ed78eae3b16496944392552-1024-1024.jpeg',

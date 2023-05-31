@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 @include('header')
 @include('navbar')
+
 <html>
 
 <head>

@@ -41,7 +41,9 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    @if (count($carrito) > 0)
+
+
+                                    @if (!is_null($carrito) && count($carrito) > 0)
                                     <ul>
                                         @foreach ($carrito as $id => $producto)
                                         <li>
@@ -53,6 +55,11 @@
                                         </li>
                                         @endforeach
                                     </ul>
+
+                                    <form action="{{ route('carrito.vaciar') }}" method="POST">
+                                        @csrf
+                                        <button type="submit">Vaciar carrito</button>
+                                    </form>
                                     @else
                                     <p>No hay productos en el carrito</p>
                                     @endif
@@ -60,25 +67,28 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                    <button type="button" class="btn btn-primary">Realizar pedido</button>
+
+                                    <a href="carritoCompras.blade.php"> <button type="button"
+                                            class="btn btn-primary">Realizar pedido</button></a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-
-                    <div class="dropdown">
-                        <img onclick="myFunction()" class="dropbtn"
-                            src="https://images.vexels.com/media/users/3/137047/isolated/preview/5831a17a290077c646a48c4db78a81bb-icono-de-perfil-de-usuario-azul.png"
-                            width=30 />
-                        <div id="myDropdown" class="dropdown-content">
-                            <a class="dropdown-item" href="{{ url('editarUsuario') }}">Editar Usuario</a>
-                            <a class="dropdown-item" href="#">Historial</a>
-                            <a class="dropdown-item" href="#">Cerrar Sesion</a>
-                        </div>
-                    </div>
-                </ul>
             </div>
+        </div>
+        <div class="dropdown">
+            <img onclick="myFunction()" class="dropbtn"
+                src="https://images.vexels.com/media/users/3/137047/isolated/preview/5831a17a290077c646a48c4db78a81bb-icono-de-perfil-de-usuario-azul.png"
+                width=30 />
+            <div id="myDropdown" class="dropdown-content">
+                <a class="dropdown-item" href="{{ url('editarUsuario') }}">Editar Usuario</a>
+                <a class="dropdown-item" href="#">Historial</a>
+                <a class="dropdown-item" href="#">Cerrar Sesion</a>
+            </div>
+        </div>
+        </ul>
+        </div>
         </div>
     </nav>
     @include('footer')

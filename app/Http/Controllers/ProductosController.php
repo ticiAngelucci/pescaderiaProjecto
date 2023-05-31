@@ -8,6 +8,7 @@ use \DB;
 
 class ProductosController extends Controller
 {
+    
     public function index()
     {
         $productos = Productos::paginate(8);
@@ -49,4 +50,17 @@ class ProductosController extends Controller
         $producto->save();
         return redirect(action('App\Http\Controllers\ProductosController@edit', $producto->id_producto))->with('El mensaje ' . $id_producto . ' ha sido actualizado');
     }
+    //Para carrito
+    public function mostrarProductos()
+{
+    // Obtener los datos del carrito y asignarlos a la variable $carrito
+    $carrito = 
+
+    // Pasar la variable $carrito a la vista
+    return view('productos')->with('carrito', $carrito);
+}
+
+ 
+
+
 }
