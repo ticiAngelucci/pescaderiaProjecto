@@ -28,6 +28,7 @@ class RegistroController extends Controller
     }
 
 
+
     public function store(Request $request){
         $clientes = new clientes;
         $clientes->nombre=$request->nombre;

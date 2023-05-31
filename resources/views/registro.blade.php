@@ -16,6 +16,9 @@
         {!! $errors->first('id_localidad','<small>:message</small>')!!}<br>
         <input class="" type="password" name="password" id="password" placeholder="Ingrese su contraseña">
         {!! $errors->first('password','<small>:message</small>')!!}<br>
+        <input type="radio" name="sexo" value="H" /> Cliente
+        <input type="radio" name="sexo" value="M" /> Empleado
+        <p></p>
         <input class="" type="submit" value="Registrarse">
         <p><a href="#">¿Ya tiene cuenta?</a></p>
     </form>

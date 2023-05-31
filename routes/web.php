@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\RegistroController;
+use App\Http\Controllers\CarritoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,10 +53,17 @@ Route::get('/crearProducto', function () {
 //Ruta para enviar el formulario y crear el producto
 Route::post('store-form-producto', 'App\Http\Controllers\ProductosController@store');
 
-//Ruta para registrar una persona
+//Ruta para ver el registro 
 Route::view('/registro', 'registro')->name('registro');
-
 //Route::post('/registro', "App\Http\Controllers\RegistroController@validar");
 
 //Route::post('registro',[RegistroController::class,'validar']);
-Route::post('store-form',[RegistroController::class,'store']);
+
+
+//Ruta para ver el carrito de compras
+Route::view('/carritoCompras', 'carritoCompras');
+Route::get('/carrito', 'CarritoController@index')->name('carrito.index');
+Route::get('/carritoCompras', 'App\Http\Controllers\CarritoController@index')->name('carrito.index');
+Route::post('/carritoCompras/agregar/{id}', 'App\Http\Controllers\App\Http\Controllers\CarritoController@agregar')->name('carrito.agregar');
+Route::post('/carritoCompras/eliminar/{id}', 'App\Http\Controllers\CarritoController@eliminar')->name('carrito.eliminar');
+Route::post('/carritoCompras/vaciar', 'App\Http\Controllers\CarritoController@vaciar')->name('carrito.vaciar');
