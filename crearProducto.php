@@ -2,7 +2,7 @@
 <?php include('components/navbar.php'); ?>
 <div class="container">
     <h4 class="d-flex justify-content-center mt-5 display-5">Crear producto!</h4>
-    <form name="crearProductoForm" id="crearProductoForm" method="post" action="#">
+    <form id="crearProductoForm" method="POST" action="functions/crearProducto.php">
         <div class="row g-2 py-5">
             <div class="col-6">
                 <div class="form-floating">
