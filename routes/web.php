@@ -62,8 +62,8 @@ Route::view('/registro', 'registro')->name('registro');
 
 //Ruta para ver el carrito de compras
 Route::view('/carritoCompras', 'carritoCompras');
-Route::get('/carrito', 'CarritoController@index')->name('carrito.index');
+Route::get('/carritoCompras', 'App\Http\Controllers\App\Http\CarritoController@index')->name('carrito.index');
 Route::get('/carritoCompras', 'App\Http\Controllers\CarritoController@index')->name('carrito.index');
-Route::post('/carritoCompras/agregar/{id}', 'App\Http\Controllers\App\Http\Controllers\CarritoController@agregar')->name('carrito.agregar');
-Route::post('/carritoCompras/eliminar/{id}', 'App\Http\Controllers\CarritoController@eliminar')->name('carrito.eliminar');
+Route::post('/carritoCompras/agregar/', 'App\Http\Controllers\App\Http\Controllers\CarritoController@agregar')->name('carrito.agregar');
+Route::post('/carritoCompras/eliminar/', 'App\Http\Controllers\CarritoController@eliminar')->name('carrito.eliminar');
 Route::post('/carritoCompras/vaciar', 'App\Http\Controllers\CarritoController@vaciar')->name('carrito.vaciar');

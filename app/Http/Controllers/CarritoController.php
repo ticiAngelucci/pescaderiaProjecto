@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 use App\Models\Productos;
 use Illuminate\Http\Request;
-use Cart;
 class CarritoController extends Controller
 {
 public function index()
@@ -12,11 +11,8 @@ public function index()
 
     return view('carritoCompras')->with('carrito', $carrito);
 }
-    
 
-
-
-public function agregar($id)
+/* public function agregar($id)
 {
     $productos = Productos::findOrFail($id);
 
@@ -47,4 +43,5 @@ public function vaciar()
     return redirect()->route('carrito.index');
 }
 
+ */
 }
