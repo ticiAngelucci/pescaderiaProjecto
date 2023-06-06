@@ -14,8 +14,8 @@ if(isset($_POST['register'])){
             $nombre=trim($_POST['nombre']);
             $apellido=trim($_POST['apellido']);
             $dni=trim($_POST['dni']);
-            $password=trim($_POST['password']);
             $email=trim($_POST['email']);
+            $password=trim($_POST['password']);
             $id_localidad=trim($_POST['id_localidad']);
             
             $consulta="INSERT INTO clientes(nombre,apellido,dni,password,email,id_localidad)
