@@ -1,5 +1,5 @@
-<?php include('conection.php'); 
 
+<?php include('conection.php'); 
 $nombre = utf8_decode($_POST['nombre']);
 $descripcion = utf8_decode($_POST['descripcion']);
 $id_categoria = utf8_decode($_POST['id_categoria']);

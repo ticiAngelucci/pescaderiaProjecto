@@ -10,8 +10,12 @@
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRMjiwG9VWb530KHv-6_GX7qNRb7iJDPy3YNSLetgTAOHPySiBKMMZCZS4f_y5JDElA1Y&usqp=CAU"
                     width="190" alt="Logo Escollera">
             </div>
+            <?php
+                    include("functions/login.php");
+                ?>
             <form action="#" method="POST" class="m-2">
-                @csrf
+
+
                 <div class="mb-4">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" name="email">
@@ -22,7 +26,8 @@
                 </div>
                 <div class="row justify-content-between py-5">
                     <div type="button" class="btn col-sm-4"><a href="#">¿No tienes cuenta?</a></div>
-                    <button type="submit" class="btn btn-primary col-sm-6">Ingresar</button>
+                    <input name="btningresar" type="submit" class="btn btn-primary col-sm-6" value="Ingresar">
+
                 </div>
             </form>
         </div>
