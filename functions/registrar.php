@@ -18,7 +18,7 @@ if(isset($_POST['register'])){
             $password=trim($_POST['password']);
             $id_localidad=trim($_POST['id_localidad']);
             
-            $consulta="INSERT INTO clientes(nombre,apellido,dni,password,email,id_localidad)
+            $consulta="INSERT INTO clientes(nombre,apellido,dni,email,password,id_localidad)
             VALUES('$nombre',' $apellido','$dni','$email','$password','$id_localidad')";            
             $resultado=mysqli_query($conexion,$consulta);   
             if ($resultado) {

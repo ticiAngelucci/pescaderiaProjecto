@@ -14,7 +14,7 @@
                     include("functions/login.php");
                 ?>
             <form action="#" method="POST" class="m-2">
-                @csrf
+
 
                 <div class="mb-4">
                     <label for="email" class="form-label">Email</label>
