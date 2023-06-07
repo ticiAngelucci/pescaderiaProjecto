@@ -37,11 +37,16 @@ $productosConImg = [
                             <span> Descripcion del producto:- </span>
                             descripcion bd
                         </div>
-                        <form action="" method="post" accept-charset="utf-8">
+                        <!-- Agregué la action cart.php no se si anda aun jii -->
+                        $carrito_mio=$_SESSION['carrito'];
+                        $_SESSION['carrito']=$carrito_mio;
+                        <form action="functions/cart.php" method="post" accept-charset="utf-8">
                             <ul class="spe_ul"></ul>
                             <div class="_p-qty-and-cart">
                                 <div class="_p-add-cart">
-                                    <a href="{{route('editarProducto',$producto->id_producto)}}"
+                                    <!-- Te pase la linea de abajo si no me equivoco a php puro -->
+
+                                    <a href="<?php echo route('editarProducto', $producto->id_producto); ?>">
                                         class="btn-theme btn buy-btn" tabindex="0">
                                         <i class="fa fa-shopping-cart"></i> Editar Producto
                                     </a>

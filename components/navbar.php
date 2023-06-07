@@ -1,4 +1,11 @@
 <?php include('header.php'); ?>
+<!-- Enlace a jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Enlaces a los archivos CSS y JavaScript de Bootstrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <nav class="navbar navbar-expand-md navbar-white bg-white">
     <div class="container-fluid">
         <a class="navbar-brand" href="inicio.php">
@@ -15,11 +22,73 @@
                 <li class="nav-item">
                     <a class="nav-link" href="quienesSomos.php">¿Quienes somos?</a>
                 </li>
+                <!-- Enlace del carrito de compras con modal -->
                 <li class="nav-item">
-                    <a class="nav-link" href=""><img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4RLdcADFuofIEayYB56NsmNwD5u5GL6KMQe5d6w0&s"
-                            width=30 /></a>
+                    <a class="nav-link" href="#" id="cartLink">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4RLdcADFuofIEayYB56NsmNwD5u5GL6KMQe5d6w0&s"
+                            width="30" />
+                        <span id="cartCount" class="badge badge-pill badge-secondary">0</span>
+                    </a>
                 </li>
+
+                <!-- Modal del carrito de compras -->
+                <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="cartModalLabel">Carrito de compras</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Contenido del carrito de compras -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary">Realizar compra</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JavaScript para activar el modal y actualizar el contador del carrito de compras -->
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                <script>
+                // Obtener el elemento del carrito de compras
+                var cartLink = document.getElementById('cartLink');
+
+                // Agregar un evento de clic al enlace del carrito de compras
+                cartLink.addEventListener('click', function(e) {
+                    e.preventDefault(); // Evitar que se siga el enlace
+
+                    // Mostrar el modal del carrito de compras
+                    $('#cartModal').modal('show');
+                });
+
+                // Función para incrementar el contador del carrito
+                function incrementCartCount() {
+                    var cartCountElement = document.getElementById('cartCount');
+                    var currentCount = parseInt(cartCountElement.textContent);
+                    cartCountElement.textContent = currentCount + 1;
+                }
+
+                // Función para decrementar el contador del carrito
+                function decrementCartCount() {
+                    var cartCountElement = document.getElementById('cartCount');
+                    var currentCount = parseInt(cartCountElement.textContent);
+                    cartCountElement.textContent = currentCount - 1;
+                }
+
+                // Cerrar el modal al hacer clic en el botón de cruz o en el botón de cerrar
+                $('#cartModal .close, #cartModal .btn-secondary').click(function() {
+                    $('#cartModal').modal('hide');
+                });
+                </script>
+
+
 
                 <div class="dropdown">
                     <img onclick="myFunction()" class="dropbtn"
