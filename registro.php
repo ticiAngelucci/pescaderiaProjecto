@@ -1,5 +1,6 @@
-<?php include('components/header.php'); ?>
-<?php include('components/navbar.php'); ?>
+<?php 
+ include('components/header.php'); 
+ include('components/navbar.php'); ?>
 <div class="custom-container">
     <h3>Registrarse</h3>
     <form method="post">

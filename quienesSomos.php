@@ -1,5 +1,6 @@
-<?php include('components/header.php'); ?>
-<?php include('components/navbar.php'); ?>
+<?php 
+ include('components/header.php'); 
+ include('components/navbar.php'); ?>
 <section class="showcase">
     <div class="text">
         <h2>¿Quienes somos? </h2>

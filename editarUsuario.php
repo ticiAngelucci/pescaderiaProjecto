@@ -1,5 +1,6 @@
-<?php include('components/header.php'); ?>
-<?php include('components/navbar.php'); ?>
+<?php 
+ include('components/header.php'); 
+ include('components/navbar.php'); ?>
 <div class="container">
     <section class="py-5">
         <div class="row d-flex justify-content-center align-items-center h-100">

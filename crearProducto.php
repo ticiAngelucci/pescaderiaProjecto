@@ -1,5 +1,6 @@
-<?php include('components/header.php'); ?>
-<?php include('components/navbar.php'); ?>
+<?php 
+ include('components/header.php'); 
+ include('components/navbar.php'); ?>
 <div class="container">
     <h4 class="d-flex justify-content-center mt-5 display-5">Crear producto!</h4>
     <form id="crearProductoForm" method="POST" action="functions/crearProducto.php">

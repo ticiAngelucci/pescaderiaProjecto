@@ -1,6 +1,27 @@
-<?php include('components/header.php'); ?>
-<?php include('components/navbar.php'); ?>
-<?php
+<?php 
+ include('components/header.php'); 
+ include('components/navbar.php');
+ include('functions/conection.php'); 
+ include('functions/config.php');
+ $id_producto = isset($_GET['id_producto']) ? $_GET['id_producto'] : '';
+ $token = isset($_GET['token']) ? $_GET['token'] : '';
+ if($id_producto =='' || $token ==''){
+    echo 'Error al procesar peticion';
+    exit;
+ }else{
+    $token_tmp = hash_hmac('sha1', $id_producto, KEY_TOKEN);
+    if($token == $token_tmp){
+        $consulta="SELECT count(id_producto) FROM productos where id_producto='$id_producto'";            
+        $resultados=mysqli_query($conexion,$consulta); 
+        if($resultados == null){
+            echo "Error";
+        }else{
+            $consulta="SELECT id_producto,nombre,cantidad_disponible,precio_por_gramo,descripcion FROM productos where id_producto='$id_producto' limit 1";            
+            $resultados=mysqli_query($conexion,$consulta); 
+            
+        }
+    }
+ }
 $productosConImg = [
     'langostino' => 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/215/401/products/lango-pelado1-5ff98af31ed78eae3b16496944392552-1024-1024.jpeg',
     'camaron' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGlb4HIOzaEyeUKma9JthR-OIy0-eB6hCM5JjWv-O9bU5QZkNimdIuUI3iWkuBwQDZJS4&usqp=CAU',
@@ -15,27 +36,26 @@ $productosConImg = [
 ?>
 <section id="services" class="services section-bg">
     <div class="container-fluid">
+    <?php while ($producto = $resultados->fetch_assoc()) { ?>
         <div class="row row-sm">
             <div class="col-md-6 _boxzoom">
-
                 <div class="_product-images">
                     <div class="picZoomer">
-                        <!-- <img src=<?php if(isset($productosConImg[$producto->nombre])) { echo $productosConImg[$producto->nombre]; } else{ echo $productosConImg['default'];}?>
-                            alt="producto" width="260px"> -->
-                        <img src="#" alt="producto" width="260px">
+                        <img src=<?php if(isset($productosConImg[$producto['nombre']])) { echo $productosConImg[$producto['nombre']]; } else{ echo $productosConImg['default'];}?>
+                            alt="producto" width="260px">
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="_product-detail-content">
-                    <p class="_p-name">nombre por db</p>
+                    <p class="_p-name"><?php echo $producto['nombre']; ?></p>
                     <div class="_p-price-box">
                         <div class="p-list">
-                            Precio por gramos: $ precio por db
+                            Precio por gramos: $ <?php echo number_format($producto['precio_por_gramo'],2,'.',','); ?>
                         </div>
                         <div class="_p-features">
-                            <span> Descripcion del producto:- </span>
-                            descripcion bd
+                            <span> Descripcion del producto: </span>
+                            <?php echo $producto['descripcion']; ?>
                         </div>
                         <!-- Agregué la action cart.php no se si anda aun jii -->
                         $carrito_mio=$_SESSION['carrito'];
@@ -46,7 +66,7 @@ $productosConImg = [
                                 <div class="_p-add-cart">
                                     <!-- Te pase la linea de abajo si no me equivoco a php puro -->
 
-                                    <a href="<?php echo route('editarProducto', $producto->id_producto); ?>">
+                                    <a href="editarProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>"
                                         class="btn-theme btn buy-btn" tabindex="0">
                                         <i class="fa fa-shopping-cart"></i> Editar Producto
                                     </a>
@@ -63,6 +83,7 @@ $productosConImg = [
                 </div>
             </div>
         </div>
+    <?php } ?>
     </div>
 </section>
 <?php include('components/footer.php'); ?>
