@@ -1,5 +1,5 @@
 <?php session_start();
-
+ include('conection.php');
 if(isset($_SESSION['carrito'])){
     $carrito_mio=$_SESSION['carrito'];
     if(isset($_POST['nombre'])){

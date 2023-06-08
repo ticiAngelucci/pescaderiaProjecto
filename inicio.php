@@ -47,7 +47,7 @@
                             <a href="detalleProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>"
                                 class="btn btn-primary">Detalles</a>
                         </div>
-                        <a href="#" class="btn btn-success">Agregar</a>
+                        <a href="#" action="cart.php" class="btn btn-success">Agregar</a>
                     </div>
                 </div>
             </div>
