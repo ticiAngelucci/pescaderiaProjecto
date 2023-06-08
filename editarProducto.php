@@ -1,5 +1,6 @@
-<?php include('components/header.php'); ?>
-<?php include('components/navbar.php'); ?>
+<?php 
+ include('components/header.php'); 
+ include('components/navbar.php'); ?>
 <div class="container col-md-8 col-md-offset-2">
     <div class="well well bs-component">
         <form class="form-horizontal" method="post">
