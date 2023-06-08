@@ -58,11 +58,61 @@ if (isset($_SESSION['carrito'])) {
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p>Contenido.</p>
+                                <div>
+                                    <div class="p-2">
+                                        <ul class="list-group mb-3">
+                                            <?php
+                if (isset($_SESSION['carrito'])) {
+                    $total = 0;
+                    for ($i = 0; $i <= count($carrito_mio) - 1; $i++) {
+                        if ($carrito_mio[$i] != NULL) {
+                ?>
+                                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                                <div class="row col-12">
+                                                    <div class="col-6 p-02" style="text-aling: left;color. #000000;">
+                                                        <h6 class="my-0">Cantidad:
+                                                            <?php echo $carrito_mio[$i]['cantidad_disponible']; ?>:<?php echo $carrito_mio[$i]['nombre']; ?>
+                                                        </h6>
+                                                    </div>
+                                                    <div class="col-6 p-0" style="text-align: right; color:#000000">
+                                                        <span class="text-muted"
+                                                            style="text-align: right; color:#000000">
+                                                            <?php echo $carrito_mio[$i]['precio_por_gramo'] * $carrito_mio[$i]['cantidad']; ?>$
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <?php
+                        $total = $total + ($carrito_mio[$i]['precio_por_gramo'] * $carrito_mio[$i]['cantidad_disponible']);
+                        }
+                    }
+                }
+                ?>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span style="text-align: left; color: #000000;">Total (Pesos)</span>
+                                                <strong style="text-align: left; color: #000000;">
+                                                    <?php
+                        if (isset($_SESSION['carrito'])) {
+                            $total = 0;
+                            for ($i = 0; $i <= count($carrito_mio) - 1; $i++) {
+                                if ($carrito_mio[$i] != NULL) {
+                                    $total = $total + ($carrito_mio[$i]['precio_por_gramo']) * $carrito_mio[$i]['cantidad_disponible'];
+                                }
+                            }
+                        }
+                        echo $total ?? 0;
+                        ?> $
+                                                </strong>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="modal-footer">
+
+                            <div class=" modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <button type="button" class="btn btn-primary">Realizar compra</button>
+                                <button type="button" class="btn btn-primary">Realizar
+                                    compra</button>
                             </div>
                         </div>
                     </div>
