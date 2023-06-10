@@ -1,7 +1,7 @@
 <?php 
  include('components/header.php'); 
- include('components/navbar.php'); 
- include('functions/conection.php'); 
+ include('components/navbar.php');
+ include("functions/conection.php");
  include('functions/config.php');
  $id_producto = isset($_GET['id_producto']) ? $_GET['id_producto'] : '';
  $token = isset($_GET['token']) ? $_GET['token'] : '';
@@ -21,51 +21,29 @@
             
         }
     }
- }?>
-<div class="container col-md-8 col-md-offset-2">
-    <div class="well well bs-component">
-        <form class="form-horizontal" method="post">
-            <legend>Editar mensaje</legend>
-            <?php while ($producto = $resultados->fetch_assoc()) { ?>
-            <div class="form-group">
-                <label for="titulo" class="col-lg-label">Título</label>
-                <div class="col-lg-10">
-                    <input type="text" class="form-control" id="nombre" name="nombre"
-                        value="<?php echo $producto['nombre']; ?>">
+ }  ?>
+<div class="container">
+    <h4 class="d-flex justify-content-center mt-5 display-5">Editar producto!</h4>
+    <?php while ($producto = $resultados->fetch_assoc()) { ?>
+    <form id="editarProductoForm" method="POST" action="functions/editarProducto.php">
+    <input style="display: none;" type="text" id="id_producto" name="id_producto" value="<?php echo $producto['id_producto']; ?>">
+        <div class="row g-2 py-5">
+            <div class="col-6">
+                <div class="form-floating">
+                    <input type="text" id="nombre" name="nombre" class="form-control" value="<?php echo $producto['nombre']; ?>">
+                    <label for="nombre">Nombre del Producto:</label>
                 </div>
             </div>
-
-            <div class="form-group">
-                <label for="descripcion" class="col-lg-label">Contenido</label>
-                <div class="col-lg-10">
-                    <textarea class="form-control" rows="3" id="contenido"
-                        name="descripcion"><?php echo $producto['descripcion']; ?></textarea>
+            <div class="col-6">
+                <div class="form-floating">
+                    <input type="text" id="descripcion" name="descripcion" class="form-control"
+                    value="<?php echo $producto['descripcion']; ?>">
+                    <label for="descripcion">Descripcion del Producto:</label>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="precio_por_gramo">Precio por gramo:</label>
-                <input type="number" id="precio_por_gramo" name="precio_por_gramo" class="form-control"
-                    placeholder="<?php echo $producto['precio_por_gramo']; ?>">
-
-            </div>
-            <div class="form-group">
-                <label for="id_estado_producto">Estado Producto</label>
-                <select id="id_estado_producto" name="id_estado_producto" class="form-select">
-                        <?php 
-                        $consulta="SELECT * FROM estado_producto";   
-                        $resultado=mysqli_query($conexion,$consulta);
-                        foreach($resultado as $valor) { 
-                            $id=$valor['id_estado_producto '];
-                            $nombre=$valor['estado_producto'];
-                            echo "<option value=$id>$nombre</option>";
-                        } 
-                        ?>
-                </select>
-
-            </div>
-            <div class="form-group">
-                <label for="id_categoria">Categoria Producto</label>
-                <select id="id_categoria" name="id_categoria" class="form-select">
+            <div class="col-6">
+                <div class="form-floating">
+                    <select id="id_categoria" name="id_categoria" class="form-select">
                         <?php 
                         $consulta="SELECT * FROM categorias";   
                         $resultado=mysqli_query($conexion,$consulta);
@@ -75,24 +53,43 @@
                             echo "<option value=$id>$nombre</option>";
                         } 
                         ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="cantidad_disponible">Cantidad del Producto en gramos:</label>
-                <input type="number" id="cantidad_disponible" name="cantidad_disponible" class="form-control"
-                    placeholder="<?php echo $producto['cantidad_disponible']; ?>">
-
-            </div>
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                    <button class="btn btn-default">Cancelar</button>
-                    <button type="submit" name="editarProducto" class="ntm btn-primary">Actualizar</button>
+                    </select>
+                    <label for="id_categoria">Categoria Producto</label>
                 </div>
             </div>
-            <?php } ?>
-        </form>
-    </div>
+            <div class="col-6">
+                <div class="form-floating">
+                    <input type="number" id="precio_por_gramo" name="precio_por_gramo" class="form-control"
+                    value="<?php echo $producto['precio_por_gramo']; ?>">
+                    <label for="precio_por_gramo">Precio por gramo:</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-floating">
+                    <select id="id_estado_producto" name="id_estado_producto" class="form-select">
+                        <?php 
+                        $consulta="SELECT * FROM estado_producto";   
+                        $resultado=mysqli_query($conexion,$consulta);
+                        foreach($resultado as $valor) { 
+                            $id=$valor['id_estado_producto '];
+                            $nombre=$valor['estado_producto'];
+                            echo "<option value=$id>$nombre</option>";
+                        } 
+                        ?>
+                    </select>
+                    <label for="id_estado_producto">Estado Producto</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-floating">
+                    <input type="number" id="cantidad_disponible" name="cantidad_disponible" class="form-control"
+                    value="<?php echo $producto['cantidad_disponible']; ?>">
+                    <label for="cantidad_disponible">Cantidad del Producto en gramos:</label>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar!</button>
+    </form>
+    <?php } ?>
 </div>
-<?php 
-include("functions/editarProducto.php");
-include('components/footer.php'); ?>
+<?php include('components/footer.php'); ?>
