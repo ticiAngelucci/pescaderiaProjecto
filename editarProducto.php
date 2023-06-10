@@ -16,7 +16,7 @@
         if($resultados == null){
             echo "Error";
         }else{
-            $consulta="SELECT id_producto,nombre,cantidad_disponible,precio_por_gramo,descripcion FROM productos where id_producto='$id_producto' limit 1";            
+            $consulta="SELECT id_producto,nombre,cantidad_disponible,precio_por_gramo,descripcion,id_estado_producto,id_categoria FROM productos where id_producto='$id_producto' limit 1";            
             $resultados=mysqli_query($conexion,$consulta); 
             
         }
@@ -44,13 +44,24 @@
             <div class="col-6">
                 <div class="form-floating">
                     <select id="id_categoria" name="id_categoria" class="form-select">
+                    <?php 
+                    $idCategoria = $producto['id_categoria'];
+                    $queryCategoria="SELECT * FROM categorias where id_categoria='$idCategoria' limit 1";            
+                    $resultadosCategoria=mysqli_query($conexion,$queryCategoria); 
+                    while ($categoria = $resultadosCategoria->fetch_assoc()) { ?>
+                    <option value="<?php echo $categoria['id_categoria']; ?>" selected><?php echo $categoria['nombre']; ?></option>
+                    <?php } ?>
                         <?php 
                         $consulta="SELECT * FROM categorias";   
                         $resultado=mysqli_query($conexion,$consulta);
                         foreach($resultado as $valor) { 
                             $id=$valor['id_categoria'];
                             $nombre=$valor['nombre'];
-                            echo "<option value=$id>$nombre</option>";
+                            if($idCategoria==$id){
+
+                            }else{
+                                echo "<option value=$id>$nombre</option>";
+                            }
                         } 
                         ?>
                     </select>
@@ -67,13 +78,24 @@
             <div class="col-6">
                 <div class="form-floating">
                     <select id="id_estado_producto" name="id_estado_producto" class="form-select">
+                    <?php 
+                    $idEstadoProducto = $producto['estado_producto'];
+                    $queryEstadoProducto="SELECT * FROM estado_producto where id_estado_producto='$idEstadoProducto' limit 1";            
+                    $resultadosEstadoProducto=mysqli_query($conexion,$queryEstadoProducto); 
+                    while ($estadoProducto = $resultadosEstadoProducto->fetch_assoc()) { ?>
+                    <option value="<?php echo $estadoProducto['id_estado_producto']; ?>" selected><?php echo $estadoProducto['nombre']; ?></option>
+                    <?php } ?>
                         <?php 
                         $consulta="SELECT * FROM estado_producto";   
                         $resultado=mysqli_query($conexion,$consulta);
                         foreach($resultado as $valor) { 
-                            $id=$valor['id_estado_producto '];
+                            $id=$valor['id_estado_producto'];
                             $nombre=$valor['estado_producto'];
-                            echo "<option value=$id>$nombre</option>";
+                            if($idEstadoProducto==$id){
+
+                            }else{
+                                echo "<option value=$id>$nombre</option>";
+                            }
                         } 
                         ?>
                     </select>
