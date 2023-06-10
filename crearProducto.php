@@ -1,6 +1,7 @@
 <?php 
  include('components/header.php'); 
- include('components/navbar.php'); ?>
+ include('components/navbar.php');
+ include("functions/conection.php");  ?>
 <div class="container">
     <h4 class="d-flex justify-content-center mt-5 display-5">Crear producto!</h4>
     <form id="crearProductoForm" method="POST" action="functions/crearProducto.php">
@@ -21,10 +22,15 @@
             <div class="col-6">
                 <div class="form-floating">
                     <select id="id_categoria" name="id_categoria" class="form-select">
-                        <!-- Hacer dinamicos los option cuando carguemos categorias por ahora estatico -->
-                        <option value="1">Rebozado</option>
-                        <option value="2">Mariscos</option>
-                        <option value="3">Entero</option>
+                        <?php 
+                        $consulta="SELECT * FROM categorias";   
+                        $resultado=mysqli_query($conexion,$consulta);
+                        foreach($resultado as $valor) { 
+                            $id=$valor['id_categoria'];
+                            $nombre=$valor['nombre'];
+                            echo "<option value=$id>$nombre</option>";
+                        } 
+                        ?>
                     </select>
                     <label for="id_categoria">Categoria Producto</label>
                 </div>
@@ -39,9 +45,15 @@
             <div class="col-6">
                 <div class="form-floating">
                     <select id="id_estado_producto" name="id_estado_producto" class="form-select">
-                        <option selected>Abrir el menu</option>
-                        <option value="1">Fresco</option>
-                        <option value="2">Congelado</option>
+                        <?php 
+                        $consulta="SELECT * FROM estado_producto";   
+                        $resultado=mysqli_query($conexion,$consulta);
+                        foreach($resultado as $valor) { 
+                            $id=$valor['id_estado_producto '];
+                            $nombre=$valor['estado_producto'];
+                            echo "<option value=$id>$nombre</option>";
+                        } 
+                        ?>
                     </select>
                     <label for="id_estado_producto">Estado Producto</label>
                 </div>
