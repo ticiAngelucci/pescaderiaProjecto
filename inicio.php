@@ -47,18 +47,18 @@
                             <a href="detalleProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>"
                                 class="btn btn-primary">Detalles</a>
                         </div>
-                        <a href="#" action="cart.php" class="btn btn-success">Agregar</a>
+                        <button class="btn btn-primary" type="submit">Agregar</button>
+
                     </div>
                 </div>
-            </div>
-            <?php 
+                <?php 
                 }
             ?>
+            </div>
         </div>
-    </div>
-    <center class="mt-5">
-        <!--  {{ $productos->links('paginator') }} -->
-    </center>
+        <center class="mt-5">
+            <!--  {{ $productos->links('paginator') }} -->
+        </center>
 </section>
 
 <?php include('components/footer.php'); ?>
