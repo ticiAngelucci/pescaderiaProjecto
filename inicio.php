@@ -51,7 +51,7 @@ if(isset($_POST['btnfiltrar'])){
         </div>
         <form method="POST"><input type="text" name="busqueda"><input type="submit" value="buscar" name="btnbuscar" />
         </form>
-        <form method="post">
+        <form method="post"  style="margin-bottom:40px;">
             <div class="form-group">
                 <label for="ordenamiento">Ordenar por:</label>
                 <select class="form-control" id="ordenamiento" name="ordenamiento">
@@ -64,7 +64,7 @@ if(isset($_POST['btnfiltrar'])){
             <button type="submit" name="btnfiltrar" class="btn btn-primary">Ordenar</button>
         </form>
     </div>
-    <div class="row">
+    <div class="row" style="max-width: 1100px !important;margin: auto !important;">
         <?php 
         if($activo==0){
         ?>
