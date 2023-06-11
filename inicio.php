@@ -17,15 +17,27 @@
     'default' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIZcQj0m_KyB8nZOnvGmDjb50YpXC3b3OmiobpDM0kejAScsWT_bpl_QGeUTUIUyWCT0s&usqp=CAU',
  ];
 $activo=0;
+$filter=0;
 if(isset($_POST['btnbuscar'])){
     $activo=1;
     $busqueda = $_POST['busqueda'];
     $consulta="SELECT * FROM productos WHERE nombre LIKE '%$busqueda%' ";            
     $queryBusqueda=mysqli_query($conexion,$consulta); 
-    while ($row = $queryBusqueda->fetch_array()){
-        echo $row['nombre'];
-    }
 };
+if(isset($_POST['btnfiltrar'])){
+    $ordenamiento = $_POST['ordenamiento'];
+    $activo=1;
+    $filter=1;
+    if ($ordenamiento == 'nombre_asc') {
+        $resultadosFiltrar = mysqli_query($conexion, "SELECT * FROM productos ORDER BY nombre ASC");
+    } elseif ($ordenamiento == 'nombre_desc') {
+        $resultadosFiltrar = mysqli_query($conexion, "SELECT * FROM productos ORDER BY nombre DESC");
+    } elseif ($ordenamiento == 'precio_asc') {
+        $resultadosFiltrar = mysqli_query($conexion, "SELECT * FROM productos ORDER BY precio_por_gramo ASC");
+    } elseif ($ordenamiento == 'precio_desc') {
+        $resultadosFiltrar = mysqli_query($conexion, "SELECT * FROM productos ORDER BY precio_por_gramo DESC");
+    }
+}
 ?>
 <section class="section-products">
     <div class="container">
@@ -37,64 +49,88 @@ if(isset($_POST['btnbuscar'])){
                 </div>
             </div>
         </div>
-        <form method="POST"><input type="text" name="busqueda"><input type="submit" value="buscar" name="btnbuscar" /></form>
-        <?php 
+        <form method="POST"><input type="text" name="busqueda"><input type="submit" value="buscar" name="btnbuscar" />
+        </form>
+        <form method="post">
+            <div class="form-group">
+                <label for="ordenamiento">Ordenar por:</label>
+                <select class="form-control" id="ordenamiento" name="ordenamiento">
+                    <option value="nombre_asc">Nombre (A-Z)</option>
+                    <option value="nombre_desc">Nombre (Z-A)</option>
+                    <option value="precio_asc">Precio (menor a mayor)</option>
+                    <option value="precio_desc">Precio (mayor a menor)</option>
+                </select>
+            </div>
+            <button type="submit" name="btnfiltrar" class="btn btn-primary">Ordenar</button>
+        </form>
+    </div>
+    <?php 
         if($activo==0){
         ?>
-        <div class="row">
-            <?php
+    <div class="row">
+        <?php
                 foreach($resultados as $producto) { ?>
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div id="product-1" class="single-product">
-                    <div class="part-1" style="background: url(<?php if(isset($productosConImg[$producto['nombre']])) { echo $productosConImg[$producto['nombre']]; } else{ echo $productosConImg['default'];}?>)
+        <div class="col-md-6 col-lg-4 col-xl-3">
+            <div id="product-1" class="single-product">
+                <div class="part-1" style="background: url(<?php if(isset($productosConImg[$producto['nombre']])) { echo $productosConImg[$producto['nombre']]; } else{ echo $productosConImg['default'];}?>)
                          no-repeat center !important;">
+                </div>
+                <div class="part-2">
+                    <h3 class="product-title"><?php echo $producto['nombre'];?></h3>
+                    <h4 class="product-price">$
+                        <?php echo number_format($producto['precio_por_gramo'],2,'.',',');?>
+                        </h3>
+                    </h4>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="detalleProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>"
+                            class="btn btn-primary">Detalles</a>
                     </div>
-                    <div class="part-2">
-                        <h3 class="product-title"><?php echo $producto['nombre'];?></h3>
-                        <h4 class="product-price">$ <?php echo number_format($producto['precio_por_gramo'],2,'.',',');?>
-                            </h3>
-                        </h4>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a href="detalleProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>"
-                                class="btn btn-primary">Detalles</a>
-                        </div>
-                        <a href="#" class="btn btn-success">Agregar</a>
-                    </div>
+                    <a href="#" class="btn btn-success">Agregar</a>
                 </div>
             </div>
-            <?php 
+        </div>
+        <?php 
                 }
             ?>
-        </div>
-        <?php
+    </div>
+    <?php
         }else{
+            if($filter==0 && $activo==1){
             foreach($queryBusqueda as $busquedaProducto) { 
         ?>
-        <div class="col-md-4 col-xl-3" style="margin-top:50px;">
-                <div id="product-1" class="single-product">
-                    <div class="part-1" style="background: url(<?php if(isset($productosConImg[$busquedaProducto['nombre']])) { echo $productosConImg[$busquedaProducto['nombre']]; } else{ echo $productosConImg['default'];}?>)
+    <div class="col-md-4 col-xl-3" style="margin-top:50px;">
+        <div id="product-1" class="single-product">
+            <div class="part-1" style="background: url(<?php if(isset($productosConImg[$busquedaProducto['nombre']])) { echo $productosConImg[$busquedaProducto['nombre']]; } else{ echo $productosConImg['default'];}?>)
                          no-repeat center !important;">
-                    </div>
-                    <div class="part-2">
-                        <h3 class="product-title"><?php echo $busquedaProducto['nombre'];?></h3>
-                        <h4 class="product-price">$ <?php echo number_format($busquedaProducto['precio_por_gramo'],2,'.',',');?>
-                            </h3>
-                        </h4>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a href="detalleProducto.php?id_producto=<?php echo $busquedaProducto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$busquedaProducto['id_producto'],KEY_TOKEN); ?>"
-                                class="btn btn-primary">Detalles</a>
-                        </div>
-                        <a href="#" class="btn btn-success">Agregar</a>
-                    </div>
-                </div>
             </div>
-        <?php
+            <div class="part-2">
+                <h3 class="product-title"><?php echo $busquedaProducto['nombre'];?></h3>
+                <h4 class="product-price">$
+                    <?php echo number_format($busquedaProducto['precio_por_gramo'],2,'.',',');?>
+                    </h3>
+                </h4>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <a href="detalleProducto.php?id_producto=<?php echo $busquedaProducto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$busquedaProducto['id_producto'],KEY_TOKEN); ?>"
+                        class="btn btn-primary">Detalles</a>
+                </div>
+                <a href="#" class="btn btn-success">Agregar</a>
+            </div>
+        </div>
+    </div>
+    <?php
+            }  
+        }else{
+            foreach($resultadosFiltrar as $resultadoFiltrar) { 
+                echo "hola";
+        ?>
+    <?php
             }
         }
+    }
         ?>
     </div>
     <center class="mt-5">
