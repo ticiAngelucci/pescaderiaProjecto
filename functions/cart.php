@@ -1,15 +1,9 @@
 <?php
-
 include("functions/conection.php");
-/* // Verificar si la variable de sesión del carrito no está definida y crearla
-if (!isset($_SESSION['carrito'])) {
-    $_SESSION['carrito'] = array();
-}
-     */
-// Función para obtener un producto por su ID (ejemplo básico)
 
+// Función para obtener un producto por su ID
 function obtenerProductoPorId($idProducto) {
-    global $conexion; // Acceder a la conexión establecida anteriormente
+    global $conexion;
 
     // Ejecutar la consulta
     $sql = "SELECT * FROM productos WHERE id_producto = $idProducto";
@@ -23,7 +17,6 @@ function obtenerProductoPorId($idProducto) {
 
     return null; // Si no se encuentra el producto, devolver null o algún valor apropiado
 }
-
 
 // Verificar si se ha enviado el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
