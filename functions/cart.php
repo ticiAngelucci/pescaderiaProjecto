@@ -1,31 +1,45 @@
-<?php session_start();
- include('conection.php');
-if(isset($_SESSION['carrito'])){
-    $carrito_mio=$_SESSION['carrito'];
-    if(isset($_POST['nombre'])){
-        //precio_por_gramo
-        //cantidad_disponible
-        $nombre=$_POST['nombre'];
-        $precio=$_POST['precio_por_gramo'];
-        $cantidad=$_POST['cantidad_disponible'];
-        $num=0;
-        $carrito_mio[]=array("nombre"=>$nombre,"precio"=>$precio,"cantidad"=>$cantidad);
+<?php
 
-    }else{
-        $nombre=$_POST['nombre'];
-        $precio=$_POST['precio_por_gramo'];
-        $cantidad=$_POST['cantidad_disponible'];
-        $carrito_mio[]=array("nombre"=>$nombre,"precio"=>$precio,"cantidad"=>$cantidad);
+include("functions/conection.php");
+/* // Verificar si la variable de sesión del carrito no está definida y crearla
+if (!isset($_SESSION['carrito'])) {
+    $_SESSION['carrito'] = array();
+}
+     */
+// Función para obtener un producto por su ID (ejemplo básico)
+
+function obtenerProductoPorId($idProducto) {
+    global $conexion; // Acceder a la conexión establecida anteriormente
+
+    // Ejecutar la consulta
+    $sql = "SELECT * FROM productos WHERE id_producto = $idProducto";
+    $resultado = $conexion->query($sql);
+
+    // Verificar si se obtuvo un resultado
+    if ($resultado->num_rows > 0) {
+        $producto = $resultado->fetch_assoc(); // Obtener el primer resultado como un array asociativo
+        return $producto;
     }
 
-
-    $_SESSION['carrito']=$carrito_mio;
-
+    return null; // Si no se encuentra el producto, devolver null o algún valor apropiado
 }
-header("Location" .$SERVER['HTTP_REFERER']);
 
 
+// Verificar si se ha enviado el formulario
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verificar si se ha presionado el botón "Agregar"
+    if ($_POST['accionBoton'] === 'Agregar') {
+        // Obtener el ID del producto desde el formulario
+        $idProducto = $_POST['id_producto'];
 
+        // Obtener el producto seleccionado utilizando el ID
+        $producto = obtenerProductoPorId($idProducto);
 
+        // Agregar el producto al carrito (variable de sesión)
+        $_SESSION['carrito'][] = $producto;
 
+        // Mostrar una notificación o mensaje de confirmación
+        echo '<script>alert("El producto se ha agregado al carrito");</script>';
+    }
+}
 ?>

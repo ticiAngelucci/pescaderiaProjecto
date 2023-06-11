@@ -1,26 +1,11 @@
-<?php session_start();  ?>
 <?php include('header.php'); ?>
+<?php include('functions/cart.php'); ?>
+<?php include_once('functions/cart.php');?>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<?php 
-$carrito_mio=$_SESSION['carrito'];
-$_SESSION['carrito']=$carrito_mio;
-
-//contar el carrito
-$totalcantidad = 0;
-if (isset($_SESSION['carrito'])) {
-    for ($i = 0; $i < count($carrito_mio) - 1; $i++) {
-        if ($carrito_mio[$i] != NULL) {
-            $total_cantidad = $carrito_mio[$i]['cantidad'];
-            $total_cantidad++;
-            $totalcantidad += $total_cantidad;
-            $carrito_mio[$i]['cantidad'] = $total_cantidad; // Guardar el nuevo valor en el elemento del carrito
-        }
-    }
-}
-
-        ?>
 
 <nav class="navbar navbar-expand-md navbar-white bg-white">
     <div class="container-fluid">
@@ -40,7 +25,7 @@ if (isset($_SESSION['carrito'])) {
                 </li>
                 <!-- Enlace del carrito de compras con modal -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#modal" <?php echo $totalcantidad ?>>
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#modal">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4RLdcADFuofIEayYB56NsmNwD5u5GL6KMQe5d6w0&s"
                             width="30" />
                         <span id="cartCount" class="badge badge-pill badge-secondary">0</span>
@@ -56,53 +41,20 @@ if (isset($_SESSION['carrito'])) {
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
+
                             </div>
                             <div class="modal-body">
+                                <?php
+                                // Mostrar los productos en el carrito (variable de sesión)
+                                foreach ($_SESSION['carrito'] as $producto) {
+                               echo $producto['nombre'] . ' - $' . $producto['precio_por_gramo'] . '<br>';
+                                }
+                                ?>
                                 <div>
                                     <div class="p-2">
                                         <ul class="list-group mb-3">
-                                            <?php
-                if (isset($_SESSION['carrito'])) {
-                    $total = 0;
-                    for ($i = 0; $i <= count($carrito_mio) - 1; $i++) {
-                        if ($carrito_mio[$i] != NULL) {
-                ?>
-                                            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                                <div class="row col-12">
-                                                    <div class="col-6 p-02" style="text-aling: left;color. #000000;">
-                                                        <h6 class="my-0">Cantidad:
-                                                            <?php echo $carrito_mio[$i]['cantidad_disponible']; ?>:<?php echo $carrito_mio[$i]['nombre']; ?>
-                                                        </h6>
-                                                    </div>
-                                                    <div class="col-6 p-0" style="text-align: right; color:#000000">
-                                                        <span class="text-muted"
-                                                            style="text-align: right; color:#000000">
-                                                            <?php echo $carrito_mio[$i]['precio_por_gramo'] * $carrito_mio[$i]['cantidad']; ?>$
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <?php
-                        $total = $total + ($carrito_mio[$i]['precio_por_gramo'] * $carrito_mio[$i]['cantidad_disponible']);
-                        }
-                    }
-                }
-                ?>
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                <span style="text-align: left; color: #000000;">Total (Pesos)</span>
-                                                <strong style="text-align: left; color: #000000;">
-                                                    <?php
-                        if (isset($_SESSION['carrito'])) {
-                            $total = 0;
-                            for ($i = 0; $i <= count($carrito_mio) - 1; $i++) {
-                                if ($carrito_mio[$i] != NULL) {
-                                    $total = $total + ($carrito_mio[$i]['precio_por_gramo']) * $carrito_mio[$i]['cantidad_disponible'];
-                                }
-                            }
-                        }
-                        echo $total ?? 0;
-                        ?> $
-                                                </strong>
+
+                                            </strong>
                                             </li>
                                         </ul>
                                     </div>
