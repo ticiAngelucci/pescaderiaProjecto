@@ -16,7 +16,16 @@
     'sprite' => 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/188/828/products/images-111-ae3485bd0f9a65d0be16529739175163-640-0.jpg',
     'default' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIZcQj0m_KyB8nZOnvGmDjb50YpXC3b3OmiobpDM0kejAScsWT_bpl_QGeUTUIUyWCT0s&usqp=CAU',
  ];
-
+$activo=0;
+if(isset($_POST['btnbuscar'])){
+    $activo=1;
+    $busqueda = $_POST['busqueda'];
+    $consulta="SELECT * FROM productos WHERE nombre LIKE '%$busqueda%' ";            
+    $queryBusqueda=mysqli_query($conexion,$consulta); 
+    while ($row = $queryBusqueda->fetch_array()){
+        echo $row['nombre'];
+    }
+};
 ?>
 <section class="section-products">
     <div class="container">
@@ -28,6 +37,10 @@
                 </div>
             </div>
         </div>
+        <form method="POST"><input type="text" name="busqueda"><input type="submit" value="buscar" name="btnbuscar" /></form>
+        <?php 
+        if($activo==0){
+        ?>
         <div class="row">
             <?php
                 foreach($resultados as $producto) { ?>
@@ -55,6 +68,34 @@
                 }
             ?>
         </div>
+        <?php
+        }else{
+            foreach($queryBusqueda as $busquedaProducto) { 
+        ?>
+        <div class="col-md-4 col-xl-3" style="margin-top:50px;">
+                <div id="product-1" class="single-product">
+                    <div class="part-1" style="background: url(<?php if(isset($productosConImg[$busquedaProducto['nombre']])) { echo $productosConImg[$busquedaProducto['nombre']]; } else{ echo $productosConImg['default'];}?>)
+                         no-repeat center !important;">
+                    </div>
+                    <div class="part-2">
+                        <h3 class="product-title"><?php echo $busquedaProducto['nombre'];?></h3>
+                        <h4 class="product-price">$ <?php echo number_format($busquedaProducto['precio_por_gramo'],2,'.',',');?>
+                            </h3>
+                        </h4>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a href="detalleProducto.php?id_producto=<?php echo $busquedaProducto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$busquedaProducto['id_producto'],KEY_TOKEN); ?>"
+                                class="btn btn-primary">Detalles</a>
+                        </div>
+                        <a href="#" class="btn btn-success">Agregar</a>
+                    </div>
+                </div>
+            </div>
+        <?php
+            }
+        }
+        ?>
     </div>
     <center class="mt-5">
         <!--  {{ $productos->links('paginator') }} -->
