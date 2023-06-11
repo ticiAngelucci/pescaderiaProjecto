@@ -64,10 +64,10 @@ if(isset($_POST['btnfiltrar'])){
             <button type="submit" name="btnfiltrar" class="btn btn-primary">Ordenar</button>
         </form>
     </div>
-    <?php 
+    <div class="row">
+        <?php 
         if($activo==0){
         ?>
-    <div class="row">
         <?php
                 foreach($resultados as $producto) { ?>
         <div class="col-md-6 col-lg-4 col-xl-3">
@@ -93,45 +93,65 @@ if(isset($_POST['btnfiltrar'])){
         </div>
         <?php 
                 }
-            ?>
-    </div>
-    <?php
+        ?>
+        <?php
         }else{
             if($filter==0 && $activo==1){
             foreach($queryBusqueda as $busquedaProducto) { 
         ?>
-    <div class="col-md-4 col-xl-3" style="margin-top:50px;">
-        <div id="product-1" class="single-product">
-            <div class="part-1" style="background: url(<?php if(isset($productosConImg[$busquedaProducto['nombre']])) { echo $productosConImg[$busquedaProducto['nombre']]; } else{ echo $productosConImg['default'];}?>)
+        <div class="col-md-4 col-xl-3" style="margin-top:50px;">
+            <div id="product-1" class="single-product">
+                <div class="part-1" style="background: url(<?php if(isset($productosConImg[$busquedaProducto['nombre']])) { echo $productosConImg[$busquedaProducto['nombre']]; } else{ echo $productosConImg['default'];}?>)
                          no-repeat center !important;">
-            </div>
-            <div class="part-2">
-                <h3 class="product-title"><?php echo $busquedaProducto['nombre'];?></h3>
-                <h4 class="product-price">$
-                    <?php echo number_format($busquedaProducto['precio_por_gramo'],2,'.',',');?>
-                    </h3>
-                </h4>
-            </div>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                    <a href="detalleProducto.php?id_producto=<?php echo $busquedaProducto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$busquedaProducto['id_producto'],KEY_TOKEN); ?>"
-                        class="btn btn-primary">Detalles</a>
                 </div>
-                <a href="#" class="btn btn-success">Agregar</a>
+                <div class="part-2">
+                    <h3 class="product-title"><?php echo $busquedaProducto['nombre'];?></h3>
+                    <h4 class="product-price">$
+                        <?php echo number_format($busquedaProducto['precio_por_gramo'],2,'.',',');?>
+                        </h3>
+                    </h4>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="detalleProducto.php?id_producto=<?php echo $busquedaProducto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$busquedaProducto['id_producto'],KEY_TOKEN); ?>"
+                            class="btn btn-primary">Detalles</a>
+                    </div>
+                    <a href="#" class="btn btn-success">Agregar</a>
+                </div>
             </div>
         </div>
-    </div>
-    <?php
+        <?php
             }  
         }else{
             foreach($resultadosFiltrar as $resultadoFiltrar) { 
-                echo "hola";
-        ?>
-    <?php
+    ?>
+        <div class="col-md-6 col-lg-4 col-xl-3">
+            <div id="product-1" class="single-product">
+                <div class="part-1" style="background: url(<?php if(isset($productosConImg[$resultadoFiltrar['nombre']])) { echo $productosConImg[$resultadoFiltrar['nombre']]; } else{ echo $productosConImg['default'];}?>)
+                         no-repeat center !important;">
+                </div>
+                <div class="part-2">
+                    <h3 class="product-title"><?php echo $resultadoFiltrar['nombre'];?></h3>
+                    <h4 class="product-price">$
+                        <?php echo number_format($resultadoFiltrar['precio_por_gramo'],2,'.',',');?>
+                        </h3>
+                    </h4>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="detalleProducto.php?id_producto=<?php echo $resultadoFiltrar['id_producto'];?>&token=<?php echo hash_hmac('sha1',$resultadoFiltrar['id_producto'],KEY_TOKEN); ?>"
+                            class="btn btn-primary">Detalles</a>
+                    </div>
+                    <a href="#" class="btn btn-success">Agregar</a>
+                </div>
+            </div>
+        </div>
+        <?php
             }
         }
     }
-        ?>
+    ?>
+    </div>
     </div>
     <center class="mt-5">
         <!--  {{ $productos->links('paginator') }} -->
