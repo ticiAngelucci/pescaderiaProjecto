@@ -34,15 +34,18 @@
                     while ($usuario = $resultados->fetch_assoc()) { ?>
                         <div class="col-md-4 gradient-custom text-center my-5">
                             <img src="assets/perfilUsuario.png" alt="Avatar" style="width: 150px;" />
-                            <h5 class="p-3"><?php echo $usuario['nombre']; ?></h5>
-                            <h5><?php echo $usuario['apellido']; ?></h5>
-                            <h5><?php echo $usuario['dni']; ?></h5>
                         </div>
                         <div class="col-md-8">
                             <div class="card-body p-4">
                                 <h6>Informacion del Usuario</h6>
                                 <hr class="mt-0 mb-4">
                                 <form id="editarUsuarioForm" method="POST" action="functions/editarUsuario.php">
+                                <h6>Nombre</h6>
+                                <input class="form-control" name="nombre" type="text" value="<?php echo $usuario['nombre']; ?>" readonly>
+                                <h6>Apellido</h6>
+                                <input class="form-control" name="apellido" type="text" value="<?php echo $usuario['apellido']; ?>" readonly>
+                                <h6>DNI</h6>
+                                <input class="form-control" name="dni" type="text" value="<?php echo $usuario['dni']; ?>" readonly>
                                     <input style="display: none;" type="text" id="id" name="id"
                                         value="<?php echo $id_usuario; ?>">
                                     <input style="display: none;" type="text" id="tipo_usuario" name="tipo_usuario"
@@ -59,8 +62,8 @@
                                                 $queryLocalidad="SELECT * FROM localidades where id_localidad='$idLocalidad' limit 1";            
                                                 $resultadosLocalidad=mysqli_query($conexion,$queryLocalidad); 
                                                 while ($localidad = $resultadosLocalidad->fetch_assoc()) { ?>
-                                                    <option value="<?php echo $localidad['id_localidad']; ?>"
-                                                    selected><?php echo $localidad['localidad']; ?></option>
+                                            <option value="<?php echo $localidad['id_localidad']; ?>" selected>
+                                                <?php echo $localidad['localidad']; ?></option>
                                             <?php } ?>
                                             <?php 
                                                 $consulta="SELECT * FROM localidades";   
@@ -75,6 +78,15 @@
                                                     }
                                             } ?>
                                         </select>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <h6>Rol de Usuario</h6>
+                                        <div class="form-floating">
+                                            <select name="rolUsuario" class="form-select" id="floatingSelect">
+                                                <option value="clientes">Cliente</option>
+                                                <option value="empleados">Empleado</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="col-6 mb-3">
                                         <h6>Contraseña</h6>
