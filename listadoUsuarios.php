@@ -90,7 +90,7 @@ if(isset($_POST['btnfiltrar'])){
                 </td>
                 <td><?php echo $usuario['email'];?></td>
                 <td><?php if (array_key_exists('id_localidad', $usuario)){echo "Cliente";}else{echo "Empleado";}?></td>
-                <td><button class="btn btn-success"><i class="fas fa-pencil-alt"></i> Editar</button></td>
+                <td><a href="editarUsuario.php?tipo_usuario=<?php if (array_key_exists('id_localidad', $usuario)){echo "clientes";}else{echo "empleados";}?>&id_usuario=<?php echo $usuario['id'];?>&token=<?php echo hash_hmac('sha1',$usuario['id'],KEY_TOKEN); ?>"><button class="btn btn-success"><i class="fas fa-pencil-alt"></i> Editar</button></a></td>
             </tr>
             <?php
         }}else{
@@ -104,7 +104,7 @@ if(isset($_POST['btnfiltrar'])){
                 <td><?php if (array_key_exists('id_localidad', $busquedaUsuario)){echo $busquedaUsuario['id_localidad'];}else{echo "NULL";}?></td>
                 <td><?php echo $busquedaUsuario['email'];?></td>
                 <td><?php if (array_key_exists('id_localidad', $busquedaUsuario)){echo "Cliente";}else{echo "Empleado";}?></td>
-                <td><button class="btn btn-success"><i class="fas fa-pencil-alt"></i> Editar</button></td>
+                <td><a href="editarUsuario.php?tipo_usuario=<?php if (array_key_exists('id_localidad', $busquedaUsuario)){echo "clientes";}else{echo "empleados";}?>&id_usuario=<?php echo $busquedaUsuario['id'];?>&token=<?php echo hash_hmac('sha1',$busquedaUsuario['id'],KEY_TOKEN); ?>"><button class="btn btn-success"><i class="fas fa-pencil-alt"></i> Editar</button></a></td>
             </tr>
             <?php
             }  
@@ -118,7 +118,7 @@ if(isset($_POST['btnfiltrar'])){
                 <td>NULL</td>
                 <td><?php echo $resultadoFiltrar['email'];?></td>
                 <td><?php if($ordenamiento =='filtrar_empl'){echo "Empleado";}else{echo "Cliente";}?></td>
-                <td><button class="btn btn-success"><i class="fas fa-pencil-alt"></i> Editar</button></td>
+                <td><a href="editarUsuario.php?tipo_usuario=<?php if (array_key_exists('id_localidad', $resultadoFiltrar)){echo "clientes";}else{echo "empleados";}?>&id_usuario=<?php echo $resultadoFiltrar['id'];?>&token=<?php echo hash_hmac('sha1',$resultadoFiltrar['id'],KEY_TOKEN); ?>"><button class="btn btn-success"><i class="fas fa-pencil-alt"></i> Editar</button></a></td>
             </tr>
             <?php
             }
