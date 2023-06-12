@@ -4,7 +4,7 @@
  include('functions/conection.php'); ?>
 <div class="custom-container">
     <h3>Registrarse</h3>
-    <form method="post" action="functions/registro.php">
+    <form method="post" action="functions/registrar.php">
         <div class="form-group">
             <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ingrese su nombre">
         </div>
