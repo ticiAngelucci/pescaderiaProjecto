@@ -6,6 +6,9 @@
  $resultados=mysqli_query($conexion,$consulta); 
  $consultaEmpleado="SELECT * FROM empleados";            
  $resultadosEmpleado=mysqli_query($conexion,$consultaEmpleado);
+ $arrayClientes = $resultados->fetch_all(MYSQLI_ASSOC);
+ $arrayEmpleados = $resultadosEmpleado->fetch_all(MYSQLI_ASSOC);
+ $result_array = array_merge($arrayClientes, $arrayEmpleados);
  $activo=0;
  $filter=0;
 if(isset($_POST['btnbuscar'])){
@@ -13,15 +16,14 @@ if(isset($_POST['btnbuscar'])){
     $busqueda = $_POST['busqueda'];
     $consulta="SELECT * FROM empleados WHERE nombre LIKE '%$busqueda%' ";            
     $queryBusqueda=mysqli_query($conexion,$consulta); 
-    $consulta="SELECT * FROM empleados WHERE nombre LIKE '%$busqueda%' ";            
-    $queryBusqueda=mysqli_query($conexion,$consulta); 
-    while ($ea = $queryBusqueda->fetch_assoc()) {
-        if(count($queryBusqueda) == 0){
-            echo "tamo activo";
-        }else{
-            echo $ea['nombre'];
+    if(mysqli_num_rows($queryBusqueda) == 0){
+        $consultaCliente="SELECT * FROM clientes WHERE nombre LIKE '%$busqueda%' ";            
+        $queryBusqueda=mysqli_query($conexion,$consultaCliente); 
+    }else{
+        while($empleadoBusqueda = $queryBusqueda->fetch_assoc()){
+            echo $empleadoBusqueda['nombre'];
         }
-    }
+    }    
 };
 if(isset($_POST['btnfiltrar'])){
     $ordenamiento = $_POST['ordenamiento'];
@@ -76,35 +78,21 @@ if(isset($_POST['btnfiltrar'])){
             <?php 
         if($activo==0){
         ?>
-             <?php
-                foreach($resultados as $cliente) { 
+            <?php
+                foreach($result_array as $usuario) { 
             ?>
             <tr>
-                <td><?php echo $cliente['nombre'];?></td>
-                <td><?php echo $cliente['apellido'];?></td>
-                <td><?php echo $cliente['dni'];?></td>
-                <td><?php echo $cliente['id_localidad'];?></td>
-                <td><?php echo $cliente['email'];?></td>
-                <td><?php echo "Cliente";?></td>
+                <td><?php echo $usuario['nombre'];?></td>
+                <td><?php echo $usuario['apellido'];?></td>
+                <td><?php echo $usuario['dni'];?></td>
+                <td><?php if (array_key_exists('id_localidad', $usuario)){echo $usuario['id_localidad'];}else{echo "NULL";}?>
+                </td>
+                <td><?php echo $usuario['email'];?></td>
+                <td><?php if (array_key_exists('id_localidad', $usuario)){echo "Cliente";}else{echo "Empleado";}?></td>
                 <td><button class="btn btn-success"><i class="fas fa-pencil-alt"></i> Editar</button></td>
             </tr>
             <?php
-               } foreach($resultadosEmpleado as $empleado) { 
-            ?>
-            <tr>
-                <td><?php echo $empleado['nombre'];?></td>
-                <td><?php echo $empleado['apellido'];?></td>
-                <td><?php echo $empleado['dni'];?></td>
-                <td>NULL</td>
-                <td><?php echo $empleado['email'];?></td>
-                <td><?php echo "Empleado";?></td>
-                <td><button class="btn btn-success"><i class="fas fa-pencil-alt"></i> Editar</button></td>
-            </tr>
-            <?php 
-                }
-        ?>
-            <?php
-        }else{
+        }}else{
             if($filter==0 && $activo==1){
             foreach($queryBusqueda as $busquedaUsuario) { 
         ?>
@@ -112,9 +100,9 @@ if(isset($_POST['btnfiltrar'])){
                 <td><?php echo $busquedaUsuario['nombre'];?></td>
                 <td><?php echo $busquedaUsuario['apellido'];?></td>
                 <td><?php echo $busquedaUsuario['dni'];?></td>
-                <td><?php echo $busquedaUsuario['id_localidad'];?></td>
+                <td><?php if (array_key_exists('id_localidad', $busquedaUsuario)){echo $busquedaUsuario['id_localidad'];}else{echo "NULL";}?></td>
                 <td><?php echo $busquedaUsuario['email'];?></td>
-                <td><?php echo "Cliente";?></td>
+                <td><?php if (array_key_exists('id_localidad', $busquedaUsuario)){echo "Cliente";}else{echo "Empleado";}?></td>
                 <td><button class="btn btn-success"><i class="fas fa-pencil-alt"></i> Editar</button></td>
             </tr>
             <?php
@@ -122,7 +110,7 @@ if(isset($_POST['btnfiltrar'])){
         }else{
             foreach($resultadosFiltrar as $resultadoFiltrar) { 
     ?>
-           <tr>
+            <tr>
                 <td><?php echo $resultadoFiltrar['nombre'];?></td>
                 <td><?php echo $resultadoFiltrar['apellido'];?></td>
                 <td><?php echo $resultadoFiltrar['dni'];?></td>
