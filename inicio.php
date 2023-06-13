@@ -89,7 +89,7 @@ if(isset($_POST['btnfiltrar'])){
                         <input type="hidden" name="precio_por_gramo"
                             value="<?php echo $producto['precio_por_gramo']; ?>">
                         <input type="hidden" name="cantidad_disponible"
-                            value="<?php echo isset($resultadoFiltrar['cantidad_disponible']) ? $resultadoFiltrar['cantidad_disponible'] : ''; ?>">
+                            value="<?php echo isset($producto['cantidad_disponible']) ? $producto['cantidad_disponible'] : ''; ?>">
 
                         <button class="btn btn-primary" name="accionBoton" value="Agregar"
                             type="submit">Agregar</button>

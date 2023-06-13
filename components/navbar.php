@@ -61,9 +61,13 @@
                                 ?>
                     <li class="list-group-item">
                         <?php echo $producto['nombre']; ?> -
-                        <?php echo '$' . number_format(floatval($producto['precio_por_gramo']) * intval($producto['cantidad_disponible']), 2); ?>
-
+                        <?php echo '$' . intval($producto['precio_por_gramo']) * intval($producto['cantidad_disponible']); 
+                        echo '$' . intval($producto['precio_por_gramo']);
+                        echo '$' . intval($producto['cantidad_disponible']);
+                        
+                        ?>
                         - Cantidad: <?php echo $producto['cantidad_disponible']; ?> Gramos
+
                     </li>
                     <?php
                                 // Calcular el total del carrito multiplicando el precio por gramo por la cantidad de cada producto
