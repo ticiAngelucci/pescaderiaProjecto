@@ -5,8 +5,9 @@ include('functions/conection.php');
 include('functions/config.php');
 include_once('functions/cart.php');
 
-$consulta = "SELECT id_producto, nombre, precio_por_gramo FROM productos";            
+$consulta = "SELECT id_producto, nombre, precio_por_gramo,cantidad_disponible FROM productos";            
 $resultados = mysqli_query($conexion, $consulta); 
+
 
 $activo = 0;
 $filter = 0;
@@ -30,6 +31,7 @@ if(isset($_POST['btnfiltrar'])){
         $resultadosFiltrar = mysqli_query($conexion, "SELECT * FROM productos ORDER BY precio_por_gramo ASC");
     } elseif ($ordenamiento == 'precio_desc') {
         $resultadosFiltrar = mysqli_query($conexion, "SELECT * FROM productos ORDER BY precio_por_gramo DESC");
+        
     }
 }
 
@@ -90,7 +92,6 @@ if(isset($_POST['btnfiltrar'])){
                             value="<?php echo $producto['precio_por_gramo']; ?>">
                         <input type="hidden" name="cantidad_disponible"
                             value="<?php echo isset($producto['cantidad_disponible']) ? $producto['cantidad_disponible'] : ''; ?>">
-
                         <button class="btn btn-primary" name="accionBoton" value="Agregar"
                             type="submit">Agregar</button>
                     </form>
