@@ -39,6 +39,7 @@ if(isset($_POST['btnfiltrar'])){
     }
 }
 ?>
+
 <section class="section-products">
     <div class="container">
         <div class="row justify-content-center text-center">
@@ -51,7 +52,7 @@ if(isset($_POST['btnfiltrar'])){
         </div>
         <form method="POST"><input type="text" name="busqueda"><input type="submit" value="buscar" name="btnbuscar" />
         </form>
-        <form method="post"  style="margin-bottom:40px;">
+        <form method="post" style="margin-bottom:40px;">
             <div class="form-group">
                 <label for="ordenamiento">Ordenar por:</label>
                 <select class="form-control" id="ordenamiento" name="ordenamiento">
@@ -153,9 +154,6 @@ if(isset($_POST['btnfiltrar'])){
     ?>
     </div>
     </div>
-    <center class="mt-5">
-        <!--  {{ $productos->links('paginator') }} -->
-    </center>
 </section>
 
 <?php include('components/footer.php'); ?>
