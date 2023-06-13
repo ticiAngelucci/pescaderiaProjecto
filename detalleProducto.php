@@ -36,7 +36,7 @@ $productosConImg = [
 ?>
 <section id="services" class="services section-bg">
     <div class="container-fluid">
-    <?php while ($producto = $resultados->fetch_assoc()) { ?>
+        <?php while ($producto = $resultados->fetch_assoc()) { ?>
         <div class="row row-sm">
             <div class="col-md-6 _boxzoom">
                 <div class="_product-images">
@@ -57,32 +57,25 @@ $productosConImg = [
                             <span> Descripcion del producto: </span>
                             <?php echo $producto['descripcion']; ?>
                         </div>
-                        <!-- Agregué la action cart.php no se si anda aun jii -->
-                        $carrito_mio=$_SESSION['carrito'];
-                        $_SESSION['carrito']=$carrito_mio;
-                        <form action="functions/cart.php" method="post" accept-charset="utf-8">
-                            <ul class="spe_ul"></ul>
-                            <div class="_p-qty-and-cart">
-                                <div class="_p-add-cart">
-                                    <!-- Te pase la linea de abajo si no me equivoco a php puro -->
 
-                                    <a href="editarProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>"
-                                        class="btn-theme btn buy-btn" tabindex="0">
-                                        <i class="fa fa-shopping-cart"></i> Editar Producto
-                                    </a>
-                                    <button class="btn-theme btn btn-success" tabindex="0">
-                                        <i class="fa fa-shopping-cart"></i> Añadir al carrito
-                                    </button>
-                                    <input type="hidden" name="pid" value="18" />
-                                    <input type="hidden" name="price" value="850" />
-                                    <input type="hidden" name="url" value="" />
-                                </div>
-                            </div>
-                        </form>
+
+                        <a href="editarProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>"
+                            class="btn-theme btn buy-btn" tabindex="0">
+                            <i class="fa fa-shopping-cart"></i> Editar Producto
+                        </a>
+                        <button class="btn-theme btn btn-success" tabindex="0">
+                            <i class="fa fa-shopping-cart"></i> Añadir al carrito
+                        </button>
+                        <input type="hidden" name="pid" value="18" />
+                        <input type="hidden" name="price" value="850" />
+                        <input type="hidden" name="url" value="" />
                     </div>
                 </div>
+                </form>
             </div>
         </div>
+    </div>
+    </div>
     <?php } ?>
     </div>
 </section>
