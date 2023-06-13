@@ -1,7 +1,7 @@
 <?php 
  include('components/header.php'); 
- include('components/navbar.php'); 
- include('functions/conection.php'); 
+ include('components/navbar.php');
+ include("functions/conection.php");
  include('functions/config.php');
  $id_producto = isset($_GET['id_producto']) ? $_GET['id_producto'] : '';
  $token = isset($_GET['token']) ? $_GET['token'] : '';
@@ -16,72 +16,102 @@
         if($resultados == null){
             echo "Error";
         }else{
-            $consulta="SELECT id_producto,nombre,cantidad_disponible,precio_por_gramo,descripcion FROM productos where id_producto='$id_producto' limit 1";            
+            $consulta="SELECT id_producto,nombre,cantidad_disponible,precio_por_gramo,descripcion,id_estado_producto,id_categoria FROM productos where id_producto='$id_producto' limit 1";            
             $resultados=mysqli_query($conexion,$consulta); 
             
         }
     }
- }?>
-<div class="container col-md-8 col-md-offset-2">
-    <div class="well well bs-component">
-        <form class="form-horizontal" method="post">
-            @foreach ($errors->all() as $error)
-            <div class="alert alert-danger">{{ $error }}</div>
-            @endforeach
-            @if(session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
+ }  ?>
+<div class="container">
+    <h4 class="d-flex justify-content-center mt-5 display-5">Editar producto!</h4>
+    <?php while ($producto = $resultados->fetch_assoc()) { ?>
+    <form id="editarProductoForm" method="POST" action="functions/editarProducto.php">
+    <input style="display: none;" type="text" id="id_producto" name="id_producto" value="<?php echo $producto['id_producto']; ?>">
+        <div class="row g-2 py-5">
+            <div class="col-6">
+                <div class="form-floating">
+                    <input type="text" id="nombre" name="nombre" class="form-control" value="<?php echo $producto['nombre']; ?>">
+                    <label for="nombre">Nombre del Producto:</label>
+                </div>
             </div>
-            @endif
-            {!! csrf_field() !!}
-            <fieldset>
-                <legend>Editar mensaje</legend>
-                <?php while ($producto = $resultados->fetch_assoc()) { ?>
-                <div class="form-group">
-                    <label for="titulo" class="col-lg-label">Título</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control" id="nombre" name="nombre"
-                            value="<?php echo $producto['nombre']; ?>">
-                    </div>
+            <div class="col-6">
+                <div class="form-floating">
+                    <input type="text" id="descripcion" name="descripcion" class="form-control"
+                    value="<?php echo $producto['descripcion']; ?>">
+                    <label for="descripcion">Descripcion del Producto:</label>
                 </div>
+            </div>
+            <div class="col-6">
+                <div class="form-floating">
+                    <select id="id_categoria" name="id_categoria" class="form-select">
+                    <?php 
+                    $idCategoria = $producto['id_categoria'];
+                    $queryCategoria="SELECT * FROM categorias where id_categoria='$idCategoria' limit 1";            
+                    $resultadosCategoria=mysqli_query($conexion,$queryCategoria); 
+                    while ($categoria = $resultadosCategoria->fetch_assoc()) { ?>
+                    <option value="<?php echo $categoria['id_categoria']; ?>" selected><?php echo $categoria['nombre']; ?></option>
+                    <?php } ?>
+                        <?php 
+                        $consulta="SELECT * FROM categorias";   
+                        $resultado=mysqli_query($conexion,$consulta);
+                        foreach($resultado as $valor) { 
+                            $id=$valor['id_categoria'];
+                            $nombre=$valor['nombre'];
+                            if($idCategoria==$id){
 
-                <div class="form-group">
-                    <label for="descripcion" class="col-lg-label">Contenido</label>
-                    <div class="col-lg-10">
-                        <textarea class="form-control" rows="3" id="contenido"
-                            name="descripcion"><?php echo $producto['descripcion']; ?></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="precio_por_gramo">Precio por gramo:</label>
-                    <input type="number" id="precio_por_gramo" name="precio_por_gramo" class="form-control"
-                        placeholder="<?php echo $producto['precio_por_gramo']; ?>">
-
-                </div>
-                <div class="form-group">
-                    <label for="id_estado_producto">Estado Producto</label>
-                    <select id="id_estado_producto" name="id_estado_producto" class="form-select">
-                        <option selected>Abrir menu</option>
-                        <option value="1">Fresco</option>
-                        <option value="2">Congelado</option>
+                            }else{
+                                echo "<option value=$id>$nombre</option>";
+                            }
+                        } 
+                        ?>
                     </select>
-
+                    <label for="id_categoria">Categoria Producto</label>
                 </div>
-                <div class="form-group">
-                    <label for="cantidad_disponible">Cantidad del Producto en gramos:</label>
+            </div>
+            <div class="col-6">
+                <div class="form-floating">
+                    <input type="number" id="precio_por_gramo" name="precio_por_gramo" class="form-control"
+                    value="<?php echo $producto['precio_por_gramo']; ?>">
+                    <label for="precio_por_gramo">Precio por gramo:</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-floating">
+                    <select id="id_estado_producto" name="id_estado_producto" class="form-select">
+                    <?php 
+                    $idEstadoProducto = $producto['estado_producto'];
+                    $queryEstadoProducto="SELECT * FROM estado_producto where id_estado_producto='$idEstadoProducto' limit 1";            
+                    $resultadosEstadoProducto=mysqli_query($conexion,$queryEstadoProducto); 
+                    while ($estadoProducto = $resultadosEstadoProducto->fetch_assoc()) { ?>
+                    <option value="<?php echo $estadoProducto['id_estado_producto']; ?>" selected><?php echo $estadoProducto['nombre']; ?></option>
+                    <?php } ?>
+                        <?php 
+                        $consulta="SELECT * FROM estado_producto";   
+                        $resultado=mysqli_query($conexion,$consulta);
+                        foreach($resultado as $valor) { 
+                            $id=$valor['id_estado_producto'];
+                            $nombre=$valor['estado_producto'];
+                            if($idEstadoProducto==$id){
+
+                            }else{
+                                echo "<option value=$id>$nombre</option>";
+                            }
+                        } 
+                        ?>
+                    </select>
+                    <label for="id_estado_producto">Estado Producto</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-floating">
                     <input type="number" id="cantidad_disponible" name="cantidad_disponible" class="form-control"
-                        placeholder="<?php echo $producto['cantidad_disponible']; ?>">
-
+                    value="<?php echo $producto['cantidad_disponible']; ?>">
+                    <label for="cantidad_disponible">Cantidad del Producto en gramos:</label>
                 </div>
-                <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
-                        <button class="btn btn-default">Cancelar</button>
-                        <button type="submit" class="ntm btn-primary">Actualizar</button>
-                    </div>
-                </div>
-                <?php } ?>
-            </fieldset>
-        </form>
-    </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar!</button>
+    </form>
+    <?php } ?>
 </div>
 <?php include('components/footer.php'); ?>

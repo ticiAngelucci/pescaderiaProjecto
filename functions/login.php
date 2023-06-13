@@ -9,10 +9,19 @@ if(!empty($_POST["btningresar"])){
         $email=$_POST["email"];
         $password=$_POST["password"];
         $consulta=$conexion->query("select * from clientes where email='$email' and password='$password'");
-        if($datos=$consulta->fetch_object()){
-            header("location:quienesSomos.php");
+        if(mysqli_num_rows($consulta) == 0){
+            $consulta=$conexion->query("select * from empleados where email='$email' and password='$password'");
+            if($datos=$consulta->fetch_object()){
+                header("location:inicio.php");
+            }else{
+                echo '<div class="alert alert-danger">El usuario o Contraseña no existen</div>';
+            }
         }else{
-            echo '<div class="alert alert-danger">El usuario o Contraseña no existen</div>';
+            if($datos=$consulta->fetch_object()){
+                header("location:inicio.php");
+            }else{
+                echo '<div class="alert alert-danger">El usuario o Contraseña no existen</div>';
+            }
         }
     }
 
