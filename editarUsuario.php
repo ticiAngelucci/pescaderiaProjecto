@@ -83,8 +83,20 @@
                                         <h6>Rol de Usuario</h6>
                                         <div class="form-floating">
                                             <select name="rolUsuario" class="form-select" id="floatingSelect">
+                                                <?php 
+                                                if($tipo_usuario=='clientes'){
+                                                ?> 
                                                 <option value="clientes">Cliente</option>
-                                                <option value="empleados">Empleado</option>
+                                                <option value="empleados">Empleado</option> 
+                                                <?php   
+                                                }else{
+                                                ?>
+                                                <option value="empleados">Empleado</option> 
+                                                <option value="clientes">Cliente</option>
+                                                <?php 
+                                                }
+                                                ?>
+                                               
                                             </select>
                                         </div>
                                     </div>
