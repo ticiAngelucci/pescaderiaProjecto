@@ -5,7 +5,6 @@ include('components/navbar.php');
 include('functions/conection.php');
 include('functions/config.php');
 include_once('functions/cart.php');
-
 $consulta = "SELECT id_producto, nombre, precio_por_gramo, cantidad_disponible FROM productos";            
 $resultados = mysqli_query($conexion, $consulta); 
 $activo = 0;
