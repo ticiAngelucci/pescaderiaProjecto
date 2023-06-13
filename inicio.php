@@ -122,12 +122,12 @@ if(isset($_POST['btnfiltrar'])){
                             class="btn btn-primary">Detalles</a>
                     </div>
                     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <input type="hidden" name="id_producto" value="<?php echo $busquedaProducto['id_producto']; ?>">
-                        <input type="hidden" name="nombre" value="<?php echo $busquedaProducto['nombre']; ?>">
+                        <input type="hidden" name="id_producto" value="<?php echo $producto['id_producto']; ?>">
+                        <input type="hidden" name="nombre" value="<?php echo $producto['nombre']; ?>">
                         <input type="hidden" name="precio_por_gramo"
-                            value="<?php echo $busquedaProducto['precio_por_gramo']; ?>">
+                            value="<?php echo $producto['precio_por_gramo']; ?>">
                         <input type="hidden" name="cantidad_disponible"
-                            value="<?php echo $busquedaProducto['cantidad_disponible']; ?>">
+                            value="<?php echo $producto['cantidad_disponible']; ?>">
                         <button class="btn btn-primary" name="accionBoton" value="Agregar"
                             type="submit">Agregar</button>
                     </form>
@@ -157,12 +157,12 @@ if(isset($_POST['btnfiltrar'])){
                             class="btn btn-primary">Detalles</a>
                     </div>
                     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <input type="hidden" name="id_producto" value="<?php echo $resultadoFiltrar['id_producto']; ?>">
-                        <input type="hidden" name="nombre" value="<?php echo $resultadoFiltrar['nombre']; ?>">
+                        <input type="hidden" name="id_producto" value="<?php echo $producto['id_producto']; ?>">
+                        <input type="hidden" name="nombre" value="<?php echo $producto['nombre']; ?>">
                         <input type="hidden" name="precio_por_gramo"
-                            value="<?php echo $resultadoFiltrar['precio_por_gramo']; ?>">
+                            value="<?php echo $producto['precio_por_gramo']; ?>">
                         <input type="hidden" name="cantidad_disponible"
-                            value="<?php echo $resultadoFiltrar['cantidad_disponible']; ?>">
+                            value="<?php echo $producto['cantidad_disponible']; ?>">
                         <button class="btn btn-primary" name="accionBoton" value="Agregar"
                             type="submit">Agregar</button>
                     </form>
