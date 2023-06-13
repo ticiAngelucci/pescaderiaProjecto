@@ -96,6 +96,7 @@
                         width=30 />
                     <div id="myDropdown" class="dropdown-content">
                         <a class="dropdown-item" href="editarUsuario.php">Editar Usuario</a>
+                        <a class="dropdown-item" href="listadoUsuarios.php">Listado Usuarios</a>
                         <a class="dropdown-item" href="#">Historial</a>
                         <a class="dropdown-item" href="#">Cerrar Sesion</a>
                     </div>
