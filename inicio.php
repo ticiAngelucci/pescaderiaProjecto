@@ -5,10 +5,8 @@ include('functions/conection.php');
 include('functions/config.php');
 include_once('functions/cart.php');
 
-$consulta = "SELECT id_producto, nombre, precio_por_gramo,cantidad_disponible FROM productos";            
+$consulta = "SELECT id_producto, nombre, precio_por_gramo, cantidad_disponible FROM productos";            
 $resultados = mysqli_query($conexion, $consulta); 
-
-
 $activo = 0;
 $filter = 0;
 
@@ -31,10 +29,8 @@ if(isset($_POST['btnfiltrar'])){
         $resultadosFiltrar = mysqli_query($conexion, "SELECT * FROM productos ORDER BY precio_por_gramo ASC");
     } elseif ($ordenamiento == 'precio_desc') {
         $resultadosFiltrar = mysqli_query($conexion, "SELECT * FROM productos ORDER BY precio_por_gramo DESC");
-        
     }
 }
-
 ?>
 
 <section class="section-products">
@@ -67,8 +63,6 @@ if(isset($_POST['btnfiltrar'])){
     <div class="row" style="max-width: 1100px !important;margin: auto !important;">
         <?php 
         if($activo == 0){
-        ?>
-        <?php
             foreach($resultados as $producto) {
         ?>
         <div class="col-md-6 col-lg-4 col-xl-3">
@@ -101,8 +95,6 @@ if(isset($_POST['btnfiltrar'])){
         </div>
         <?php 
             }
-        ?>
-        <?php
         } else {
             if($filter == 0 && $activo == 1){
                 foreach($queryBusqueda as $busquedaProducto) {
@@ -123,12 +115,12 @@ if(isset($_POST['btnfiltrar'])){
                             class="btn btn-primary">Detalles</a>
                     </div>
                     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <input type="hidden" name="id_producto" value="<?php echo $producto['id_producto']; ?>">
-                        <input type="hidden" name="nombre" value="<?php echo $producto['nombre']; ?>">
+                        <input type="hidden" name="id_producto" value="<?php echo $busquedaProducto['id_producto']; ?>">
+                        <input type="hidden" name="nombre" value="<?php echo $busquedaProducto['nombre']; ?>">
                         <input type="hidden" name="precio_por_gramo"
-                            value="<?php echo $producto['precio_por_gramo']; ?>">
+                            value="<?php echo $busquedaProducto['precio_por_gramo']; ?>">
                         <input type="hidden" name="cantidad_disponible"
-                            value="<?php echo $producto['cantidad_disponible']; ?>">
+                            value="<?php echo $busquedaProducto['cantidad_disponible']; ?>">
                         <button class="btn btn-primary" name="accionBoton" value="Agregar"
                             type="submit">Agregar</button>
                     </form>
@@ -137,10 +129,8 @@ if(isset($_POST['btnfiltrar'])){
         </div>
         <?php 
                 }
-        ?>
-        <?php
-            } else {
-                foreach($resultadosFiltrar as $resultadoFiltrar) {
+        } else {
+            foreach($resultadosFiltrar as $resultadoFiltrar) {
         ?>
         <div class="col-md-6 col-lg-4 col-xl-3">
             <div id="product-1" class="single-product">
@@ -158,12 +148,12 @@ if(isset($_POST['btnfiltrar'])){
                             class="btn btn-primary">Detalles</a>
                     </div>
                     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <input type="hidden" name="id_producto" value="<?php echo $producto['id_producto']; ?>">
-                        <input type="hidden" name="nombre" value="<?php echo $producto['nombre']; ?>">
+                        <input type="hidden" name="id_producto" value="<?php echo $resultadoFiltrar['id_producto']; ?>">
+                        <input type="hidden" name="nombre" value="<?php echo $resultadoFiltrar['nombre']; ?>">
                         <input type="hidden" name="precio_por_gramo"
-                            value="<?php echo $producto['precio_por_gramo']; ?>">
+                            value="<?php echo $resultadoFiltrar['precio_por_gramo']; ?>">
                         <input type="hidden" name="cantidad_disponible"
-                            value="<?php echo $producto['cantidad_disponible']; ?>">
+                            value="<?php echo $resultadoFiltrar['cantidad_disponible']; ?>">
                         <button class="btn btn-primary" name="accionBoton" value="Agregar"
                             type="submit">Agregar</button>
                     </form>
@@ -171,10 +161,10 @@ if(isset($_POST['btnfiltrar'])){
             </div>
         </div>
         <?php
-                }
             }
         }
-        ?>
+    }
+    ?>
     </div>
     <center class="mt-5">
         <!--  {{ $productos->links('paginator') }} -->

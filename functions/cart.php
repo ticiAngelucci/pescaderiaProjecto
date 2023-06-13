@@ -1,61 +1,59 @@
 <?php
-//session_start();
 include("functions/conection.php");
 
-if (!isset($_SESSION['carrito']) || !is_array($_SESSION['carrito'])) {
-    $_SESSION['carrito'] = array();
+if (!isset($_SESSION['carrito'])) {
+    $_SESSION['carrito'] = array(); // Inicializar como un arreglo vacío
 }
 
-// Función para obtener un producto por su ID
+
 function obtenerProductoPorId($idProducto) {
     global $conexion;
-
-    // Escapar el ID del producto para evitar inyección de SQL
     $idProducto = mysqli_real_escape_string($conexion, $idProducto);
+    $sql = "SELECT * FROM productos WHERE id_producto = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $idProducto);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
 
-    // Ejecutar la consulta
-    $sql = "SELECT * FROM productos WHERE id_producto = '$idProducto'";
-    $resultado = $conexion->query($sql);
-
-    // Verificar si se obtuvo un resultado
     if ($resultado && $resultado->num_rows > 0) {
-        $producto = $resultado->fetch_assoc(); // Obtener el primer resultado como un array asociativo
+        $producto = $resultado->fetch_assoc();
         return $producto;
     }
 
-    return null; // Si no se encuentra el producto, devolver null o algún valor apropiado
+    return null;
 }
 
-// Función para agregar un producto al carrito
 function agregarProductoAlCarrito($idProducto, $cantidad) {
-    // Obtener el producto seleccionado utilizando el ID
+    global $conexion;
     $producto = obtenerProductoPorId($idProducto);
 
-    // Verificar si el producto existe en el carrito
-    if (isset($_SESSION['carrito'][$idProducto])) {
-        // Si el producto ya está en el carrito, incrementar la cantidad seleccionada
-        $_SESSION['carrito'][$idProducto]['cantidad_disponible'] += $cantidad;
-    } else {
-        // Si el producto no está en el carrito, agregarlo con la cantidad seleccionada
-        $producto['cantidad_disponible'] = $cantidad;
-        $_SESSION['carrito'][$idProducto] = $producto;
-    }
+    if ($producto) {
+        $encontrado = false;
+        foreach ($_SESSION['carrito'] as $indice => $item) {
+            if ($item['id_producto'] == $idProducto) {
+                $_SESSION['carrito'][$indice]['cantidad_disponible'] += $cantidad;
+                $encontrado = true;
+                break;
+            }
+        }
 
-    // Mostrar una notificación o mensaje de confirmación
-    echo '<script>
-    alert("El producto se ha agregado al carrito");
-    </script>';
+        if (!$encontrado) {
+            $producto['cantidad_disponible'] = $cantidad;
+            $_SESSION['carrito'][] = $producto;
+        }
+
+        echo '<script>alert("El producto se ha agregado al carrito");</script>';
+    } else {
+        echo '<script>alert("El producto seleccionado no existe");</script>';
+    }
 }
 
-// Verificar si se ha enviado el formulario
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Verificar si se ha presionado el botón "Agregar"
-    if (isset($_POST['accionBoton']) && $_POST['accionBoton'] === 'Agregar') {
-        // Obtener el ID del producto y la cantidad desde el formulario
-        $idProducto = mysqli_real_escape_string($conexion, $_POST['id_producto']);
-        $cantidad = $_POST['cantidad_disponible'];
 
-        // Agregar el producto al carrito
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['accionBoton']) && $_POST['accionBoton'] === 'Agregar') {
+        $idProducto = mysqli_real_escape_string($conexion, $_POST['id_producto']);
+        $cantidad = intval($_POST['cantidad_disponible']);
         agregarProductoAlCarrito($idProducto, $cantidad);
     }
 }

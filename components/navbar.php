@@ -50,7 +50,7 @@
             <div class="modal-body">
                 <?php
                 // Verificar si hay productos en el carrito
-                if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito']))  {
+                if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
                     $total = 0; // Variable para almacenar el total del carrito
                     ?>
                 <ul class="list-group">
@@ -61,13 +61,8 @@
                                 ?>
                     <li class="list-group-item">
                         <?php echo $producto['nombre']; ?> -
-                        <?php echo '$' . intval($producto['precio_por_gramo']) * intval($producto['cantidad_disponible']); 
-                        echo '$' . intval($producto['precio_por_gramo']);
-                        echo '$' . intval($producto['cantidad_disponible']);
-                        
-                        ?>
+                        <?php echo '$' . intval($producto['precio_por_gramo']) * intval($producto['cantidad_disponible']); ?>
                         - Cantidad: <?php echo $producto['cantidad_disponible']; ?> Gramos
-
                     </li>
                     <?php
                                 // Calcular el total del carrito multiplicando el precio por gramo por la cantidad de cada producto
@@ -76,8 +71,6 @@
                             }
                         }
                         ?>
-
-
                 </ul>
                 <p><strong>Total: $<?php echo $total; ?></strong></p>
                 <?php
@@ -94,9 +87,6 @@
         </div>
     </div>
 </div>
-
-<!-- Resto del código HTML -->
-
 
 <div class="dropdown">
     <img onclick="myFunction()" class="dropbtn"
