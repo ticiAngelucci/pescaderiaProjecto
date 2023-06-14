@@ -1,10 +1,6 @@
 <?php include('header.php'); ?>
-<?php include('functions/cart.php'); ?>
-<?php include_once('functions/cart.php'); 
-
-//session_start();
-
-?>
+<?php include_once('functions/cart.php'); ?>
+<?php include('functions/delete_product.php'); ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -56,13 +52,21 @@
                 <ul class="list-group">
                     <?php
                         // Recorrer los productos en el carrito y mostrarlos
-                        foreach ($_SESSION['carrito'] as $producto) {
+                        foreach ($_SESSION['carrito'] as $key => $producto) {
                             if (isset($producto['nombre']) && isset($producto['precio_por_gramo']) && isset($producto['cantidad_disponible'])) {
+                                $cantidadDisponible = intval($producto['cantidad_disponible']);
                                 ?>
                     <li class="list-group-item">
                         <?php echo $producto['nombre']; ?> -
-                        <?php echo '$' . intval($producto['precio_por_gramo']) * intval($producto['cantidad_disponible']); ?>
-                        - Cantidad: <?php echo $producto['cantidad_disponible']; ?> Gramos
+                        Cantidad:
+                        <input type="number" min="0" max="<?php echo $cantidadDisponible; ?>"
+                            value="<?php echo $cantidadDisponible; ?>" class="quantity-input"
+                            data-key="<?php echo $key; ?>">
+                        - Precio:
+                        <span
+                            id="price_<?php echo $key; ?>"><?php echo '$' . intval($producto['precio_por_gramo']) * intval($producto['cantidad_disponible']); ?></span>
+                        <button class="btn btn-danger btn-sm delete-button" data-key="<?php echo $key; ?>">Eliminar
+                        </button>
                     </li>
                     <?php
                                 // Calcular el total del carrito multiplicando el precio por gramo por la cantidad de cada producto
@@ -72,7 +76,7 @@
                         }
                         ?>
                 </ul>
-                <p><strong>Total: $<?php echo $total; ?></strong></p>
+                <p><strong>Total: $<span id="cartTotal"><?php echo $total; ?></span></strong></p>
                 <?php
                 } else {
                     echo '<p>No hay productos en el carrito</p>';
@@ -99,9 +103,48 @@
     </div>
 </div>
 
-</ul>
-</div>
-</div>
-</nav>
+<script>
+$(document).ready(function() {
+    $('.quantity-input').on('change', function() {
+        var key = $(this).data('key');
+        var quantity = parseInt($(this).val());
+        var pricePerGram = parseInt(<?php echo $producto['precio_por_gramo']; ?>);
+        var totalPrice = quantity * pricePerGram;
+        $('#price_' + key).text('$' + totalPrice);
+        calculateTotal();
+    });
+
+    $('.delete-button').on('click', function() {
+        var key = $(this).data('key');
+        $.ajax({
+            type: "POST",
+            url: "functions/delete_product.php", // Ruta completa al archivo delete_product.php
+            data: {
+                key: key
+            },
+            success: function(response) {
+                if (response === 'success') {
+                    // Recargar la página para actualizar el carrito
+                    location.reload();
+                }
+            }
+        });
+    });
+
+
+    function calculateTotal() {
+        var total = 0;
+        $('.quantity-input').each(function() {
+            var key = $(this).data('key');
+            var quantity = parseInt($(this).val());
+            var pricePerGram = parseInt(<?php echo $producto['precio_por_gramo']; ?>);
+            var totalPrice = quantity * pricePerGram;
+            $('#price_' + key).text('$' + totalPrice);
+            total += totalPrice;
+        });
+        $('#cartTotal').text(total);
+    }
+});
+</script>
 
 <?php include('footer.php'); ?>
