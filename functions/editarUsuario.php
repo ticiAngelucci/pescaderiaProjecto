@@ -11,7 +11,7 @@ $rol_usuario_editar = $_POST['rolUsuario'];
 $tipo_usuario = $_POST['tipo_usuario'];
 if($tipo_usuario=='clientes'){
     if($tipo_usuario==$rol_usuario_editar){
-        $consulta="UPDATE $tipo_usuario SET  email = '$email', password = '$password', id_localidad = '$id_localidad'
+        $consulta="UPDATE $tipo_usuario SET nombre='$nombre', apellido='$apellido', email = '$email', password = '$password', id_localidad = '$id_localidad'
         WHERE id = '$id'";
         mysqli_query($conexion, $consulta);
     }elseif($tipo_usuario!=$rol_usuario_editar){
@@ -25,7 +25,7 @@ if($tipo_usuario=='clientes'){
     }
 }else{
     if($tipo_usuario==$rol_usuario_editar){
-        $consulta="UPDATE $tipo_usuario SET  email = '$email', password = '$password'
+        $consulta="UPDATE $tipo_usuario SET  nombre='$nombre', apellido='$apellido', email = '$email', password = '$password'
         WHERE id = '$id'";
         mysqli_query($conexion, $consulta);
     }elseif($tipo_usuario!=$rol_usuario_editar){
