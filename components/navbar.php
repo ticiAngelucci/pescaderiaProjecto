@@ -29,7 +29,7 @@
                 <div id="myDropdown" class="dropdown-content">
                     <a class="dropdown-item" href="editarUsuario.php">Editar Usuario</a>
                     <a class="dropdown-item" href="listadoUsuarios.php">Listado de Usuario</a>
-                    <a class="dropdown-item" href="#">Historial</a>
+                    <a class="dropdown-item" href="historial.php">Historial</a>
                     <a class="dropdown-item" href="#">Cerrar Sesion</a>
                 </div>
             </div>
