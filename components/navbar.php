@@ -1,9 +1,6 @@
-<?php include('header.php'); ?>
-<?php include('functions/cart.php'); ?>
-<?php include_once('functions/cart.php'); 
-
-//session_start();
-
+<?php 
+include('header.php'); 
+include_once('functions/cart.php'); 
 ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -22,17 +19,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto" style="display: flex;align-items: center;">
-            <div class="dropdown">
-                <img onclick="myFunction()" class="dropbtn"
-                    src="https://images.vexels.com/media/users/3/137047/isolated/preview/5831a17a290077c646a48c4db78a81bb-icono-de-perfil-de-usuario-azul.png"
-                    width=30 />
-                <div id="myDropdown" class="dropdown-content">
-                    <a class="dropdown-item" href="editarUsuario.php">Editar Usuario</a>
-                    <a class="dropdown-item" href="listadoUsuarios.php">Listado de Usuario</a>
-                    <a class="dropdown-item" href="historial.php">Historial</a>
-                    <a class="dropdown-item" href="#">Cerrar Sesion</a>
+                <div class="dropdown">
+                    <img onclick="myFunction()" class="dropbtn"
+                        src="https://images.vexels.com/media/users/3/137047/isolated/preview/5831a17a290077c646a48c4db78a81bb-icono-de-perfil-de-usuario-azul.png"
+                        width=30 />
+                    <div id="myDropdown" class="dropdown-content">
+                        <a class="dropdown-item" href="editarUsuario.php">Editar Usuario</a>
+                        <a class="dropdown-item" href="listadoUsuarios.php">Listado de Usuario</a>
+                        <a class="dropdown-item" href="historial.php">Historial</a>
+                        <a class="dropdown-item" href="#">Cerrar Sesion</a>
+                    </div>
                 </div>
-            </div>
                 <li class="nav-item">
                     <a class="nav-link" href="quienesSomos.php">¿Quienes somos?</a>
                 </li>
@@ -92,7 +89,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Realizar compra</button>
+                    <a href="detalleCompra.php"><button type="button" class="btn btn-primary">Realizar
+                            compra</button></a>
                 </div>
             </div>
         </div>
