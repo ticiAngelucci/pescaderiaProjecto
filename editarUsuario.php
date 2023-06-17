@@ -40,12 +40,20 @@
                                 <h6>Informacion del Usuario</h6>
                                 <hr class="mt-0 mb-4">
                                 <form id="editarUsuarioForm" method="POST" action="functions/editarUsuario.php">
-                                <h6>Nombre</h6>
-                                <input class="form-control" name="nombre" type="text" value="<?php echo $usuario['nombre']; ?>" readonly>
-                                <h6>Apellido</h6>
-                                <input class="form-control" name="apellido" type="text" value="<?php echo $usuario['apellido']; ?>" readonly>
-                                <h6>DNI</h6>
-                                <input class="form-control" name="dni" type="text" value="<?php echo $usuario['dni']; ?>" readonly>
+                                    <div class="col-6 mb-3">
+                                        <h6>Nombre</h6>
+                                        <input name="nombre" type="text" value="<?php echo $usuario['nombre']; ?>" />
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <h6>Apellido</h6>
+                                        <input name="apellido" type="text"
+                                            value="<?php echo $usuario['apellido']; ?>" />
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <h6>DNI</h6>
+                                        <input class="form-control" name="dni" type="text"
+                                            value="<?php echo $usuario['dni']; ?>" readonly>
+                                    </div>
                                     <input style="display: none;" type="text" id="id" name="id"
                                         value="<?php echo $id_usuario; ?>">
                                     <input style="display: none;" type="text" id="tipo_usuario" name="tipo_usuario"
@@ -85,18 +93,18 @@
                                             <select name="rolUsuario" class="form-select" id="floatingSelect">
                                                 <?php 
                                                 if($tipo_usuario=='clientes'){
-                                                ?> 
+                                                ?>
                                                 <option value="clientes">Cliente</option>
-                                                <option value="empleados">Empleado</option> 
+                                                <option value="empleados">Empleado</option>
                                                 <?php   
                                                 }else{
                                                 ?>
-                                                <option value="empleados">Empleado</option> 
+                                                <option value="empleados">Empleado</option>
                                                 <option value="clientes">Cliente</option>
                                                 <?php 
                                                 }
                                                 ?>
-                                               
+
                                             </select>
                                         </div>
                                     </div>
