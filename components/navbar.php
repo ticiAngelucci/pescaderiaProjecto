@@ -85,8 +85,6 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="emptyCartButton">Eliminar Carrito</button>
-
                 <button type="button" class="btn btn-primary">Realizar compra</button>
             </div>
         </div>
@@ -99,6 +97,7 @@
         width=30 />
     <div id="myDropdown" class="dropdown-content">
         <a class="dropdown-item" href="editarUsuario.php">Editar Usuario</a>
+        <a class="dropdown-item" href="listadoUsuarios.php">Listado Usuarios</a>
         <a class="dropdown-item" href="#">Historial</a>
         <a class="dropdown-item" href="#">Cerrar Sesion</a>
     </div>
