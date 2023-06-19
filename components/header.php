@@ -37,7 +37,7 @@
     </script>
     <style>
     body {
-        background: #082a7a, #5179d6);
+        background: (#082a7a, #5179d6);
         background: linear-gradient(to right, #082a7a, #5179d6);
     }
 

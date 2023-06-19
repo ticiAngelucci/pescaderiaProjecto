@@ -27,7 +27,7 @@ include_once('functions/cart.php');
                         <a class="dropdown-item" href="editarUsuario.php">Editar Usuario</a>
                         <a class="dropdown-item" href="listadoUsuarios.php">Listado de Usuario</a>
                         <a class="dropdown-item" href="historial.php">Historial</a>
-                        <a class="dropdown-item" href="#">Cerrar Sesion</a>
+                        <a class="dropdown-item" href="functions/logout.php">Cerrar Sesion</a>
                     </div>
                 </div>
                 <li class="nav-item">

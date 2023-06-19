@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (!isset($_SESSION['id_usuario'])) {
+    header("location:login.php");
+    exit();
+}
 include('components/header.php');
 include('components/navbar.php');
 include_once('functions/cart.php'); 
@@ -20,9 +24,17 @@ $carrito_mio = $_SESSION['carrito'];
                 </thead>
                 <?php
                 $total = 0; // Variable para almacenar el total de los precios
-
+                $productos = array();
                 $i = 0;
                 foreach ($carrito_mio as $valor) {
+                    $producto = array(
+                        'id_producto' => $valor['id_producto'],
+                        'nombre' => $valor['nombre'],
+                        'precio_por_gramo' => $valor['precio_por_gramo'],
+                        'cantidad_disponible' => $valor['cantidad_disponible']
+                    );
+                    
+                    $productos[] = $producto; 
                     $i++;
                     $producto_nombre = $valor['nombre'] . $i;
                     $producto_precio_por_gramo = $valor['precio_por_gramo'] . $i;
@@ -30,6 +42,7 @@ $carrito_mio = $_SESSION['carrito'];
                     $precio_total = $valor['cantidad_disponible'] * $valor['precio_por_gramo']; // Calcula el precio total de cada producto
                     $total += $precio_total; // Suma el precio total al total general
                 ?>
+                <input style="display: none;" type="text" id="id_producto" name="id_producto" value="<?php echo $valor['id_producto']; ?>">
                     <tbody>
                         <tr>
                             <td><input name="nombre" type="text" value="<?php echo $valor['nombre']; ?>" readonly /></td>
