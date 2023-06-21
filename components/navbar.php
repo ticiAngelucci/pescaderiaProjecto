@@ -1,7 +1,7 @@
-<?php 
-include('header.php'); 
-include_once('functions/cart.php'); 
-
+<?php
+include('header.php');
+include_once('functions/cart.php');
+include('functions/delete_product.php');
 ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -19,14 +19,16 @@ include_once('functions/cart.php');
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto" style="display: flex;align-items: center;<?php if($vista=1){echo "margin-right: 174px;";}?>">
+            <ul class="navbar-nav ml-auto"
+                style="display: flex;align-items: center;<?php if($vista=1){echo "margin-right: 174px;";}?>">
                 <div class="dropdown">
                     <img onclick="myFunction()" class="dropbtn"
                         src="https://images.vexels.com/media/users/3/137047/isolated/preview/5831a17a290077c646a48c4db78a81bb-icono-de-perfil-de-usuario-azul.png"
                         width=30 />
                     <div id="myDropdown" class="dropdown-content">
                         <a class="dropdown-item" href="editarUsuario.php">Editar Usuario</a>
-                        <a style="<?php if($vista=0){echo "display:none;";}?>" class="dropdown-item" href="listadoUsuarios.php">Listado de Usuario</a>
+                        <a style="<?php if($vista=0){echo "display:none;";}?>" class="dropdown-item"
+                            href="listadoUsuarios.php">Listado de Usuario</a>
                         <a class="dropdown-item" href="historial.php">Historial</a>
                         <a class="dropdown-item" href="functions/logout.php">Cerrar Sesion</a>
                     </div>
@@ -41,64 +43,97 @@ include_once('functions/cart.php');
                             width="30" />
                         <span id="cartCount"
                             class="badge badge-pill badge-secondary"><?php echo isset($_SESSION['carrito']) ? count($_SESSION['carrito']) : 0; ?></span>
-
                     </a>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Carrito de compras</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <?php
-                // Verificar si hay productos en el carrito
-                if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
-                    $total = 0; // Variable para almacenar el total del carrito
-                    ?>
-                    <ul class="list-group">
-                        <?php
-                        // Recorrer los productos en el carrito y mostrarlos
-                        foreach ($_SESSION['carrito'] as $producto) {
-                            if (isset($producto['nombre']) && isset($producto['precio_por_gramo']) && isset($producto['cantidad_disponible'])) {
-                                ?>
-                        <li class="list-group-item">
-                            <?php echo $producto['nombre']; ?> -
-                            <?php echo '$' . intval($producto['precio_por_gramo']) * intval($producto['cantidad_disponible']); ?>
-                            - Cantidad: <?php echo $producto['cantidad_disponible']; ?> Gramos
-                        </li>
-                        <?php
-                                // Calcular el total del carrito multiplicando el precio por gramo por la cantidad de cada producto
-                                $precioTotal = intval($producto['precio_por_gramo']) * intval($producto['cantidad_disponible']);
-                                $total += $precioTotal; // Acumular el total del carrito
-                            }
-                        }
-                        ?>
-                    </ul>
-                    <p><strong>Total: $<?php echo $total; ?></strong></p>
-                    <?php
-                } else {
-                    echo '<p>No hay productos en el carrito</p>';
-                }
-                ?>
-                </div>
+</nav>
 
-                <div class="modal-footer">
-                    <a href="detalleCompra.php"><button type="button" class="btn btn-primary">Realizar
-                            compra</button></a>
-                </div>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Carrito de compras</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <?php if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])): ?>
+                <ul class="list-group">
+                    <?php foreach ($_SESSION['carrito'] as $key => $producto): ?>
+                    <?php if (isset($producto['nombre']) && isset($producto['precio_por_gramo']) && isset($producto['cantidad_disponible'])): ?>
+                    <?php
+                                $cantidadDisponible = intval($producto['cantidad_disponible']);
+                                $precioTotal = intval($producto['precio_por_gramo']) * intval($producto['cantidad_disponible']);
+                                ?>
+                    <li class="list-group-item">
+                        <?php echo $producto['nombre']; ?> -
+                        Cantidad:
+                        <input type="number" min="0" max="<?php echo $cantidadDisponible; ?>"
+                            value="<?php echo $cantidadDisponible; ?>" class="quantity-input"
+                            data-key="<?php echo $key; ?>">
+                        - Precio:
+                        <span id="price_<?php echo $key; ?>"><?php echo '$' . $precioTotal; ?></span>
+                        <button class="btn btn-danger btn-sm delete-button"
+                            data-key="<?php echo $key; ?>">Eliminar</button>
+                    </li>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+                <p><strong>Total: $<span id="cartTotal"><?php echo $total; ?></span></strong></p>
+                <?php else: ?>
+                <p>No hay productos en el carrito</p>
+                <?php endif; ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Realizar compra</button>
             </div>
         </div>
     </div>
-</nav>
+</div>
 
+<script>
+$(document).ready(function() {
+    $('.quantity-input').on('change', function() {
+        var key = $(this).data('key');
+        var quantity = parseInt($(this).val());
+        var pricePerGram = parseInt(<?php echo $producto['precio_por_gramo']; ?>);
+        var totalPrice = quantity * pricePerGram;
+        $('#price_' + key).text('$' + totalPrice);
+        calculateTotal();
+    });
 
+    $('.delete-button').on('click', function() {
+        var key = $(this).data('key');
+        $.ajax({
+            type: "POST",
+            url: "functions/delete_product.php",
+            data: {
+                key: key
+            },
+            success: function(response) {
+                if (response === 'success') {
+                    location.reload();
+                }
+            }
+        });
+    });
 
+    function calculateTotal() {
+        var total = 0;
+        $('.quantity-input').each(function() {
+            var key = $(this).data('key');
+            var quantity = parseInt($(this).val());
+            var pricePerGram = parseInt(<?php echo $producto['precio_por_gramo']; ?>);
+            var totalPrice = quantity * pricePerGram;
+            $('#price_' + key).text('$' + totalPrice);
+            total += totalPrice;
+        });
+        $('#cartTotal').text(total);
+    }
+});
+</script>
 
 <?php include('footer.php'); ?>

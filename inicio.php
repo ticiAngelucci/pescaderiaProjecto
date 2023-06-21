@@ -15,6 +15,10 @@ include('components/navbar.php');
 include('functions/conection.php');
 include('functions/config.php');
 include_once('functions/cart.php');
+$consulta = "SELECT id_producto, nombre, precio_por_gramo, cantidad_disponible FROM productos";            
+$resultados = mysqli_query($conexion, $consulta); 
+$activo = 0;
+$filter = 0;
 $productosConImg = [
     'langostino' => 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/215/401/products/lango-pelado1-5ff98af31ed78eae3b16496944392552-1024-1024.jpeg',
     'camaron' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGlb4HIOzaEyeUKma9JthR-OIy0-eB6hCM5JjWv-O9bU5QZkNimdIuUI3iWkuBwQDZJS4&usqp=CAU',
@@ -26,11 +30,6 @@ $productosConImg = [
     'sprite' => 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/188/828/products/images-111-ae3485bd0f9a65d0be16529739175163-640-0.jpg',
     'default' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIZcQj0m_KyB8nZOnvGmDjb50YpXC3b3OmiobpDM0kejAScsWT_bpl_QGeUTUIUyWCT0s&usqp=CAU',
  ];
-$consulta = "SELECT id_producto, nombre, precio_por_gramo, cantidad_disponible FROM productos";            
-$resultados = mysqli_query($conexion, $consulta); 
-$activo = 0;
-$filter = 0;
-
 if(isset($_POST['btnbuscar'])){
     $activo = 1;
     $busqueda = $_POST['busqueda'];

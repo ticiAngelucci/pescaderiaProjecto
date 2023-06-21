@@ -41,46 +41,55 @@ $productosConImg = [
 <section id="services" class="services section-bg">
     <div class="container">
         <?php while ($producto = $resultados->fetch_assoc()) { ?>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="_product-images">
-                        <div class="picZoomer">
-                            <img src="<?php if(isset($productosConImg[$producto['nombre']])) { echo $productosConImg[$producto['nombre']]; } else{ echo $productosConImg['default'];}?>" alt="producto" width="100%" class="img-fluid">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="_product-detail-content">
-                        <p class="_p-name"><?php echo $producto['nombre']; ?></p>
-                        <div class="_p-price-box">
-                            <div class="p-list">
-                                Precio por gramos: $ <?php echo number_format($producto['precio_por_gramo'],2,'.',','); ?>
-                            </div>
-                            <div class="_p-features">
-                                <span> Descripcion del producto: </span>
-                                <?php echo $producto['descripcion']; ?>
-                            </div>
-                            <form action="functions/cart.php" method="post" accept-charset="utf-8">
-                                <ul class="spe_ul"></ul>
-                                <div class="_p-qty-and-cart">
-                                    <div class="_p-add-cart">
-                                        <a style="<?php if($vista==0){echo "display:none;";}?>" href="editarProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>" class="btn-theme btn buy-btn" tabindex="0">
-                                            <i class="fa fa-shopping-cart"></i> Editar Producto
-                                        </a>
-                                        <button class="btn-theme btn btn-success" style="<?php if($vista==1){echo "display:none;";}?>" tabindex="0">
-                                            <i class="fa fa-shopping-cart"></i> Añadir al carrito
-                                        </button>
-                                        <input type="hidden" name="pid" value="18" />
-                                        <input type="hidden" name="price" value="850" />
-                                        <input type="hidden" name="url" value="" />
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="_product-images">
+                    <div class="picZoomer">
+                        <img src="<?php if(isset($productosConImg[$producto['nombre']])) { echo $productosConImg[$producto['nombre']]; } else{ echo $productosConImg['default'];}?>"
+                            alt="producto" width="100%" class="img-fluid">
                     </div>
                 </div>
             </div>
-        <?php } ?>
+            <div class="col-md-6">
+                <div class="_product-detail-content">
+                    <p class="_p-name"><?php echo $producto['nombre']; ?></p>
+                    <div class="_p-price-box">
+                        <div class="p-list">
+                            Precio por gramos: $ <?php echo number_format($producto['precio_por_gramo'],2,'.',','); ?>
+                        </div>
+                        <div class="_p-features">
+                            <span> Descripcion del producto: </span>
+                            <?php echo $producto['descripcion']; ?>
+                        </div>
+                        <form action="functions/cart.php" method="post" accept-charset="utf-8">
+                            <ul class="spe_ul"></ul>
+                            <div class="_p-qty-and-cart">
+                                <div class="_p-add-cart">
+                                    <a style="<?php if($vista==0){echo "display:none;";}?>"
+                                        href="editarProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>"
+                                        class="btn-theme btn buy-btn" tabindex="0">
+                                        <i class="fa fa-shopping-cart"></i> Editar Producto
+                                    </a>
+                                    <button class="btn-theme btn btn-success"
+                                        style="<?php if($vista==1){echo "display:none;";}?>" tabindex="0">
+                                        <i class="fa fa-shopping-cart"></i> Añadir al carrito
+                                    </button>
+                                    <input type="hidden" name="pid" value="18" />
+                                    <input type="hidden" name="price" value="850" />
+                                    <input type="hidden" name="url" value="" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+        <<<<<<< HEAD <?php } ?>=======</div>
+    </div>
+    </div>
+    <?php } ?>
+    >>>>>>> lucaphp
     </div>
 </section>
 
