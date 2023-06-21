@@ -6,7 +6,9 @@ $total_general = $_POST['total_general'];
 $descripcion = $_POST['descripcion'];
 $fecha = $_POST['fecha'];
 $horario = $_POST['horario'];
-$id_cliente = rand(0, 100);
+if (!isset($_SESSION['id_usuario'])) {
+    $id_cliente = $_SESSION['id_usuario'];
+}
 
 $consultaPedidos = "INSERT INTO pedidos (id_cliente, total_pedido, fecha_entrega_pedido, hora_entrega_pedido, descripcion_pedido) VALUES ('$id_cliente', '$total_general', '$fecha', '$horario', '$descripcion')";
 mysqli_query($conexion, $consultaPedidos);

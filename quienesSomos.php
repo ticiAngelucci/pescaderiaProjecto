@@ -1,5 +1,4 @@
 <?php 
- include('components/header.php'); 
  include('components/navbar.php'); ?>
 <section class="showcase">
     <div class="text">

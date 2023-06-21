@@ -4,7 +4,6 @@ if (!isset($_SESSION['id_usuario'])) {
     header("location:login.php");
     exit();
 }
-include('components/header.php');
 include('components/navbar.php'); 
 ?>
 <div style="display: flex;justify-content: space-around;margin-top:40px;">

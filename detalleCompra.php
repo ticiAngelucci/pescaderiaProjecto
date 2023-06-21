@@ -4,7 +4,6 @@ if (!isset($_SESSION['id_usuario'])) {
     header("location:login.php");
     exit();
 }
-include('components/header.php');
 include('components/navbar.php');
 include_once('functions/cart.php'); 
 $carrito_mio = $_SESSION['carrito'];
