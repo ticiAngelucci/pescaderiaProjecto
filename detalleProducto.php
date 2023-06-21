@@ -85,11 +85,9 @@ $productosConImg = [
             </div>
             </form>
         </div>
-        <<<<<<< HEAD <?php } ?>=======</div>
+        <?php } ?>
     </div>
     </div>
-    <?php } ?>
-    >>>>>>> lucaphp
     </div>
 </section>
 

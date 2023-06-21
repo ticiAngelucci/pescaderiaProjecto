@@ -5,7 +5,7 @@ if (!isset($_SESSION['id_usuario'])) {
     exit();
 }
 $vista=0;
-if (!isset($_SESSION['usuario_tipo'])) {
+if (isset($_SESSION['usuario_tipo'])) {
     if($_SESSION['usuario_tipo']=='empleado'){
         $vista=1;
     }
@@ -142,7 +142,8 @@ if(isset($_POST['btnfiltrar'])){
                             value="<?php echo $busquedaProducto['precio_por_gramo']; ?>">
                         <input type="hidden" name="cantidad_disponible"
                             value="<?php echo $busquedaProducto['cantidad_disponible']; ?>">
-                        <button class="btn btn-primary" name="accionBoton" style="<?php if($vista == 0){echo "display:none;";}?>" value="Agregar"
+                        <button class="btn btn-primary" name="accionBoton"
+                            style="<?php if($vista == 0){echo "display:none;";}?>" value="Agregar"
                             type="submit">Agregar</button>
                     </form>
                 </div>
@@ -175,7 +176,8 @@ if(isset($_POST['btnfiltrar'])){
                             value="<?php echo $resultadoFiltrar['precio_por_gramo']; ?>">
                         <input type="hidden" name="cantidad_disponible"
                             value="<?php echo $resultadoFiltrar['cantidad_disponible']; ?>">
-                        <button class="btn btn-primary" name="accionBoton" style="<?php if($vista == 0){echo "display:none;";}?>" value="Agregar"
+                        <button class="btn btn-primary" name="accionBoton"
+                            style="<?php if($vista == 0){echo "display:none;";}?>" value="Agregar"
                             type="submit">Agregar</button>
                     </form>
                 </div>
