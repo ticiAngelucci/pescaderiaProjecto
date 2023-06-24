@@ -6,7 +6,6 @@ if (!isset($_SESSION['id_usuario'])) {
 }
  include('components/navbar.php');
  include("functions/conection.php");
- include('functions/config.php');
 
  $tipo_usuario = isset($_GET['tipo_usuario']) ? $_GET['tipo_usuario'] : '';
  $id_usuario = isset($_GET['id_usuario']) ? $_GET['id_usuario'] : '';

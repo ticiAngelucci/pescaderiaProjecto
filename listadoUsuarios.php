@@ -6,7 +6,6 @@ if (!isset($_SESSION['id_usuario'])) {
 }
  include('components/navbar.php'); 
  include('functions/conection.php');
- include('functions/config.php');
  $consulta="SELECT * FROM clientes";            
  $resultados=mysqli_query($conexion,$consulta); 
  $consultaEmpleado="SELECT * FROM empleados";            

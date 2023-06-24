@@ -1,12 +1,16 @@
 <?php
 include('header.php');
 include_once('functions/cart.php');
+include('functions/config.php');
 include('functions/delete_product.php');
 $vista=0;
 if (isset($_SESSION['usuario_tipo'])) {
     if($_SESSION['usuario_tipo']=='empleado'){
         $vista=1;
     }
+}
+if (isset($_SESSION['id_usuario'])) {
+   $id=$_SESSION['id_usuario'];
 }
 ?>
 
@@ -32,7 +36,7 @@ if (isset($_SESSION['usuario_tipo'])) {
                         src="https://images.vexels.com/media/users/3/137047/isolated/preview/5831a17a290077c646a48c4db78a81bb-icono-de-perfil-de-usuario-azul.png"
                         width=30 />
                     <div id="myDropdown" class="dropdown-content">
-                        <a class="dropdown-item" href="editarUsuario.php">Editar Usuario</a>
+                        <a class="dropdown-item" href="editarUsuario.php?tipo_usuario=<?php if ($vista==0){echo "clientes";}else{echo "empleados";}?>&id_usuario=<?php echo $id;?>&token=<?php echo hash_hmac('sha1',$id,KEY_TOKEN); ?>">Editar Usuario</a>
                         <a style="<?php if($vista==0){echo "display:none;";}?>" class="dropdown-item"
                             href="listadoUsuarios.php">Listado de Usuario</a>
                         <a class="dropdown-item" href="historial.php">Historial</a>

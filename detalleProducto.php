@@ -6,7 +6,6 @@ if (!isset($_SESSION['id_usuario'])) {
 }
  include('components/navbar.php');
  include('functions/conection.php'); 
- include('functions/config.php');
  $id_producto = isset($_GET['id_producto']) ? $_GET['id_producto'] : '';
  $token = isset($_GET['token']) ? $_GET['token'] : '';
  if($id_producto =='' || $token ==''){
