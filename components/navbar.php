@@ -2,6 +2,12 @@
 include('header.php');
 include_once('functions/cart.php');
 include('functions/delete_product.php');
+$vista=0;
+if (isset($_SESSION['usuario_tipo'])) {
+    if($_SESSION['usuario_tipo']=='empleado'){
+        $vista=1;
+    }
+}
 ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -20,24 +26,24 @@ include('functions/delete_product.php');
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto"
-                style="display: flex;align-items: center;<?php if($vista=1){echo "margin-right: 174px;";}?>">
+                style="display: flex;align-items: center;<?php if($vista==1){echo "margin-right: 174px;";}?>">
                 <div class="dropdown">
                     <img onclick="myFunction()" class="dropbtn"
                         src="https://images.vexels.com/media/users/3/137047/isolated/preview/5831a17a290077c646a48c4db78a81bb-icono-de-perfil-de-usuario-azul.png"
                         width=30 />
                     <div id="myDropdown" class="dropdown-content">
                         <a class="dropdown-item" href="editarUsuario.php">Editar Usuario</a>
-                        <a style="<?php if($vista=0){echo "display:none;";}?>" class="dropdown-item"
+                        <a style="<?php if($vista==0){echo "display:none;";}?>" class="dropdown-item"
                             href="listadoUsuarios.php">Listado de Usuario</a>
                         <a class="dropdown-item" href="historial.php">Historial</a>
                         <a class="dropdown-item" href="functions/logout.php">Cerrar Sesion</a>
                     </div>
                 </div>
-                <li style="<?php if($vista=1){echo "display:none;";}?>" class="nav-item">
+                <li style="<?php if($vista==1){echo "display:none;";}?>" class="nav-item">
                     <a class="nav-link" href="quienesSomos.php">¿Quienes somos?</a>
                 </li>
                 <!-- Enlace del carrito de compras con modal -->
-                <li style="<?php if($vista=1){echo "display:none;";}?>" class="nav-item">
+                <li style="<?php if($vista==1){echo "display:none;";}?>" class="nav-item">
                     <a class="nav-link" id="cartLink" href="#" data-toggle="modal" data-target="#modal">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4RLdcADFuofIEayYB56NsmNwD5u5GL6KMQe5d6w0&s"
                             width="30" />

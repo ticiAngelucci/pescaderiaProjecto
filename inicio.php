@@ -4,13 +4,6 @@ if (!isset($_SESSION['id_usuario'])) {
     header("location:login.php");
     exit();
 }
-$vista=0;
-if (isset($_SESSION['usuario_tipo'])) {
-    if($_SESSION['usuario_tipo']=='empleado'){
-        $vista=1;
-    }
-}
-echo $vista;
 include('components/navbar.php'); 
 include('functions/conection.php');
 include('functions/config.php');
@@ -54,7 +47,6 @@ if(isset($_POST['btnfiltrar'])){
 ?>
 
 <section class="section-products">
-    <h2><?php echo $_SESSION['usuario_tipo']?></h2>
     <div class="container">
         <div class="row justify-content-center text-center">
             <div class="col-md-8 col-lg-6">
@@ -107,7 +99,7 @@ if(isset($_POST['btnfiltrar'])){
                             value="<?php echo $producto['precio_por_gramo']; ?>">
                         <input type="hidden" name="cantidad_disponible"
                             value="<?php echo isset($producto['cantidad_disponible']) ? $producto['cantidad_disponible'] : ''; ?>">
-                        <button class="btn btn-primary" style="<?php if($vista == 0){echo "display:none;";}?>"
+                        <button class="btn btn-primary" style="<?php if($vista == 1){echo "display:none;";}?>"
                             name="accionBoton" value="Agregar" type="submit">Agregar</button>
                     </form>
 
@@ -143,7 +135,7 @@ if(isset($_POST['btnfiltrar'])){
                         <input type="hidden" name="cantidad_disponible"
                             value="<?php echo $busquedaProducto['cantidad_disponible']; ?>">
                         <button class="btn btn-primary" name="accionBoton"
-                            style="<?php if($vista == 0){echo "display:none;";}?>" value="Agregar"
+                            style="<?php if($vista == 1){echo "display:none;";}?>" value="Agregar"
                             type="submit">Agregar</button>
                     </form>
                 </div>
@@ -177,7 +169,7 @@ if(isset($_POST['btnfiltrar'])){
                         <input type="hidden" name="cantidad_disponible"
                             value="<?php echo $resultadoFiltrar['cantidad_disponible']; ?>">
                         <button class="btn btn-primary" name="accionBoton"
-                            style="<?php if($vista == 0){echo "display:none;";}?>" value="Agregar"
+                            style="<?php if($vista == 1){echo "display:none;";}?>" value="Agregar"
                             type="submit">Agregar</button>
                     </form>
                 </div>
