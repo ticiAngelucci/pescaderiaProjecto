@@ -92,7 +92,9 @@ if (!isset($_SESSION['id_usuario'])) {
                                     </div>
                                     <div class="col-6 mb-3">
                                         <h6>Rol de Usuario</h6>
-                                        <div class="form-floating">
+                                        <input style="<?php if($vista==1){echo "display:none;";}?>" class="form-control" name="dni" type="text"
+                                            value="Cliente" readonly>
+                                        <div style="<?php if($vista==0){echo "display:none;";}?>" class="form-floating">
                                             <select name="rolUsuario" class="form-select" id="floatingSelect">
                                                 <?php 
                                                 if($tipo_usuario=='clientes'){
