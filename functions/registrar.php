@@ -23,8 +23,8 @@ if(isset($_POST['register'])){
             $resultado=mysqli_query($conexion,$consulta);   
             if ($resultado) {
                 echo '<script>
-                alert("Se han guardado la localidad");
-                location.replace("../registro.php");
+                alert("Se han guardado el registro");
+                location.replace("../login.php");
                 </script>';
             }elseif (empty($_POST['nombre']) || empty($_POST['apellido']) || empty($_POST['dni']) || empty($_POST['password']) || empty($_POST['email']) || empty($_POST['id_localidad'])) {
                 echo '<script>
