@@ -102,7 +102,7 @@ if (isset($_SESSION['id_usuario'])) {
                 <?php endif; ?>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Realizar compra</button>
+                <a href="detalleCompra.php"><button type="button" class="btn btn-primary">Realizar compra</button></a>
             </div>
         </div>
     </div>
