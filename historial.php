@@ -23,10 +23,7 @@ if (!$resultados) {
 } else {
     if (mysqli_num_rows($resultados) === 0) {
         echo "No se encontraron resultados.";
-    } else {
-        // Procesar los resultados
-        // ...
-    }
+    } 
 }
 ?>
 <div class="container" style="max-width: 1436px;">
@@ -77,7 +74,7 @@ if (!$resultados) {
                         </p>
                         <p class="card-text" style="text-align:left;">El total a pagar es $
                             <?php echo $pedido['total_pedido']; ?></p>
-                        <a href="descripcionPedido.php" class="btn btn-primary">Ver más</a>
+                        <a href="descripcionPedido.php?id_pedido=<?php echo $pedido['id_pedido'];?>&token=<?php echo hash_hmac('sha1',$pedido['id_pedido'],KEY_TOKEN); ?>"" class="btn btn-primary">Ver más</a>
                     </div>
                 </div>
             </div>

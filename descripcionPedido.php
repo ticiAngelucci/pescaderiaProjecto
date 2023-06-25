@@ -5,10 +5,30 @@ if (!isset($_SESSION['id_usuario'])) {
     exit();
 }
 include('components/navbar.php'); 
+$id_pedido = isset($_GET['id_pedido']) ? $_GET['id_pedido'] : '';
+$token = isset($_GET['token']) ? $_GET['token'] : '';
+
+if ($id_pedido == '' || $token == '') {
+    echo 'Error al procesar la petición';
+    exit;
+} else {
+    $token_tmp = hash_hmac('sha1', $id_pedido, KEY_TOKEN);
+    if ($token == $token_tmp) {
+        $consulta = "SELECT * FROM pedidos where id_pedido='$id_pedido'";
+        $resultados = mysqli_query($conexion, $consulta);
+        if ($resultados == null) {
+            echo "Error";
+        } else {
+            /* $consulta = "SELECT id_producto, nombre, cantidad_disponible, precio_por_gramo, descripcion FROM productos where id_producto='$id_producto' limit 1";
+            $resultados = mysqli_query($conexion, $consulta); */
+        }
+    }
+}
 ?>
 <div style="display: flex;justify-content: space-around;margin-top:40px;">
     <div class="card bg-light">
         <div class="card-body">
+        <?php foreach($resultados as $pedido) { echo $pedido['id_pedido']; }?>
             <h5 class="card-title">Pedido</h5>
             <div class="d-flex align-items-center" style="flex-direction: column;">
                 <table class="table table-striped table-hover" style="background: white;margin: auto;max-width: 732px;">
