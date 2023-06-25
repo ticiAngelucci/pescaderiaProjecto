@@ -90,6 +90,7 @@ if(isset($_POST['btnfiltrar'])){
                     <div class="btn-group">
                         <a href="detalleProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>"
                             class="btn btn-primary">Detalles</a>
+
                     </div>
                     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                         <input type="hidden" name="id_producto" value="<?php echo $producto['id_producto']; ?>">
@@ -123,8 +124,9 @@ if(isset($_POST['btnfiltrar'])){
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <a href="detalleProducto.php?id_producto=<?php echo $busquedaProducto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$busquedaProducto['id_producto'],KEY_TOKEN); ?>"
+                        <a href="detalleProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>"
                             class="btn btn-primary">Detalles</a>
+
                     </div>
                     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                         <input type="hidden" name="id_producto" value="<?php echo $busquedaProducto['id_producto']; ?>">
@@ -157,8 +159,9 @@ if(isset($_POST['btnfiltrar'])){
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <a href="detalleProducto.php?id_producto=<?php echo $resultadoFiltrar['id_producto'];?>&token=<?php echo hash_hmac('sha1',$resultadoFiltrar['id_producto'],KEY_TOKEN); ?>"
+                        <a href="detalleProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>"
                             class="btn btn-primary">Detalles</a>
+
                     </div>
                     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                         <input type="hidden" name="id_producto" value="<?php echo $resultadoFiltrar['id_producto']; ?>">

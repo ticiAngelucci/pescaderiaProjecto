@@ -102,7 +102,9 @@ if (isset($_SESSION['id_usuario'])) {
                 <?php endif; ?>
             </div>
             <div class="modal-footer">
-                <a href="detalleCompra.php"><button type="button" class="btn btn-primary">Realizar compra</button></a>
+                <?php if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])){?>
+                <button type="button" class="btn btn-primary">Realizar compra</button>
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -142,7 +144,7 @@ $(document).ready(function() {
 
     function updateCartCounter() {
         var cartItemCount = $('#modal .list-group-item')
-        .length; // Obtener la cantidad de elementos en el carrito
+            .length; // Obtener la cantidad de elementos en el carrito
         $('#cartCount').text(cartItemCount); // Actualizar el valor del contador del carrito
     }
 
@@ -160,4 +162,3 @@ $(document).ready(function() {
     }
 });
 </script>
-<?php include('footer.php'); ?>
