@@ -42,7 +42,7 @@ if (isset($_SESSION['id_usuario'])) {
                             Usuario</a>
                         <a style="<?php if($vista==0){echo "display:none;";}?>" class="dropdown-item"
                             href="listadoUsuarios.php">Listado de Usuario</a>
-                        <a class="dropdown-item" href="historial.php">Historial</a>
+                        <a class="dropdown-item" href="<?php if($vista==0){ echo "historial.php";}else{ echo "estadoPedidos.php";} ?>">Historial</a>
                         <a class="dropdown-item" href="functions/logout.php">Cerrar Sesion</a>
                     </div>
                 </div>

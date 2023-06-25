@@ -70,8 +70,7 @@ if (isset($_GET['id_pedido'])) {
                 <div class="d-flex justify-content-between" style="margin-top:20px;">
                     <button type="button" style="max-width: 150px;width: 100%;" class="btn btn-primary">Aceptar</button>
                     <button type="button" style="max-width: 150px;width: 100%;" class="btn btn-danger">Rechazar</button>
-                    <a href="descripcionPedido.php?id_pedido=<?php echo $idPedido; ?>" type="button"
-                        style="max-width: 150px;width: 100%;" class="btn btn-secondary">Ver más</a>
+                    <a href="descripcionPedido.php?id_pedido=<?php echo $pedido['id_pedido'];?>&token=<?php echo hash_hmac('sha1',$pedido['id_pedido'],KEY_TOKEN); ?>"" class="btn btn-primary">Ver más</a>
                 </div>
             </div>
         </div>
