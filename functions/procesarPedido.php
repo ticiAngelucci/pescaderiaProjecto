@@ -20,7 +20,7 @@ $descripcion = $_POST['descripcion'];
 $fecha = $_POST['fecha'];
 $horario = $_POST['horario'];
 
-$consultaPedidos = "INSERT INTO pedidos (id_cliente, total_pedido, fecha_entrega_pedido, hora_entrega_pedido, descripcion_pedido) VALUES ('$id_cliente', '$total_general', '$fecha', '$horario', '$descripcion')";
+$consultaPedidos = "INSERT INTO pedidos (id_cliente, total_pedido, fecha_entrega_pedido,hora_fecha_now, hora_entrega_pedido, descripcion_pedido) VALUES ('$id_cliente', '$total_general', '$fecha',NOW(), '$horario', '$descripcion')";
 mysqli_query($conexion, $consultaPedidos);
 
 $consultaTraerIdPedido = "SELECT id_pedido FROM pedidos where total_pedido='$total_general' AND hora_entrega_pedido='$horario' AND fecha_entrega_pedido='$fecha'";
@@ -44,6 +44,6 @@ if (mysqli_num_rows($resultados) !== 0) {
 }
 ?>
 <script>
-    alert("Se han guardado los cambios");
-    location.replace("../inicio.php");
+alert("Se han guardado los cambios");
+location.replace("../inicio.php");
 </script>

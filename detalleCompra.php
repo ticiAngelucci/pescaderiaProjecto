@@ -17,9 +17,8 @@ $nueva_sesion  = $_SESSION['carrito'];
                 <thead>
                     <tr>
                         <th>Producto</th>
-                        <th>Precio por gramos</th>
+                        <th>Precio por unidad</th>
                         <th>Cantidad</th>
-                        <th>Peso (100 gramos)</th>
                         <th>Precio total</th>
                     </tr>
                 </thead>
@@ -65,7 +64,7 @@ $nueva_sesion  = $_SESSION['carrito'];
                 }
                 ?>
             </table>
-
+            <!-- Input para mostrar el total general -->
             <div class="form-group">
                 <label for="total_general">Total general:</label>
                 <input type="number" id="total_general" name="total_general" readonly value="<?php echo $total; ?>"
@@ -89,6 +88,7 @@ $nueva_sesion  = $_SESSION['carrito'];
                 <input type="submit" value="Enviar" class="btn btn-primary">
             </div>
         </div>
+        <!-- Resto del código -->
     </form>
 </div>
 

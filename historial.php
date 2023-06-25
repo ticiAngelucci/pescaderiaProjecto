@@ -1,10 +1,15 @@
-<?php 
+<?php
 session_start();
 if (!isset($_SESSION['id_usuario'])) {
-    header("location:login.php");
+    header("location: login.php");
     exit();
 }
-include('components/navbar.php'); 
+
+$id_usuario = $_SESSION['id_usuario'];
+echo $id_usuario;
+include('components/navbar.php');
+$consulta = "SELECT * FROM pedidos where id_cliente='$id_usuario'";
+$resultados = mysqli_query($conexion, $consulta);
 ?>
 <div class="row justify-content-center text-center">
     <div class="col-md-8 col-lg-6">
@@ -28,28 +33,23 @@ include('components/navbar.php');
     </div>
 </div>
 <div class="containerPedidosHistorial" style="width: 100%;max-width: 900px;margin: auto;">
-    <div class="card">
-
+    <?php foreach($resultados as $pedido) {  ?>
+    <div class="card" style="margin-bottom: 20px;">
         <div class="card-header">
-            Pedido *inserte numero de pedido*
+            Pedido <?php echo $pedido['id_pedido']?>
         </div>
         <div class="card-body" style="display: flex;justify-content: space-around;align-items: center;">
             <img class="card-img-top" src="assets/pedido.png" alt="Card image cap"
                 style="width: 100%;max-width: 250px;">
             <div>
-                <h5 class="card-title">Tu compra se realizo *inserte fecha y hora de la compra*</h5>
-                <p class="card-text" style="text-align: left;">Su compra se retira *inserte fecha y hora de la compra para retirar*</p>
-                <a href="descripcionPedido.php" style="max-width: 150px;width: 100%;" class="btn btn-primary">Ver más</a>
+                <h5 class="card-title">Tu compra se realizo <?php echo $pedido['hora_fecha_now']?></h5>
+                <p class="card-text" style="text-align: left;">Su compra se retira <?php echo $pedido['fecha_entrega_pedido']; echo "&nbsp;"; echo $pedido['hora_entrega_pedido']; ?></p>
+                <p class="card-text" style="text-align: left;">El total a pagar es $ <?php echo $pedido['total_pedido']; ?></p>
+                <a href="descripcionPedido.php" style="max-width: 150px;width: 100%;" class="btn btn-primary">Ver
+                    más</a>
             </div>
         </div>
     </div>
-    <div>
-
-
-
-
-
-
-        <?php 
-include('components/footer.php');
-?>
+    <?php } ?>
+</div>
+ <?php include('components/footer.php');?>
