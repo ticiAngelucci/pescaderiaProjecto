@@ -55,7 +55,7 @@ $carrito_mio = $_SESSION['carrito'];
                                 name="cantidad_disponible_<?php echo $i; ?>" class="form-control" min="1"
                                 max="<?php echo $valor['cantidad_disponible']; ?>"
                                 value="<?php echo $valor['cantidad_disponible']; ?>"></td>
-                        <td><input type="number" id="cantidad_a_llevar<?php echo $i; ?>" name="cantidad_a_llevar<?php echo $i; ?>"
+                        <td><input type="number" id="cantidad_a_llevar_<?php echo $i; ?>" name="cantidad_a_llevar_<?php echo $i; ?>"
                                 class="form-control" min="1" readonly value="0"></td>
                         <td><input type="number" id="preciototal_<?php echo $i; ?>" name="preciototal_<?php echo $i; ?>"
                                 class="form-control" min="1" readonly value="<?php echo $precio_total; ?>"></td>
@@ -73,7 +73,6 @@ $carrito_mio = $_SESSION['carrito'];
                         var precioPorGramo = precioInput.value * 100;
                         var total = cantidad * precio;
                         totalInput.value = total;
-
                         calcularTotal();
                     });
 
