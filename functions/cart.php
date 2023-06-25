@@ -41,8 +41,8 @@ function agregarProductoAlCarrito($idProducto, $cantidad) {
             $_SESSION['carrito'][] = $producto;
         }
 
-        // Redirigir al usuario a la página actual para evitar errores de encabezado
-        header('Location: ' . $_SERVER['PHP_SELF']);
+        echo '<script>alert("El producto seleccionado se ha agregado");</script>';
+        header('Location: inicio.php ');
         exit();
     } else {
         echo '<script>alert("El producto seleccionado no existe");</script>';

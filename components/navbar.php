@@ -160,4 +160,3 @@ $(document).ready(function() {
     }
 });
 </script>
-<?php include('footer.php'); ?>

@@ -9,7 +9,6 @@ include('functions/conection.php');
 include_once('functions/cart.php');
 $id_producto = isset($_GET['id_producto']) ? $_GET['id_producto'] : '';
 $token = isset($_GET['token']) ? $_GET['token'] : '';
-echo "Valor de id_producto: " . $id_producto . "<br>";
 
 if ($id_producto == '' || $token == '') {
     echo 'Error al procesar la petición';
@@ -40,7 +39,7 @@ $productosConImg = [
     'default' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIZcQj0m_KyB8nZOnvGmDjb50YpXC3b3OmiobpDM0kejAScsWT_bpl_QGeUTUIUyWCT0s&usqp=CAU',
 ];
 
-// Verificar si se ha enviado el formulario para agregar al carrito
+/* // Verificar si se ha enviado el formulario para agregar al carrito
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Obtener los datos del formulario
     $id_producto = isset($_POST['id_producto']) ? $_POST['id_producto'] : '';
@@ -58,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Verificar encabezados de redirección
 echo "<pre>";
 print_r(headers_list());
-echo "</pre>";
+echo "</pre>"; */
 
 ?>
 
@@ -89,30 +88,31 @@ echo "</pre>";
                             <span> Descripción del producto: </span>
                             <?php echo $producto['descripcion']; ?>
                         </div>
-                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" accept-charset="utf-8">
-                            <ul class="spe_ul"></ul>
-                            <div class="_p-qty-and-cart">
-                                <div class="_p-add-cart">
-                                    <a style="<?php if ($vista == 0) {
+                        <ul class="spe_ul"></ul>
+                        <div class="_p-qty-and-cart">
+                            <div class="_p-add-cart">
+                                <a style="<?php if ($vista == 0) {
                                                         echo "display:none;";
                                                     } ?>"
-                                        href="editarProducto.php?id_producto=<?php echo $producto['id_producto']; ?>&token=<?php echo hash_hmac('sha1', $producto['id_producto'], KEY_TOKEN); ?>"
-                                        class="btn-theme btn buy-btn" tabindex="0">
-                                        <i class="fa fa-shopping-cart"></i> Editar Producto
-                                    </a>
-                                    <button class="btn-theme btn btn-success" style="<?php if ($vista == 1) {
-                                                            echo "display:none;";
-                                                        } ?>" tabindex="0" type="submit">
-                                        <i class="fa fa-shopping-cart"></i> Añadir al carrito
-                                    </button>
+                                    href="editarProducto.php?id_producto=<?php echo $producto['id_producto']; ?>&token=<?php echo hash_hmac('sha1', $producto['id_producto'], KEY_TOKEN); ?>"
+                                    class="btn-theme btn buy-btn" tabindex="0">
+                                    <i class="fa fa-shopping-cart"></i> Editar Producto
+                                </a>
+                                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                                     <input type="hidden" name="id_producto"
                                         value="<?php echo $producto['id_producto']; ?>">
-                                    <input type="hidden" name="cantidad" value="1">
-                                    <input type="hidden" name="precio_total"
+                                    <input type="hidden" name="nombre"
+                                        value="<?php echo $producto['nombre']; ?>">
+                                    <input type="hidden" name="precio_por_gramo"
                                         value="<?php echo $producto['precio_por_gramo']; ?>">
-                                </div>
+                                    <input type="hidden" name="cantidad_disponible"
+                                        value="<?php echo $producto['cantidad_disponible']; ?>">
+                                    <button class="btn btn-primary" name="accionBoton"
+                                        style="<?php if($vista == 1){echo "display:none;";}?>" value="Agregar"
+                                        type="submit">Agregar</button>
+                                </form>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
