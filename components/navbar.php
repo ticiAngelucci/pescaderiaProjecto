@@ -102,7 +102,9 @@ if (isset($_SESSION['id_usuario'])) {
                 <?php endif; ?>
             </div>
             <div class="modal-footer">
+                <?php if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])){?>
                 <button type="button" class="btn btn-primary">Realizar compra</button>
+                <?php } ?>
             </div>
         </div>
     </div>
