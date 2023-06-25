@@ -112,5 +112,5 @@ if(isset($_POST['register'])){
             location.replace("../registro.php");
         </script>';
     }
-}
+
 ?>

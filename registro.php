@@ -1,7 +1,8 @@
 <?php 
- include('components/header.php'); 
- include('functions/conection.php');
- ?>
+include('components/header.php'); 
+include('functions/conection.php');
+?>
+
 <div class="custom-background">
     <div class="custom-container mt-5">
         <h3>Registrarse</h3>
@@ -25,17 +26,18 @@
             <div class="form-group">
                 <select id="id_localidad" name="id_localidad" class="form-select">
                     <?php 
-            $queryLocalidad = "SELECT * FROM localidades";            
-            $resultadosLocalidad = mysqli_query($conexion, $queryLocalidad); 
-            while ($localidad = $resultadosLocalidad->fetch_assoc()) { 
-          ?>
+                    $queryLocalidad = "SELECT * FROM localidades";            
+                    $resultadosLocalidad = mysqli_query($conexion, $queryLocalidad); 
+                    while ($localidad = $resultadosLocalidad->fetch_assoc()) { 
+                    ?>
                     <option value="<?php echo $localidad['id_localidad']; ?>"><?php echo $localidad['localidad']; ?>
                     </option>
                     <?php } ?>
                 </select>
             </div>
-            <p><a href="" data-toggle="modal" data-target="#exampleModal">¿Tu localidad no aparece? ¿Te gustaría
-                    agregarla?</a></p>
+            <a href="" data-toggle="modal" data-target="#exampleModal">Tu localidad no aparece? ¿Te gustaría
+                agregarla?</a>
+
             <div class="form-group">
                 <input type="submit" name="register" value="Registrarse" class="btn btn-primary">
             </div>
@@ -55,11 +57,11 @@
                 <div class="modal-body">
                     <form method="post" action="functions/agregarLocalidad.php">
                         <div class="form-group">
-                            <input type="text" name="nombre" id="nombre" class="form-control"
+                            <input type="text" name="nombre_localidad" id="nombre_localidad" class="form-control"
                                 placeholder="Ingrese el nombre de la localidad">
                         </div>
                         <div class="form-group">
-                            <input type="submit" name="register" value="Agregar" class="btn btn-primary">
+                            <input type="submit" name="agregar_localidad" value="Agregar" class="btn btn-primary">
                         </div>
                     </form>
                 </div>
