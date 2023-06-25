@@ -142,7 +142,7 @@ $(document).ready(function() {
 
     function updateCartCounter() {
         var cartItemCount = $('#modal .list-group-item')
-        .length; // Obtener la cantidad de elementos en el carrito
+            .length; // Obtener la cantidad de elementos en el carrito
         $('#cartCount').text(cartItemCount); // Actualizar el valor del contador del carrito
     }
 
