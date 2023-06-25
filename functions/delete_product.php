@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL & ~E_NOTICE);
+ini_set('display_errors', 0);
 session_start();
 
 // Verificar si se ha enviado la clave del producto a eliminar
