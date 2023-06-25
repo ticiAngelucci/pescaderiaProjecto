@@ -35,9 +35,15 @@ if (mysqli_num_rows($resultados) !== 0) {
         $nombre = $_POST['nombre_' . $i];
         $precio_por_gramo = $_POST['precio_por_gramo_' . $i];
         $cantidad_disponible = $_POST['cantidad_disponible_' . $i];
-        $precio_por_gramos_multiplicado = $_POST['precio_por_gramos_multiplicado' . $i];
+        $cantidad_por_gramos_multiplicado = $_POST['precio_por_gramos_multiplicado' . $i];
         $precio_total = $_POST['precio_total_' . $i];
-        $consultaCarrito = "INSERT INTO carritos_de_compras (id_pedido, id_producto, peso_del_producto) VALUES ('$id_pedido', '$id_producto', '$precio_por_gramos_multiplicado')";
+        $consultaRestar = "SELECT * FROM productos where id_producto='$id_producto'";
+        $resultadosRestar = mysqli_query($conexion, $consultaRestar);
+        foreach($resultadosRestar as $aRestar){
+            $nuevaCantidad = $aRestar['cantidad_disponible']-$cantidad_por_gramos_multiplicado;
+            $consultaActualizarRestar = "UPDATE productos SET cantidad_disponible = $nuevaCantidad WHERE id_producto = $id_producto";
+        }
+        $consultaCarrito = "INSERT INTO carritos_de_compras (id_pedido, id_producto, peso_del_producto) VALUES ('$id_pedido', '$id_producto', '$cantidad_por_gramos_multiplicado')";
         mysqli_query($conexion, $consultaCarrito);
     }
     unset($_SESSION['carrito']);
