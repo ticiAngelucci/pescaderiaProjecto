@@ -5,7 +5,6 @@ if (!isset($_SESSION['carrito'])) {
     $_SESSION['carrito'] = array(); // Inicializar como un arreglo vacío
 }
 
-
 function obtenerProductoPorId($idProducto) {
     global $conexion;
     $idProducto = mysqli_real_escape_string($conexion, $idProducto);
@@ -42,13 +41,13 @@ function agregarProductoAlCarrito($idProducto, $cantidad) {
             $_SESSION['carrito'][] = $producto;
         }
 
-        echo '<script>alert("El producto se ha agregado al carrito");</script>';
+        // Redirigir al usuario a la página actual para evitar errores de encabezado
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit();
     } else {
         echo '<script>alert("El producto seleccionado no existe");</script>';
     }
 }
-
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['accionBoton']) && $_POST['accionBoton'] === 'Agregar') {
