@@ -6,32 +6,7 @@ if (!isset($_SESSION['id_usuario'])) {
 }
 include('components/navbar.php');
 include_once('functions/cart.php');
-
-// Guardar la sesión de los productos en una nueva variable
-$nueva_sesion = $_SESSION['carrito'];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Cambiar los valores de sesión dentro del bucle foreach
-    foreach ($nueva_sesion as $i => $valor) {
-        $nueva_sesion[$i]['nombre'] = $_POST['nombre_' . $i];
-        $nueva_sesion[$i]['precio_por_gramo'] = $_POST['precio_por_gramo_' . $i];
-        $nueva_sesion[$i]['cantidad_disponible'] = $_POST['cantidad_disponible_' . $i];
-        
-        // Calcular el nuevo precio total
-        $precio_total = $valor['precio_por_gramo'] * $valor['cantidad_disponible'];
-        $nueva_sesion[$i]['precio_total'] = $precio_total;
-    }
-    
-    // Calcular el nuevo total general
-    $total_general = 0;
-    foreach ($nueva_sesion as $valor) {
-        $total_general += $valor['precio_total'];
-    }
-    
-    // Actualizar la variable de sesión 'carrito' con la nueva sesión
-    $_SESSION['carrito'] = $nueva_sesion;
-}
-
+$nueva_sesion  = $_SESSION['carrito'];
 ?>
 
 <div class="container" style="margin-top: 40px;background-color: aliceblue;padding:40px">
@@ -65,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     value="<?php echo $valor['id_producto']; ?>">
                 <tbody>
                     <tr>
+                        <td style="display:none;"><input name="id_producto_<?php echo $i; ?>" type="text"
+                                value="<?php echo $valor['id_producto']; ?>" readonly /></td>
                         <td><input name="nombre_<?php echo $i; ?>" type="text" value="<?php echo $valor['nombre']; ?>"
                                 readonly /></td>
                         <td><input type="number" id="precio_por_gramo_<?php echo $i; ?>"
@@ -77,8 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 value="<?php echo $valor['cantidad_disponible']; ?>"
                                 onchange="updatePrice(<?php echo $i; ?>);"></td>
                         <td><input type="number" id="precio_por_gramos_multiplicado<?php echo $i; ?>"
-                                name="precio_por_gramos_multiplicado<?php echo $i; ?>" class="form-control" min="1" readonly
-                                value="<?php echo $precio_por_gramos_multiplicado; ?>"></td>
+                                name="precio_por_gramos_multiplicado<?php echo $i; ?>" class="form-control" min="1"
+                                readonly value="<?php echo $precio_por_gramos_multiplicado; ?>"></td>
                         <td><input type="number" id="precio_total_<?php echo $i; ?>"
                                 name="precio_total_<?php echo $i; ?>" class="form-control" min="1" readonly
                                 value="<?php echo $precio_total; ?>"></td>
@@ -138,20 +115,6 @@ function updatePrice(index) {
 
 
 <?php
-if (!empty($nueva_sesion)) {
-    foreach ($nueva_sesion as $key => $value) {
-        echo "[$key] => ";
-        if (is_array($value)) {
-            echo "<pre>";
-            print_r($value);
-            echo "</pre>";
-        } else {
-            echo $value;
-        }
-        echo "<br>";
-    }
-} else {
-    echo "La variable \$nueva_sesion está vacía o no se ha asignado correctamente.";
-}
+
 include('components/footer.php');
 ?>

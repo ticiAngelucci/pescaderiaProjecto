@@ -1,8 +1,8 @@
 <?php
+session_start();
 error_reporting(E_ERROR | E_PARSE);
 include('config.php');
 include('conection.php');
-session_start();
 
 if (isset($_SESSION['id_usuario'])) {
     $id_cliente = $_SESSION['id_usuario'];
@@ -10,14 +10,11 @@ if (isset($_SESSION['id_usuario'])) {
     echo "Error: No se encontró el ID del usuario en la sesión.";
     exit;
 }
-
 if (isset($_SESSION['carrito'])) {
     $carrito_mio = $_SESSION['carrito'];
 } else {
-    echo "Error: No se encontró el carrito en la sesión.";
-    exit;
+    echo "Hay un error con el carrito";
 }
-
 $total_general = $_POST['total_general'];
 $descripcion = $_POST['descripcion'];
 $fecha = $_POST['fecha'];
@@ -31,16 +28,22 @@ $resultados = mysqli_query($conexion, $consultaTraerIdPedido);
 
 if (mysqli_num_rows($resultados) !== 0) {
     $id_pedido = mysqli_fetch_assoc($resultados)['id_pedido'];
-    // Resto del código
-    if (isset($_SESSION['carrito'])) {
-        // Destruir la variable $_SESSION['carrito']
-        unset($_SESSION['carrito']);
+    foreach ($carrito_mio as $i => $producto) {
+        $id_producto = $_POST['id_producto_' . $i];
+        $nombre = $_POST['nombre_' . $i];
+        $precio_por_gramo = $_POST['precio_por_gramo_' . $i];
+        $cantidad_disponible = $_POST['cantidad_disponible_' . $i];
+        $precio_por_gramos_multiplicado = $_POST['precio_por_gramos_multiplicado' . $i];
+        $precio_total = $_POST['precio_total_' . $i];
+        $consultaCarrito = "INSERT INTO carritos_de_compras (id_pedido, id_producto, peso_del_producto) VALUES ('$id_pedido', '$id_producto', '$precio_por_gramos_multiplicado')";
+        mysqli_query($conexion, $consultaCarrito);
     }
+    unset($_SESSION['carrito']);
 } else {
     echo "Error: No se encontró ningún pedido con esas características.";
 }
 ?>
 <script>
-    /* alert("Se han guardado los cambios");
-    location.replace("../inicio.php"); */
+    alert("Se han guardado los cambios");
+    location.replace("../inicio.php");
 </script>
