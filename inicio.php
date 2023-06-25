@@ -7,10 +7,6 @@ if (!isset($_SESSION['id_usuario'])) {
 include('components/navbar.php'); 
 include('functions/conection.php');
 include_once('functions/cart.php');
-$consulta = "SELECT id_producto, nombre, precio_por_gramo, cantidad_disponible FROM productos";            
-$resultados = mysqli_query($conexion, $consulta); 
-$activo = 0;
-$filter = 0;
 $productosConImg = [
     'langostino' => 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/215/401/products/lango-pelado1-5ff98af31ed78eae3b16496944392552-1024-1024.jpeg',
     'camaron' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGlb4HIOzaEyeUKma9JthR-OIy0-eB6hCM5JjWv-O9bU5QZkNimdIuUI3iWkuBwQDZJS4&usqp=CAU',
@@ -22,6 +18,16 @@ $productosConImg = [
     'sprite' => 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/188/828/products/images-111-ae3485bd0f9a65d0be16529739175163-640-0.jpg',
     'default' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIZcQj0m_KyB8nZOnvGmDjb50YpXC3b3OmiobpDM0kejAScsWT_bpl_QGeUTUIUyWCT0s&usqp=CAU',
  ];
+$consulta = "SELECT id_producto, nombre, precio_por_gramo, cantidad_disponible FROM productos";            
+$resultados = mysqli_query($conexion, $consulta); 
+$activo = 0;
+$filter = 0;
+$itemsPerPage = 8;
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$offset = ($page - 1) * $itemsPerPage;
+$totalItems = mysqli_num_rows($resultados);
+$totalPages = ceil($totalItems / $itemsPerPage);
+
 if(isset($_POST['btnbuscar'])){
     $activo = 1;
     $busqueda = $_POST['busqueda'];
@@ -41,6 +47,19 @@ if(isset($_POST['btnfiltrar'])){
         $resultadosFiltrar = mysqli_query($conexion, "SELECT * FROM productos ORDER BY precio_por_gramo ASC");
     } elseif ($ordenamiento == 'precio_desc') {
         $resultadosFiltrar = mysqli_query($conexion, "SELECT * FROM productos ORDER BY precio_por_gramo DESC");
+    }
+}
+
+if($activo == 0){
+    $consulta = "SELECT id_producto, nombre, precio_por_gramo, cantidad_disponible FROM productos LIMIT $offset, $itemsPerPage";            
+    $resultados = mysqli_query($conexion, $consulta);
+} else {
+    if($filter == 0 && $activo == 1){
+        $consulta = "SELECT * FROM productos WHERE nombre LIKE '%$busqueda%' LIMIT $offset, $itemsPerPage";
+        $resultados = mysqli_query($conexion, $consulta);
+    } else {
+        $consulta = "SELECT * FROM productos LIMIT $offset, $itemsPerPage";            
+        $resultados = $resultadosFiltrar;
     }
 }
 ?>
@@ -74,8 +93,7 @@ if(isset($_POST['btnfiltrar'])){
     </div>
     <div class="row" style="max-width: 1100px !important;margin: auto !important;">
         <?php 
-        if($activo == 0){
-            foreach($resultados as $producto) {
+        foreach($resultados as $producto) {
         ?>
         <div class="col-md-6 col-lg-4 col-xl-3">
             <div id="product-1" class="single-product">
@@ -107,85 +125,27 @@ if(isset($_POST['btnfiltrar'])){
             </div>
         </div>
         <?php 
-            }
-        } else {
-            if($filter == 0 && $activo == 1){
-                foreach($queryBusqueda as $busquedaProducto) {
-        ?>
-        <div class="col-md-4 col-xl-3" style="margin-top:50px;">
-            <div id="product-1" class="single-product">
-                <div class="part-1"
-                    style="background: url(<?php if(isset($productosConImg[$busquedaProducto['nombre']])) { echo $productosConImg[$busquedaProducto['nombre']]; } else{ echo $productosConImg['default'];}?>) no-repeat center !important;">
-                </div>
-                <div class="part-2">
-                    <h3 class="product-title"><?php echo $busquedaProducto['nombre'];?></h3>
-                    <h4 class="product-price">
-                        $<?php echo number_format($busquedaProducto['precio_por_gramo'],2,'.',',');?></h4>
-                </div>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                        <a href="detalleProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>"
-                            class="btn btn-primary">Detalles</a>
-
-                    </div>
-                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <input type="hidden" name="id_producto" value="<?php echo $busquedaProducto['id_producto']; ?>">
-                        <input type="hidden" name="nombre" value="<?php echo $busquedaProducto['nombre']; ?>">
-                        <input type="hidden" name="precio_por_gramo"
-                            value="<?php echo $busquedaProducto['precio_por_gramo']; ?>">
-                        <input type="hidden" name="cantidad_disponible"
-                            value="<?php echo $busquedaProducto['cantidad_disponible']; ?>">
-                        <button class="btn btn-primary" name="accionBoton"
-                            style="<?php if($vista == 1){echo "display:none;";}?>" value="Agregar"
-                            type="submit">Agregar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <?php 
-                }
-        } else {
-            foreach($resultadosFiltrar as $resultadoFiltrar) {
-        ?>
-        <div class="col-md-6 col-lg-4 col-xl-3">
-            <div id="product-1" class="single-product">
-                <div class="part-1"
-                    style="background: url(<?php if(isset($productosConImg[$resultadoFiltrar['nombre']])) { echo $productosConImg[$resultadoFiltrar['nombre']]; } else{ echo $productosConImg['default'];}?>) no-repeat center !important;">
-                </div>
-                <div class="part-2">
-                    <h3 class="product-title"><?php echo $resultadoFiltrar['nombre'];?></h3>
-                    <h4 class="product-price">
-                        $<?php echo number_format($resultadoFiltrar['precio_por_gramo'],2,'.',',');?></h4>
-                </div>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                        <a href="detalleProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>"
-                            class="btn btn-primary">Detalles</a>
-
-                    </div>
-                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <input type="hidden" name="id_producto" value="<?php echo $resultadoFiltrar['id_producto']; ?>">
-                        <input type="hidden" name="nombre" value="<?php echo $resultadoFiltrar['nombre']; ?>">
-                        <input type="hidden" name="precio_por_gramo"
-                            value="<?php echo $resultadoFiltrar['precio_por_gramo']; ?>">
-                        <input type="hidden" name="cantidad_disponible"
-                            value="<?php echo $resultadoFiltrar['cantidad_disponible']; ?>">
-                        <button class="btn btn-primary" name="accionBoton"
-                            style="<?php if($vista == 1){echo "display:none;";}?>" value="Agregar"
-                            type="submit">Agregar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <?php
-            }
         }
-    }
-    ?>
+        ?>
     </div>
-    <center class="mt-5">
-        <!--  {{ $productos->links('paginator') }} -->
-    </center>
+
+    <div class="pagination-container">
+        <nav aria-label="Page navigation" class="d-flex justify-content-center mt-5">
+            <ul class="pagination">
+                <?php if($page > 1): ?>
+                <li class="page-item"><a class="page-link" href="?page=<?php echo $page - 1; ?>">Anterior</a></li>
+                <?php endif; ?>
+                <?php for($i = 1; $i <= $totalPages; $i++): ?>
+                <li class="page-item <?php if($i == $page) echo 'active'; ?>"><a class="page-link"
+                        href="?page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                <?php endfor; ?>
+                <?php if($page < $totalPages): ?>
+                <li class="page-item"><a class="page-link" href="?page=<?php echo $page + 1; ?>">Siguiente</a></li>
+                <?php endif; ?>
+            </ul>
+        </nav>
+    </div>
+
 </section>
 
 <?php include('components/footer.php'); ?>
