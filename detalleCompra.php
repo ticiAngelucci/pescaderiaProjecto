@@ -76,6 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 max="<?php echo $valor['cantidad_disponible']; ?>"
                                 value="<?php echo $valor['cantidad_disponible']; ?>"
                                 onchange="updatePrice(<?php echo $i; ?>);"></td>
+                        <td><input type="number" id="precio_por_gramos_multiplicado<?php echo $i; ?>"
+                                name="precio_por_gramos_multiplicado<?php echo $i; ?>" class="form-control" min="1" readonly
+                                value="<?php echo $precio_por_gramos_multiplicado; ?>"></td>
                         <td><input type="number" id="precio_total_<?php echo $i; ?>"
                                 name="precio_total_<?php echo $i; ?>" class="form-control" min="1" readonly
                                 value="<?php echo $precio_total; ?>"></td>
@@ -88,8 +91,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="form-group">
                 <label for="total_general">Total general:</label>
-                <input type="number" id="total_general" name="total_general" readonly
-                    value="<?php echo $total_general; ?>" class="form-control">
+                <input type="number" id="total_general" name="total_general" readonly value="<?php echo $total; ?>"
+                    class="form-control">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="descripcion">Descripción del pedido:</label>
+                <textarea id="descripcion" name="descripcion" rows="4" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="fecha">Fecha de retiro:</label>
+                <input type="date" id="fecha" name="fecha" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="horario">Horario de retiro:</label>
+                <input type="time" id="horario" name="horario" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Enviar" class="btn btn-primary">
             </div>
         </div>
     </form>
@@ -101,7 +121,9 @@ function updatePrice(index) {
     var precioPorGramo = parseInt(document.getElementById('precio_por_gramo_' + index).value);
     var precioTotal = cantidad * precioPorGramo;
     document.getElementById('precio_total_' + index).value = precioTotal;
-
+    //Actualizar cantidad por 100 para saber los gramos
+    var precioPorGramosMultiplicado = cantidad * 100;
+    document.getElementById('precio_por_gramos_multiplicado' + index).value = precioPorGramosMultiplicado;
     // Actualizar el total general
     var totalGeneral = 0;
     <?php foreach ($nueva_sesion as $i => $valor) { ?>

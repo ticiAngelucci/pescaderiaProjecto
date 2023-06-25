@@ -103,7 +103,7 @@ if (isset($_SESSION['id_usuario'])) {
             </div>
             <div class="modal-footer">
                 <?php if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])){?>
-                <button type="button" class="btn btn-primary">Realizar compra</button>
+                <a href="detalleCompra.php"><button type="button" class="btn btn-primary">Realizar compra</button></a>
                 <?php } ?>
             </div>
         </div>
