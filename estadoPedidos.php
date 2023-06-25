@@ -6,30 +6,8 @@ if (!isset($_SESSION['id_usuario'])) {
 }
 include('components/navbar.php'); 
 include('functions/pedido.php');
-
-// Verificar si se proporcionó el ID del pedido
-if (isset($_GET['id_pedido'])) {
-    $idPedido = $_GET['id_pedido'];
-
-    // Obtener los detalles del pedido desde la función getPedido()
-    $pedido = getPedido($idPedido);
-
-    // Verificar si se encontró el pedido en la base de datos
-    if (!$pedido) {
-        // El pedido no se encontró en la base de datos, mostrar un mensaje de error o redirigir a una página de error
-        echo "Pedido no encontrado";
-        exit;
-    }
-
-    // Obtener los detalles del pedido
-    $fecha = isset($pedido['fecha']) ? $pedido['fecha'] : '';
-    $estado = getEstadoPedido($idPedido); // Reemplaza obtenerEstadoPedido con la función que obtiene el estado del pedido según el id_pedido
-    $fechaHora = $fecha;
-} else {
-    // No se proporcionó el ID del pedido, mostrar un mensaje de error o redirigir a una página de error
-    echo "ID del pedido no proporcionado";
-    exit;
-}
+$consulta = "SELECT * FROM pedidos where id_pedido='$id_pedido'";
+        $resultados = mysqli_query($conexion, $consulta);
 ?>
 
 <div class="row justify-content-center text-center">

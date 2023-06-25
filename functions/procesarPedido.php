@@ -28,6 +28,8 @@ $resultados = mysqli_query($conexion, $consultaTraerIdPedido);
 
 if (mysqli_num_rows($resultados) !== 0) {
     $id_pedido = mysqli_fetch_assoc($resultados)['id_pedido'];
+    $consultaEstadoPedido = "INSERT INTO estados_pedidos (id_estado, id_pedido, hora_fecha_now) VALUES (1, '$id_pedido', NOW())";
+    mysqli_query($conexion, $consultaEstadoPedido);
     foreach ($carrito_mio as $i => $producto) {
         $id_producto = $_POST['id_producto_' . $i];
         $nombre = $_POST['nombre_' . $i];
@@ -44,6 +46,6 @@ if (mysqli_num_rows($resultados) !== 0) {
 }
 ?>
 <script>
-alert("Se han guardado los cambios");
-location.replace("../inicio.php");
+    alert("Se han guardado los cambios");
+    location.replace("../inicio.php");
 </script>
