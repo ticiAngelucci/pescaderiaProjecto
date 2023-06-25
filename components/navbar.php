@@ -102,7 +102,9 @@ if (isset($_SESSION['id_usuario'])) {
                 <?php endif; ?>
             </div>
             <div class="modal-footer">
+                <?php if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])){?>
                 <a href="detalleCompra.php"><button type="button" class="btn btn-primary">Realizar compra</button></a>
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -160,4 +162,3 @@ $(document).ready(function() {
     }
 });
 </script>
-<?php include('footer.php'); ?>

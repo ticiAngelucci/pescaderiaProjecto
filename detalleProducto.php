@@ -1,30 +1,32 @@
-<?php 
+<?php
 session_start();
 if (!isset($_SESSION['id_usuario'])) {
-    header("location:login.php");
+    header("Location: login.php");
     exit();
 }
- include('components/navbar.php');
- include('functions/conection.php'); 
- $id_producto = isset($_GET['id_producto']) ? $_GET['id_producto'] : '';
- $token = isset($_GET['token']) ? $_GET['token'] : '';
- if($id_producto =='' || $token ==''){
-    echo 'Error al procesar peticion';
+include('components/navbar.php');
+include('functions/conection.php');
+include_once('functions/cart.php');
+$id_producto = isset($_GET['id_producto']) ? $_GET['id_producto'] : '';
+$token = isset($_GET['token']) ? $_GET['token'] : '';
+
+if ($id_producto == '' || $token == '') {
+    echo 'Error al procesar la petición';
     exit;
- }else{
+} else {
     $token_tmp = hash_hmac('sha1', $id_producto, KEY_TOKEN);
-    if($token == $token_tmp){
-        $consulta="SELECT count(id_producto) FROM productos where id_producto='$id_producto'";            
-        $resultados=mysqli_query($conexion,$consulta); 
-        if($resultados == null){
+    if ($token == $token_tmp) {
+        $consulta = "SELECT count(id_producto) FROM productos where id_producto='$id_producto'";
+        $resultados = mysqli_query($conexion, $consulta);
+        if ($resultados == null) {
             echo "Error";
-        }else{
-            $consulta="SELECT id_producto,nombre,cantidad_disponible,precio_por_gramo,descripcion FROM productos where id_producto='$id_producto' limit 1";            
-            $resultados=mysqli_query($conexion,$consulta); 
-            
+        } else {
+            $consulta = "SELECT id_producto, nombre, cantidad_disponible, precio_por_gramo, descripcion FROM productos where id_producto='$id_producto' limit 1";
+            $resultados = mysqli_query($conexion, $consulta);
         }
     }
- }
+}
+
 $productosConImg = [
     'langostino' => 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/215/401/products/lango-pelado1-5ff98af31ed78eae3b16496944392552-1024-1024.jpeg',
     'camaron' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGlb4HIOzaEyeUKma9JthR-OIy0-eB6hCM5JjWv-O9bU5QZkNimdIuUI3iWkuBwQDZJS4&usqp=CAU',
@@ -36,7 +38,29 @@ $productosConImg = [
     'sprite' => 'https://d3ugyf2ht6aenh.cloudfront.net/stores/001/188/828/products/images-111-ae3485bd0f9a65d0be16529739175163-640-0.jpg',
     'default' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIZcQj0m_KyB8nZOnvGmDjb50YpXC3b3OmiobpDM0kejAScsWT_bpl_QGeUTUIUyWCT0s&usqp=CAU',
 ];
+
+/* // Verificar si se ha enviado el formulario para agregar al carrito
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Obtener los datos del formulario
+    $id_producto = isset($_POST['id_producto']) ? $_POST['id_producto'] : '';
+    $cantidad = isset($_POST['cantidad']) ? $_POST['cantidad'] : 1;
+    $precio_total = isset($_POST['precio_total']) ? $_POST['precio_total'] : 0;
+
+    // Aquí puedes realizar la lógica para agregar el producto al carrito en el archivo cart.php
+    agregarProductoAlCarrito($id_producto, $cantidad);
+
+    // Redirigir al usuario a inicio.php
+    header("Location: inicio.php");
+    exit();
+}
+
+// Verificar encabezados de redirección
+echo "<pre>";
+print_r(headers_list());
+echo "</pre>"; */
+
 ?>
+
 <section id="services" class="services section-bg">
     <div class="container">
         <?php while ($producto = $resultados->fetch_assoc()) { ?>
@@ -44,8 +68,11 @@ $productosConImg = [
             <div class="col-md-6">
                 <div class="_product-images">
                     <div class="picZoomer">
-                        <img src="<?php if(isset($productosConImg[$producto['nombre']])) { echo $productosConImg[$producto['nombre']]; } else{ echo $productosConImg['default'];}?>"
-                            alt="producto" width="100%" class="img-fluid">
+                        <img src="<?php if (isset($productosConImg[$producto['nombre']])) {
+                                            echo $productosConImg[$producto['nombre']];
+                                        } else {
+                                            echo $productosConImg['default'];
+                                        } ?>" alt="producto" width="100%" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -54,39 +81,43 @@ $productosConImg = [
                     <p class="_p-name"><?php echo $producto['nombre']; ?></p>
                     <div class="_p-price-box">
                         <div class="p-list">
-                            Precio por gramos: $ <?php echo number_format($producto['precio_por_gramo'],2,'.',','); ?>
+                            Precio por gramos: $
+                            <?php echo number_format($producto['precio_por_gramo'], 2, '.', ','); ?>
                         </div>
                         <div class="_p-features">
-                            <span> Descripcion del producto: </span>
+                            <span> Descripción del producto: </span>
                             <?php echo $producto['descripcion']; ?>
                         </div>
-                        <form action="functions/cart.php" method="post" accept-charset="utf-8">
-                            <ul class="spe_ul"></ul>
-                            <div class="_p-qty-and-cart">
-                                <div class="_p-add-cart">
-                                    <a style="<?php if($vista==0){echo "display:none;";}?>"
-                                        href="editarProducto.php?id_producto=<?php echo $producto['id_producto'];?>&token=<?php echo hash_hmac('sha1',$producto['id_producto'],KEY_TOKEN); ?>"
-                                        class="btn-theme btn buy-btn" tabindex="0">
-                                        <i class="fa fa-shopping-cart"></i> Editar Producto
-                                    </a>
-                                    <button class="btn-theme btn btn-success"
-                                        style="<?php if($vista==1){echo "display:none;";}?>" tabindex="0">
-                                        <i class="fa fa-shopping-cart"></i> Añadir al carrito
-                                    </button>
-                                    <input type="hidden" name="pid" value="18" />
-                                    <input type="hidden" name="price" value="850" />
-                                    <input type="hidden" name="url" value="" />
-                                </div>
+                        <ul class="spe_ul"></ul>
+                        <div class="_p-qty-and-cart">
+                            <div class="_p-add-cart">
+                                <a style="<?php if ($vista == 0) {
+                                                        echo "display:none;";
+                                                    } ?>"
+                                    href="editarProducto.php?id_producto=<?php echo $producto['id_producto']; ?>&token=<?php echo hash_hmac('sha1', $producto['id_producto'], KEY_TOKEN); ?>"
+                                    class="btn-theme btn buy-btn" tabindex="0">
+                                    <i class="fa fa-shopping-cart"></i> Editar Producto
+                                </a>
+                                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                                    <input type="hidden" name="id_producto"
+                                        value="<?php echo $producto['id_producto']; ?>">
+                                    <input type="hidden" name="nombre"
+                                        value="<?php echo $producto['nombre']; ?>">
+                                    <input type="hidden" name="precio_por_gramo"
+                                        value="<?php echo $producto['precio_por_gramo']; ?>">
+                                    <input type="hidden" name="cantidad_disponible"
+                                        value="<?php echo $producto['cantidad_disponible']; ?>">
+                                    <button class="btn btn-primary" name="accionBoton"
+                                        style="<?php if($vista == 1){echo "display:none;";}?>" value="Agregar"
+                                        type="submit">Agregar</button>
+                                </form>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
-            </form>
         </div>
         <?php } ?>
-    </div>
-    </div>
     </div>
 </section>
 
