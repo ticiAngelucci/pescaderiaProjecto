@@ -78,15 +78,12 @@ if (isset($_SESSION['usuario_tipo'])) {
                     <?php if (isset($producto['nombre']) && isset($producto['precio_por_gramo']) && isset($producto['cantidad_disponible'])) : ?>
                     <?php
                                 $cantidadDisponible = intval($producto['cantidad_disponible']);
-                                $precioTotal = intval($producto['precio_por_gramo']) * intval($producto['cantidad_disponible']);
+                                $precioTotal = intval($producto['precio_por_gramo']);
                                 ?>
                     <li class="list-group-item">
                         <?php echo $producto['nombre']; ?> -
-                        Cantidad:
-                        <input type="number" min="0" max="<?php echo $cantidadDisponible; ?>"
-                            value="<?php echo $cantidadDisponible; ?>" class="quantity-input"
-                            data-key="<?php echo $key; ?>">
-                        - Precio:
+
+                        Precio por gramo:
                         <span id="price_<?php echo $key; ?>"><?php echo '$' . $precioTotal; ?></span>
                         <button class="btn btn-danger btn-sm delete-button" id="deleteButton_<?php echo $key; ?>"
                             data-key="<?php echo $key; ?>">Eliminar</button>
@@ -95,7 +92,6 @@ if (isset($_SESSION['usuario_tipo'])) {
                     <?php endif; ?>
                     <?php endforeach; ?>
                 </ul>
-                <p><strong>Total: $<span id="cartTotal"><?php echo $total; ?></span></strong></p>
                 <?php else : ?>
                 <p>No hay productos en el carrito</p>
                 <?php endif; ?>
@@ -120,19 +116,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['key'])) {
 
 <script>
 $(document).ready(function() {
-    $('.quantity-input').on('change', function() {
-        var key = $(this).data('key');
-        var quantity = parseInt($(this).val());
-        var pricePerGram = parseInt(<?php echo $producto['precio_por_gramo']; ?>);
-        var totalPrice = quantity * pricePerGram;
-        $('#price_' + key).text('$' + totalPrice);
-        calculateTotal();
-    });
-
     $('.delete-button').on('click', function() {
         var key = $(this).data('key');
-        var deleteButtonId = '#deleteButton_' +
-            key; // Obtener el ID específico del botón de eliminación
+        var deleteButtonId = '#deleteButton_' + key;
         $.ajax({
             type: "POST",
             url: "functions/delete_product.php",
@@ -141,14 +127,19 @@ $(document).ready(function() {
             },
             success: function(response) {
                 if (response === 'success') {
-                    $(deleteButtonId).closest('li')
-                        .remove(); // Eliminar el elemento correspondiente al botón de eliminación
+                    $(deleteButtonId).closest('li').remove();
+                    updateCartCounter(); // Actualizar el contador del carrito
                     calculateTotal();
                 }
             }
         });
     });
 
+    function updateCartCounter() {
+        var cartItemCount = $('#modal .list-group-item')
+        .length; // Obtener la cantidad de elementos en el carrito
+        $('#cartCount').text(cartItemCount); // Actualizar el valor del contador del carrito
+    }
 
     function calculateTotal() {
         var total = 0;
