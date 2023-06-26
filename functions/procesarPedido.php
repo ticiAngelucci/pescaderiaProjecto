@@ -40,9 +40,11 @@ if (mysqli_num_rows($resultados) !== 0) {
         $consultaRestar = "SELECT * FROM productos where id_producto='$id_producto'";
         $resultadosRestar = mysqli_query($conexion, $consultaRestar);
         foreach($resultadosRestar as $aRestar){
-            $nuevaCantidad = $aRestar['cantidad_disponible']-$cantidad_por_gramos_multiplicado;
+            $nuevaCantidad = $aRestar['cantidad_disponible'] - $cantidad_por_gramos_multiplicado;
             $consultaActualizarRestar = "UPDATE productos SET cantidad_disponible = $nuevaCantidad WHERE id_producto = $id_producto";
+            mysqli_query($conexion, $consultaActualizarRestar);
         }
+        
         $consultaCarrito = "INSERT INTO carritos_de_compras (id_pedido, id_producto, peso_del_producto) VALUES ('$id_pedido', '$id_producto', '$cantidad_por_gramos_multiplicado')";
         mysqli_query($conexion, $consultaCarrito);
     }
