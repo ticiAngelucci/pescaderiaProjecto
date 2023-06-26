@@ -1,6 +1,5 @@
 <?php 
  include('components/header.php'); 
- include('components/navbar.php');
  include('functions/conection.php'); ?>
 <div class="custom-container">
     <h3>Registrarse</h3>
