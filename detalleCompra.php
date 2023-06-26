@@ -19,6 +19,7 @@ $nueva_sesion  = $_SESSION['carrito'];
                         <th>Producto</th>
                         <th>Precio por unidad</th>
                         <th>Cantidad</th>
+                        <th>Peso (cada 100 gramos)</th>
                         <th>Precio total</th>
                     </tr>
                 </thead>

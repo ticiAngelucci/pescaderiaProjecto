@@ -36,7 +36,14 @@ $resultados = mysqli_query($conexion, $consulta);
 </div>
 
 <div class="containerPedidosHistorial" style="width: 100%;max-width: 900px;margin: auto;">
-    <?php foreach ($resultados as $pedido) { ?>
+    <?php
+    $pedidosMostrados = array(); // Array para almacenar los IDs de los pedidos ya mostrados
+    foreach ($resultados as $pedido) {
+        if (in_array($pedido['id_pedido'], $pedidosMostrados)) {
+            continue; // Si el ID del pedido ya está en el array, omitir la creación del div
+        }
+        $pedidosMostrados[] = $pedido['id_pedido']; // Agregar el ID del pedido al array de pedidos mostrados
+    ?>
     <div class="card" style="margin-top:50px;">
         <div class="card-header">
             Pedido <?php echo $pedido['id_pedido']; ?>
@@ -56,17 +63,18 @@ $resultados = mysqli_query($conexion, $consulta);
                     <?php echo $pedido['hora_fecha_now']; ?></p>
                 <p class="card-text" style="text-align: left;">Estado actual:
                     <?php
-                        $consultaEstadoNombre = "SELECT estados.nombre FROM estados_pedidos INNER JOIN estados ON estados_pedidos.id_estado = estados.id_estado WHERE estados_pedidos.id_estado = " . $pedido['id_estado'];
-                        $resultadoEstadoNombre = mysqli_query($conexion, $consultaEstadoNombre);
-                        foreach ($resultadoEstadoNombre as $estado) {
-                            echo $estado['nombre'];
+                        $consultaUltimoEstado = "SELECT estados.nombre FROM estados_pedidos INNER JOIN estados ON estados_pedidos.id_estado = estados.id_estado WHERE estados_pedidos.id_pedido = " . $pedido['id_pedido'] . " ORDER BY estados_pedidos.hora_fecha_now DESC LIMIT 1";
+                        $resultadoUltimoEstado = mysqli_query($conexion, $consultaUltimoEstado);
+                        $ultimoEstado = mysqli_fetch_assoc($resultadoUltimoEstado);
+                        if ($ultimoEstado) {
+                            echo $ultimoEstado['nombre'];
                         }
                         ?>
             </div>
             <div>
                 <div class="d-flex align-items-center" style="margin-top: 20px;justify-content: space-evenly;">
                     <div class="mb-2">
-                        <button onclick="cambiarEstado(<?php echo $pedido['id_pedido']; ?>, <?php echo $pedido['id_estado']+ 1; ?>)" type="button" class="btn btn-primary btn-sm btn-block">Aceptar</button>
+                        <a href="functions/actualizar_estado.php?idEstadoSiguiente=<?php echo $pedido['id_estado']+ 1; ?>&idPedido=<?php echo $pedido['id_pedido']; ?>"><button  type="button" class="btn btn-primary btn-sm btn-block">Aceptar</button></a>
                     </div>
                     <div class="mb-2">
                         <button type="button" class="btn btn-danger btn-sm btn-block">Rechazar</button>
@@ -81,12 +89,7 @@ $resultados = mysqli_query($conexion, $consulta);
     </div>
     <?php } ?>
 </div>
-<script>
-    function cambiarEstado(idPedido, idEstadoSiguiente) {
-    var url = 'functions/actualizar_estado.php?idPedido=' + idPedido + '&idEstadoSiguiente=' + idEstadoSiguiente;
-    window.location.href = url;        
-    }
-</script>
+
 <?php
 include('components/footer.php');
 ?>
