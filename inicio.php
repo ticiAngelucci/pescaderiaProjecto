@@ -99,8 +99,12 @@ if(isset($_POST['btnfiltrar'])){
                             value="<?php echo $producto['precio_por_gramo']; ?>">
                         <input type="hidden" name="cantidad_disponible"
                             value="<?php echo isset($producto['cantidad_disponible']) ? $producto['cantidad_disponible'] : ''; ?>">
-                        <button class="btn btn-primary" style="<?php if($vista == 1){echo "display:none;";}?>"
+                        <?php if($producto['cantidad_disponible']< 1){?>
+                        <p style="color:red;">No hay disponible</p>
+                        <?php } else{?>
+                            <button class="btn btn-primary" style="<?php if($vista == 1){echo "display:none;";}?>"
                             name="accionBoton" value="Agregar" type="submit">Agregar</button>
+                        <?php } ?>
                     </form>
 
                 </div>

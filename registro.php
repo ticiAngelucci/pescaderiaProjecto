@@ -1,7 +1,7 @@
 <?php 
  include('components/header.php'); 
  include('functions/conection.php'); ?>
-<div class="custom-container">
+<div class="custom-container" style="margin-top:150px;">
     <h3>Registrarse</h3>
     <form method="post" action="functions/registrar.php">
         <div class="form-group">
