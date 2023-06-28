@@ -69,6 +69,7 @@ if (!isset($_SESSION['id_usuario'])) {
                         ?>
                     </select>
                     <label for="id_categoria">Categoria Producto</label>
+                    <p><a href="" data-toggle="modal" style="color:black;margin-top:10px;" data-target="#exampleModal">Agregar nueva categoria</a>
                 </div>
             </div>
             <div class="col-6">
@@ -103,6 +104,7 @@ if (!isset($_SESSION['id_usuario'])) {
                         ?>
                     </select>
                     <label for="id_estado_producto">Estado Producto</label>
+                    <p><a href="" data-toggle="modal" style="color:black;margin-top:10px;" data-target="#estadoProductoModal">Agregar nuevo estado de producto</a>
                 </div>
             </div>
             <div class="col-6">
@@ -116,5 +118,53 @@ if (!isset($_SESSION['id_usuario'])) {
         <button type="submit" class="btn btn-primary">Enviar!</button>
     </form>
     <?php } ?>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agrega nueva categoria!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="functions/agregarCategoria.php">
+                    <div class="form-group">
+                        <input type="text" name="nombre" id="nombre" class="form-control"
+                            placeholder="Ingrese el nombre de la categoria">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="register" value="Agregar" class="btn btn-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="estadoProductoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agrega nuevo estado del producto!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="functions/agregarEstadoProducto.php">
+                    <div class="form-group">
+                        <input type="text" name="nombre" id="nombre" class="form-control"
+                            placeholder="Ingrese el nombre del estado del producto">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="register" value="Agregar" class="btn btn-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <?php include('components/footer.php'); ?>

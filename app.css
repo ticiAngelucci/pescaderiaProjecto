@@ -1024,12 +1024,14 @@ section {
 }
 
 /* CSS DEL REGISTRO */
-
+/*
+  
 .custom-background {
   background-image: url("https://img.freepik.com/vector-premium/patron-fondo-transparente-peces-dibujados-mano_167715-779.jpg");
+  
   background-size: cover;
 }
-
+*/
 .custom-container {
   width: 400px;
   margin: 0 auto;

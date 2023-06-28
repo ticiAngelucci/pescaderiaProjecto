@@ -1,6 +1,6 @@
 <?php 
 include("conection.php");
-$nombre = $_POST['nombre'];
+$nombre = $_POST['nombre_localidad'];
 
 $consulta_insercion = "INSERT INTO localidades (localidad) VALUES ('$nombre')";
 mysqli_query($conexion, $consulta_insercion);

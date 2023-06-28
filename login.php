@@ -25,7 +25,7 @@
                     <input type="password" class="form-control" name="password">
                 </div>
                 <div class="row justify-content-between py-5">
-                    <div type="button" class="btn col-sm-4"><a href="#">¿No tienes cuenta?</a></div>
+                    <div type="button" class="btn col-sm-4"><a href="registro.php">¿No tienes cuenta?</a></div>
                     <input name="btningresar" type="submit" class="btn btn-primary col-sm-6" value="Ingresar">
 
                 </div>
