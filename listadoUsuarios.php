@@ -23,7 +23,7 @@ if(isset($_POST['btnbuscar'])){
     if(mysqli_num_rows($queryBusqueda) == 0){
         $consultaCliente="SELECT * FROM clientes WHERE nombre LIKE '%$busqueda%' ";            
         $queryBusqueda=mysqli_query($conexion,$consultaCliente); 
-        while($clienteBusqueda = $consultaCliente->fetch_assoc()){
+        while($clienteBusqueda = $queryBusqueda->fetch_assoc()){
             echo $clienteBusqueda['nombre'];
         }
     }else{
