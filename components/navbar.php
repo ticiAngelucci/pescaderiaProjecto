@@ -58,7 +58,7 @@ if (isset($_SESSION['id_usuario'])) {
                     <a class="nav-link" href="quienesSomos.php">¿Quienes somos?</a>
                 </li>
                 <li  class="nav-item">
-                    <a class="nav-link" href="<?php if($vista==0){echo "estadisticasCliente.php";}else{echo "estadisticasEmpleados.php";} ?>">Estadisticas</a>
+                    <a class="nav-link" href="<?php if($vista==0){echo "estadisticasCliente.php";}else{echo "estadisticasEmpleados.php";} ?>">Reportes</a>
                 </li>
                 <!-- Enlace del carrito de compras con modal -->
                 <li style="<?php if ($vista == 1) {
