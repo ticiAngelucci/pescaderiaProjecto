@@ -5,8 +5,7 @@ if (!isset($_SESSION['id_usuario'])) {
     exit();
 }
 include('components/navbar.php');
-include('functions/pedido.php');
-$consulta = "SELECT * FROM estados_pedidos";
+$consulta = "SELECT * FROM estados_pedidos ORDER BY estados_pedidos.hora_fecha_now DESC";
 $resultados = mysqli_query($conexion, $consulta);
 ?>
 
@@ -69,12 +68,14 @@ $resultados = mysqli_query($conexion, $consulta);
                         if ($ultimoEstado) {
                             echo $ultimoEstado['nombre'];
                         }
-                        ?>
+                        ?></p>
+                        <p><?php echo $pedido['id_estado']?></p>
             </div>
             <div>
                 <div class="d-flex align-items-center" style="margin-top: 20px;justify-content: space-evenly;">
                     <div class="mb-2">
-                        <a href="functions/actualizar_estado.php?idEstadoSiguiente=<?php echo $pedido['id_estado']+ 1; ?>&idPedido=<?php echo $pedido['id_pedido']; ?>"><button  type="button" class="btn btn-primary btn-sm btn-block">Aceptar</button></a>
+                        
+                        <a href="functions/actualizar_estado.php?idEstadoSiguiente=<?php echo $pedido['id_estado']; ?>&idPedido=<?php echo $pedido['id_pedido']; ?>"><button  type="button" class="btn btn-primary btn-sm btn-block">Aceptar</button></a>
                     </div>
                     <div class="mb-2">
                         <button type="button" class="btn btn-danger btn-sm btn-block">Rechazar</button>
