@@ -69,7 +69,6 @@ $resultados = mysqli_query($conexion, $consulta);
                             echo $ultimoEstado['nombre'];
                         }
                         ?></p>
-                        <p><?php echo $pedido['id_estado']?></p>
             </div>
             <div>
                 <div class="d-flex align-items-center" style="margin-top: 20px;justify-content: space-evenly;">

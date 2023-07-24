@@ -11,7 +11,7 @@ include('functions/conection.php');
 
 <div class="container mt-4" style="background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 20px 30px;">
     <h2>Seleccionar fechas para el reporte:</h2>
-    <form action="functions/estadisticasEmpleados.php" method="post" class="form-inline">
+    <form method="post" action="functions/estadisticasEmpleados.php" class="form-inline">
         <div class="form-group mr-2">
             <label for="fecha_inicio" class="mr-2">Fecha de inicio:</label>
             <input type="date" id="fecha_inicio" name="fecha_inicio" value="<?php echo $fecha_minima; ?>" max="<?php echo $fecha_maxima; ?>" required class="form-control">
