@@ -5,10 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte de Pedidos</title>
-    <!-- Agregar enlaces a Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* Estilo personalizado para el encabezado de la tabla */
         th {
             background-color: #f2f2f2;
         }
@@ -17,7 +15,6 @@
 
 <body>
     <?php
-    // Incluir los archivos necesarios
     include("conection.php");
     include("config.php");
 
@@ -70,7 +67,6 @@
 
     if ($result) {
         echo '<table class="table table-bordered table-striped">';
-        // Encabezado de la tabla
         echo '<thead>';
         echo '<tr>';
         echo '<th>ID Pedido</th>';
@@ -85,7 +81,6 @@
         echo '<th>Ver más</th>';
         echo '</tr>';
         echo '</thead>';
-        // Cuerpo de la tabla
         echo '<tbody>';
 
         // Antes del bucle while
@@ -148,8 +143,8 @@
         }
         echo '</tbody>';
         echo '</table>';
-        echo '</div>'; // Cerrar el contenedor responsive de la tabla
-        echo '</div>'; // Cerrar el contenedor principal de Bootstrap
+        echo '</div>'; 
+        echo '</div>'; 
     } else {
         echo '<p class="alert alert-danger">No se encontraron pedidos entre las fechas especificadas.</p>';
     }
@@ -157,7 +152,6 @@
     echo '<a href="../inicio.php" class="btn btn-secondary mt-3">Regresar a Home</a>';
     echo '</div>';
     ?>
-    <!-- Agregar enlaces a Bootstrap JS (opcional, dependiendo de si necesitas usar componentes de JavaScript de Bootstrap) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
