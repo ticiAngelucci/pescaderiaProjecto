@@ -21,7 +21,7 @@
     include("conection.php");
     include("config.php");
 
-    // Función para calcular la diferencia en días y horas entre dos fechas
+    // Función para calcular la diferencia en días, horas, minutos y segundos entre dos fechas
     function calcularDiferenciaFechas($fecha1, $fecha2)
     {
         // Convertir las fechas en objetos DateTime
@@ -29,11 +29,13 @@
         $dateTime2 = new DateTime($fecha2);
         // Calcular la diferencia entre las fechas
         $interval = $dateTime1->diff($dateTime2);
-        // Obtener la diferencia en días y horas
+        // Obtener la diferencia en días, horas, minutos y segundos
         $diferencia_dias = $interval->days;
         $diferencia_horas = $interval->h;
-        return array('dias' => $diferencia_dias, 'horas' => $diferencia_horas);
-    }
+        $diferencia_minutos = $interval->i;
+        $diferencia_segundos = $interval->s;
+        return array('dias' => $diferencia_dias, 'horas' => $diferencia_horas, 'minutos' => $diferencia_minutos, 'segundos' => $diferencia_segundos);
+    }    
 
     // Obtener las fechas de inicio y fin del reporte
     $fecha_inicio = $_POST['fecha_inicio'];
@@ -43,7 +45,7 @@
     WHERE fecha_entrega_pedido BETWEEN '$fecha_inicio' AND '$fecha_fin'";
 
     // Consulta para obtener los pedidos realizados entre las fechas seleccionadas con el detalle completo de los productos
-    $query = "SELECT p.id_pedido, p.fecha_entrega_pedido, p.hora_entrega_pedido, e.nombre AS nombre_estado, c.nombre AS nombre_cliente, ep.hora_fecha_now
+    $query = "SELECT p.id_pedido, p.fecha_entrega_pedido, p.hora_entrega_pedido, e.nombre AS nombre_estado, c.nombre AS nombre_cliente, ep.hora_fecha_now, ep.id_estado
     FROM pedidos p
     INNER JOIN estados_pedidos ep ON p.id_pedido = ep.id_pedido
     INNER JOIN estados e ON ep.id_estado = e.id_estado
@@ -102,11 +104,23 @@
             if (isset($row['nombre_estado']) && $row['nombre_estado'] === 'Se recibio el pedido') {
                 $diferencia_dias = 0;
                 $diferencia_horas = 0;
+            } else {
+                // Calcular la diferencia solo si hay un estado anterior y el estado no es "Se recibió el pedido"
+                if ($estado_anterior !== null && $hora_anterior !== null && $row['id_estado'] !== 1) {
+                    // Usar la hora del estado anterior como fecha de inicio para calcular la diferencia
+                    $diferencia = calcularDiferenciaFechas($hora_anterior, $row['hora_fecha_now']);
+                    $diferencia_dias = $diferencia['dias']; // Diferencia en días
+                    $diferencia_horas = $diferencia['horas']; // Diferencia en horas
+                } else {
+                    // Si no hay un estado anterior o el estado es "Se recibió el pedido", la diferencia es 0
+                    $diferencia_dias = 0;
+                    $diferencia_horas = 0;
+                }
             }
 
-            // Resaltar el texto "Se recibió el pedido" en rojo
+            // Resaltar el texto "Se recibió el pedido" en rojo solo si el estado no es "Se recibió el pedido"
             if ($row['nombre_estado'] === "Se recibio el pedido") {
-                echo '<td style="color: red;">' . $row['nombre_estado'] . '</td>';
+                echo '<td style="color:red;">' . $row['nombre_estado'] . '</td>';
             } else {
                 echo '<td>' . $row['nombre_estado'] . '</td>';
             }
@@ -118,15 +132,7 @@
             echo '<td>' . $hora_fecha_estado->format('Y-m-d') . '</td>';
             echo '<td>' . $hora_fecha_estado->format('H:i:s') . '</td>';
 
-            // Calcular la diferencia solo si hay un estado anterior
-            if ($estado_anterior !== null && $hora_anterior !== null) {
-                // Usar la hora del estado anterior como fecha de inicio para calcular la diferencia
-                $diferencia = calcularDiferenciaFechas($hora_anterior, $row['hora_fecha_now']);
-                $diferencia_dias += $diferencia['dias']; // Sumar la diferencia en días al acumulado
-                $diferencia_horas += $diferencia['horas']; // Sumar la diferencia en horas al acumulado
-            }
-
-            echo '<td>' . $diferencia_dias . '</td>';
+            echo '<td>' . ($row['nombre_estado'] === "Se recibio el pedido" ? 0 : $diferencia_dias) . '</td>';
             echo '<td>' . $diferencia_horas . '</td>';
 
             // Actualizar el estado y hora anterior para el siguiente cálculo
