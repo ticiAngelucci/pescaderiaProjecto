@@ -13,23 +13,6 @@ $resultados = mysqli_query($conexion, $consulta);
     <div class="col-md-8 col-lg-6">
         <div class="header" style="color:white;margin-top:30px;">
             <h2>Historial de Pedidos</h2>
-            <div class="input-group mb-3">
-                <input type="text" name="busqueda" class="form-control" placeholder="Buscar">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary" name="btnbuscar">Buscar</button>
-                </div>
-            </div>
-            <form method="post" style="margin-bottom:40px;">
-                <div class="form-group">
-                    <label for="ordenamiento">Ordenar por:</label>
-                    <select class="form-control" id="ordenamiento" name="ordenamiento">
-                        <option value="filtrar_empl">Filtrar solo empleados</option>
-                        <option value="filtrar_cli">Filtrar solo clientes</option>
-                        <option value="todo">Todo</option>
-                    </select>
-                </div>
-                <button type="submit" name="btnfiltrar" class="btn btn-primary">Ordenar</button>
-            </form>
         </div>
     </div>
 </div>
@@ -39,7 +22,7 @@ $resultados = mysqli_query($conexion, $consulta);
     $pedidosMostrados = array(); // Array para almacenar los IDs de los pedidos ya mostrados
     foreach ($resultados as $pedido) {
         if (in_array($pedido['id_pedido'], $pedidosMostrados)) {
-            continue; // Si el ID del pedido ya está en el array, omitir la creación del div
+            continue; // Si el ID del pedido ya está en el array, omitir el div
         }
         $pedidosMostrados[] = $pedido['id_pedido']; // Agregar el ID del pedido al array de pedidos mostrados
     ?>

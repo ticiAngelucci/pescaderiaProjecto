@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte de Pedidos</title>
+    <link rel="shortcut icon" href="../assets/logo.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         th {
@@ -83,12 +84,10 @@
         echo '</thead>';
         echo '<tbody>';
 
-        // Antes del bucle while
         $estado_anterior = null; // Variable para almacenar el estado anterior del pedido
         $hora_anterior = null; // Variable para almacenar la hora del estado anterior
         $diferencia_dias = 0;
         $diferencia_horas = 0;
-
         while ($row = $result->fetch_assoc()) {
             echo '<tr>';
             echo '<td>' . $row['id_pedido'] . '</td>';
@@ -113,6 +112,10 @@
                 }
             }
 
+            // Check if the difference is less than 1 hour or 1 day
+            $mensaje_dias = ($diferencia_dias < 1) ? "No llegó al día" : $diferencia_dias;
+            $mensaje_horas = ($diferencia_horas < 1) ? "No llega a la hora" : $diferencia_horas;
+
             // Resaltar el texto "Se recibió el pedido" en rojo solo si el estado no es "Se recibió el pedido"
             if ($row['nombre_estado'] === "Se recibio el pedido") {
                 echo '<td style="color:red;">' . $row['nombre_estado'] . '</td>';
@@ -127,8 +130,8 @@
             echo '<td>' . $hora_fecha_estado->format('Y-m-d') . '</td>';
             echo '<td>' . $hora_fecha_estado->format('H:i:s') . '</td>';
 
-            echo '<td>' . ($row['nombre_estado'] === "Se recibio el pedido" ? 0 : $diferencia_dias) . '</td>';
-            echo '<td>' . $diferencia_horas . '</td>';
+            echo '<td>' . ($row['nombre_estado'] === "Se recibio el pedido" ? 0 : $mensaje_dias) . '</td>';
+            echo '<td>' . $mensaje_horas . '</td>';
 
             // Actualizar el estado y hora anterior para el siguiente cálculo
             $estado_anterior = $row['nombre_estado'];
