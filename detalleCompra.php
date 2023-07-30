@@ -65,7 +65,6 @@ $nueva_sesion  = $_SESSION['carrito'];
                 }
                 ?>
             </table>
-            <!-- Input para mostrar el total general -->
             <div class="form-group">
                 <label for="total_general">Total general:</label>
                 <input type="number" id="total_general" name="total_general" readonly value="<?php echo $total; ?>"
@@ -79,7 +78,7 @@ $nueva_sesion  = $_SESSION['carrito'];
             </div>
             <div class="form-group">
                 <label for="fecha">Fecha de retiro:</label>
-                <input type="date" id="fecha" name="fecha" class="form-control">
+                <input type="date" id="fecha" min="<?php echo date('Y-m-d'); ?>" name="fecha" class="form-control">
             </div>
             <div class="form-group">
                 <label for="horario">Horario de retiro:</label>
