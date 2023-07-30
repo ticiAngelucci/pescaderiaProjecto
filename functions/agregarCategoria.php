@@ -12,7 +12,11 @@ $token=hash_hmac('sha1',$id,KEY_TOKEN);
 <script>
 var id = "<?php echo $id; ?>";
 var token = "<?php echo $token; ?>";
-var url = "../editarProducto.php?id_producto=" + id + "&token=" + token;
+if(id !== null){
+    var url = "../editarProducto.php?id_producto=" + id + "&token=" + token;
+}else{
+    var url = "../crearProducto.php";
+} 
 alert("Se han guardado la categoria");
 location.replace(url);
 </script>
