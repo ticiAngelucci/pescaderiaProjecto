@@ -5,41 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte de Pedidos</title>
-
-    <!-- Estilos para el modal -->
+    <!-- Agregar enlaces a Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-    /* Estilo para el modal */
-    #myModal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    #modal-content {
-        background-color: white;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-    }
-
-    /* Estilo para la tabla de detalles */
-    #detalles-table {
-        width: 100%;
-    }
+        /* Estilo personalizado para el encabezado de la tabla */
+        th {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 
 <body>
     <?php
-    // Realiza la conexión a la base de datos.
+    // Incluir los archivos necesarios
     include("conection.php");
+    include("config.php");
 
     // Función para calcular la diferencia en días y horas entre dos fechas
     function calcularDiferenciaFechas($fecha1, $fecha2)
@@ -52,8 +32,6 @@
         // Obtener la diferencia en días y horas
         $diferencia_dias = $interval->days;
         $diferencia_horas = $interval->h;
-        echo "diferencia dia:" . $diferencia_dias;
-        echo "diferencia hora:" . $diferencia_horas;
         return array('dias' => $diferencia_dias, 'horas' => $diferencia_horas);
     }
 
@@ -75,91 +53,108 @@
 
     $result = mysqli_query($conexion, $query);
     $resultSuma = mysqli_query($conexion, $querySuma);
-    echo "Fecha de inicio: " . $fecha_inicio . "<br>";
-    echo "Fecha de fin: " . $fecha_fin . "<br>";
+    echo '<div class="container mt-4">';
+    echo '<h1 class="mb-4">Reporte de Pedidos</h1>';
+    echo '<div class="table-responsive">';
     if ($resultSuma && mysqli_num_rows($resultSuma) > 0) {
 
         $rowSuma = mysqli_fetch_assoc($resultSuma);
         $totalPedidos = $rowSuma['total_pedidos'];
 
-        echo "Total de pedidos entre las fechas seleccionadas: " . $totalPedidos . "<br>";
+        echo '<p>Fecha de inicio: ' . $fecha_inicio . '</p>';
+        echo '<p>Fecha de fin: ' . $fecha_fin . '</p>';
+        echo '<p>Total de pedidos entre las fechas seleccionadas: ' . $totalPedidos . '</p>';
     }
+
     if ($result) {
-        echo "Llegué aquí 1: Consulta exitosa<br>";
-        if (mysqli_num_rows($result) > 0) {
-            echo "Llegué aquí 2: Se encontraron pedidos<br>";
-            // Mostrar el reporte en una tabla
-            echo '<table>';
-            echo '<tr><th>ID Pedido</th><th>Fecha Entrega</th><th>Hora Entrega</th><th>Estado Actual</th><th>Cliente</th><th>Fecha Estado</th><th>Hora Estado</th><th>Diferencia en Días</th><th>Diferencia en Horas</th><th>Ver más</th></tr>';
+        echo '<table class="table table-bordered table-striped">';
+        // Encabezado de la tabla
+        echo '<thead>';
+        echo '<tr>';
+        echo '<th>ID Pedido</th>';
+        echo '<th>Fecha Entrega</th>';
+        echo '<th>Hora Entrega</th>';
+        echo '<th>Estado Actual</th>';
+        echo '<th>Cliente</th>';
+        echo '<th>Fecha Estado</th>';
+        echo '<th>Hora Estado</th>';
+        echo '<th>Diferencia en Días</th>';
+        echo '<th>Diferencia en Horas</th>';
+        echo '<th>Ver más</th>';
+        echo '</tr>';
+        echo '</thead>';
+        // Cuerpo de la tabla
+        echo '<tbody>';
 
-            $estado_anterior = null; // Variable para almacenar el estado anterior del pedido
-            $hora_anterior = null; // Variable para almacenar la hora del estado anterior
+        // Antes del bucle while
+        $estado_anterior = null; // Variable para almacenar el estado anterior del pedido
+        $hora_anterior = null; // Variable para almacenar la hora del estado anterior
+        $diferencia_dias = 0;
+        $diferencia_horas = 0;
 
-            while ($row = $result->fetch_assoc()) {
-                echo '<tr>';
-                echo '<td>' . $row['id_pedido'] . '</td>';
-                echo '<td>' . $row['fecha_entrega_pedido'] . '</td>';
-                echo '<td>' . $row['hora_entrega_pedido'] . '</td>';
-                echo '<td>' . $row['nombre_estado'] . '</td>';
-                echo '<td>' . $row['nombre_cliente'] . '</td>';
+        while ($row = $result->fetch_assoc()) {
+            echo '<tr>';
+            echo '<td>' . $row['id_pedido'] . '</td>';
+            echo '<td>' . $row['fecha_entrega_pedido'] . '</td>';
+            echo '<td>' . $row['hora_entrega_pedido'] . '</td>';
 
-                // Mostrar fecha y hora del estado actual en columnas separadas
-                $hora_fecha_estado = new DateTime($row['hora_fecha_now']);
-                echo '<td>' . $hora_fecha_estado->format('Y-m-d') . '</td>';
-                echo '<td>' . $hora_fecha_estado->format('H:i:s') . '</td>';
-
-                // Verificar si es el primer estado o no
-                if ($estado_anterior !== null && $hora_anterior !== null) {
-                    $diferencia = calcularDiferenciaFechas($hora_anterior, $row['hora_fecha_now']);
-                    $diferencia_dias = $diferencia['dias'];
-                    $diferencia_horas = $diferencia['horas'];
-                } else {
-                    // Si es el primer estado, establecer diferencias en 0
-                    $diferencia_dias = 0;
-                    $diferencia_horas = 0;
-                }
-
-                echo '<td>' . $diferencia_dias . '</td>';
-                echo '<td>' . $diferencia_horas . '</td>';
-
-                // Actualizar el estado y hora anterior para el siguiente cálculo
-                $estado_anterior = $row['nombre_estado'];
-                $hora_anterior = $row['hora_fecha_now'];
-
-                // Botón "Ver más" que abre el modal con los detalles del pedido
-                echo '<td><button onclick="verDetalles(' . $row['id_pedido'] . ')">Ver más</button></td>';
-
-                echo '</tr>';
+            // Verificar si el estado es "Se recibió el pedido" y establecer las diferencias en 0
+            if (isset($row['nombre_estado']) && $row['nombre_estado'] === 'Se recibio el pedido') {
+                $diferencia_dias = 0;
+                $diferencia_horas = 0;
             }
-            echo '</table>';
-        } else {
-            echo '<script>';
-            echo 'alert("No se encontraron pedidos entre las fechas especificadas.");';
-            /* echo 'window.location.replace("../estadisticasEmpleados.php");'; */
-            echo '</script>';
+
+            // Resaltar el texto "Se recibió el pedido" en rojo
+            if ($row['nombre_estado'] === "Se recibio el pedido") {
+                echo '<td style="color: red;">' . $row['nombre_estado'] . '</td>';
+            } else {
+                echo '<td>' . $row['nombre_estado'] . '</td>';
+            }
+
+            echo '<td>' . $row['nombre_cliente'] . '</td>';
+
+            // Mostrar fecha y hora del estado actual en columnas separadas
+            $hora_fecha_estado = new DateTime($row['hora_fecha_now']);
+            echo '<td>' . $hora_fecha_estado->format('Y-m-d') . '</td>';
+            echo '<td>' . $hora_fecha_estado->format('H:i:s') . '</td>';
+
+            // Calcular la diferencia solo si hay un estado anterior
+            if ($estado_anterior !== null && $hora_anterior !== null) {
+                // Usar la hora del estado anterior como fecha de inicio para calcular la diferencia
+                $diferencia = calcularDiferenciaFechas($hora_anterior, $row['hora_fecha_now']);
+                $diferencia_dias += $diferencia['dias']; // Sumar la diferencia en días al acumulado
+                $diferencia_horas += $diferencia['horas']; // Sumar la diferencia en horas al acumulado
+            }
+
+            echo '<td>' . $diferencia_dias . '</td>';
+            echo '<td>' . $diferencia_horas . '</td>';
+
+            // Actualizar el estado y hora anterior para el siguiente cálculo
+            $estado_anterior = $row['nombre_estado'];
+            $hora_anterior = $row['hora_fecha_now'];
+
+            // Botón "Ver más" que redirige a la página de descripción del pedido con su respectivo id_pedido y token
+            $id_pedido = $row['id_pedido'];
+            $token = hash_hmac('sha1', $id_pedido, KEY_TOKEN);
+            echo '<td><a href="../descripcionPedido.php?id_pedido=' . $id_pedido . '&token=' . $token . '" class="btn btn-primary btn-sm btn-block">Ver más</a></td>';
+
+            echo '</tr>';
         }
+        echo '</tbody>';
+        echo '</table>';
+        echo '</div>'; // Cerrar el contenedor responsive de la tabla
+        echo '</div>'; // Cerrar el contenedor principal de Bootstrap
     } else {
-        echo "Llegué aquí 3: Error al ejecutar la consulta: " . mysqli_error($conexion);
+        echo '<p class="alert alert-danger">No se encontraron pedidos entre las fechas especificadas.</p>';
     }
+    echo '<div style="padding-bottom:20px;" class="container">';
+    echo '<a href="../inicio.php" class="btn btn-secondary mt-3">Regresar a Home</a>';
+    echo '</div>';
     ?>
-
-    <!-- Código JavaScript para el modal -->
-    <script>
-    function verDetalles(idPedido) {
-        // Aquí puedes utilizar JavaScript o librerías como jQuery para abrir el modal y cargar los detalles del pedido utilizando AJAX.
-        // Por simplicidad, te muestro una alerta con el ID del pedido seleccionado.
-        alert('Ver detalles del pedido con ID: ' + idPedido);
-        /* <?php
-            $queryDetalles = "SELECT carrito_compras.id_producto, carrito_compras.peso_del_producto, carrito_compras.id_pedido,
-        productos.nombre, productos.precio_por_gramo
-        FROM carrito_compras
-        INNER JOIN productos ON carrito_compras.id_producto = productos.id_producto
-        WHERE id_pedido = $idPedido ";
-
-            $resultDetalles = mysqli_query($conexion, $queryDetalles);
-            ?> */
-    }
-    </script>
+    <!-- Agregar enlaces a Bootstrap JS (opcional, dependiendo de si necesitas usar componentes de JavaScript de Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
