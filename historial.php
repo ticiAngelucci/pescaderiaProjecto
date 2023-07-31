@@ -7,6 +7,9 @@ if (!isset($_SESSION['id_usuario'])) {
 
 $id_usuario = $_SESSION['id_usuario'];
 include('components/navbar.php');
+
+$selectedDateRange = "";
+
 $consulta = "SELECT * FROM pedidos WHERE id_cliente='$id_usuario'";
 
 if (isset($_POST['btnfiltrar'])) {
@@ -15,9 +18,9 @@ if (isset($_POST['btnfiltrar'])) {
     $fechaInicio = $_POST['fecha_inicio'];
     $fechaFin = $_POST['fecha_fin'];
 
-   
     if (!empty($fechaInicio) && !empty($fechaFin)) {
         $consulta .= " AND fecha_entrega_pedido BETWEEN '$fechaInicio' AND '$fechaFin'";
+        $selectedDateRange = "Se eligió entre " . date("d/m/Y", strtotime($fechaInicio)) . " y " . date("d/m/Y", strtotime($fechaFin));
     }
 
     $consulta .= " ORDER BY $ordenarPor $orden";
@@ -74,6 +77,9 @@ if (!$resultados) {
                         </div>
                         <button type="submit" name="btnfiltrar" class="btn btn-primary">Filtrar</button>
                     </form>
+                    <?php if (!empty($selectedDateRange)) { ?>
+                        <p style="color: white;padding: 25px;"><?php echo $selectedDateRange; ?></p>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -89,12 +95,12 @@ if (!$resultados) {
                                 <img class="card-img-top" src="assets/pedido.png" alt="Card image cap" style="width: 100%;max-width: 250px;">
                             </div>
                             <div class="col-md-8">
-                                <h5 class="card-title">Tu compra se realizó <?php echo $pedido['hora_fecha_now'] ?></h5>
-                                <p class="card-text" style="text-align:left;">Su compra se retira
+                                <h5 class="card-title">Su compra se retira
                                     <?php echo $pedido['fecha_entrega_pedido'];
                                     echo "&nbsp;";
                                     echo $pedido['hora_entrega_pedido']; ?>
-                                </p>
+                                </h5>
+                                <p class="card-text" style="text-align:left;">Tu compra se realizó <?php echo $pedido['hora_fecha_now'] ?></p>
                                 <p class="card-text" style="text-align:left;">El total a pagar es $
                                     <?php echo $pedido['total_pedido']; ?></p>
                                 <a href="descripcionPedido.php?id_pedido=<?php echo $pedido['id_pedido']; ?>&token=<?php echo hash_hmac('sha1', $pedido['id_pedido'], KEY_TOKEN); ?>" class="btn btn-primary">Ver más</a>
