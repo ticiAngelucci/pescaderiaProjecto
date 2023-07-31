@@ -7,10 +7,18 @@ if (!isset($_SESSION['id_usuario'])) {
 
 $id_usuario = $_SESSION['id_usuario'];
 include('components/navbar.php');
-$consulta = "SELECT * FROM pedidos where id_cliente='$id_usuario'";
+$consulta = "SELECT * FROM pedidos WHERE id_cliente='$id_usuario'";
+
 if (isset($_POST['btnfiltrar'])) {
     $ordenarPor = $_POST['ordenar_por'];
     $orden = $_POST['orden'];
+    $fechaInicio = $_POST['fecha_inicio'];
+    $fechaFin = $_POST['fecha_fin'];
+
+   
+    if (!empty($fechaInicio) && !empty($fechaFin)) {
+        $consulta .= " AND fecha_entrega_pedido BETWEEN '$fechaInicio' AND '$fechaFin'";
+    }
 
     $consulta .= " ORDER BY $ordenarPor $orden";
 }
@@ -25,33 +33,47 @@ if (!$resultados) {
     }
 }
 ?>
+
 <?php if (mysqli_num_rows($resultados) === 0) { ?>
-    <div style="display: flex; color: red; background: white; height: 50px; max-width: 100%; width: 300px; margin: 0 auto; justify-content: center; align-items: center; border-radius: 30px;">No tiene historial,porfavor vuelva a inicio</div>
+    <div style="display: flex; color: red; background: white; height: 50px; max-width: 100%; width: 300px; margin: 0 auto; justify-content: center; align-items: center; border-radius: 30px;">No tiene historial, por favor vuelva a inicio</div>
 <?php    } else { ?>
     <div class="container" style="max-width: 1436px;">
         <div class="row justify-content-center text-center">
-            <div class="col-md-8 col-lg-6">
+            <div class="col-md-8 col-lg-6" style="padding-bottom:20px;">
                 <div class="header" style="color:white;margin-top:30px;">
                     <h2>Historial de Pedidos</h2>
-                    <form method="POST" style="justify-content: center;align-items: flex-end;flex-wrap: nowrap;flex-direction: row;" class="form-inline mt-2">
-                        <div class="form-group mr-sm-2">
-                            <label for="ordenar_por">Ordenar por:</label>
-                            <select name="ordenar_por" id="ordenar_por" class="form-control">
-                                <option value="fecha_entrega_pedido">Fecha de entrega</option>
-                                <option value="hora_fecha_now">Fecha de compra</option>
-                                <option value="total_pedido">Total a pagar</option>
-                            </select>
-                        </div>
-                        <div class="form-group mr-sm-2">
-                            <label for="orden">Orden:</label>
-                            <select name="orden" id="orden" class="form-control">
-                                <option value="asc">Ascendente</option>
-                                <option value="desc">Descendente</option>
-                            </select>
+                    <form method="POST" class="mt-2">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ordenar_por">Ordenar por:</label>
+                                    <select name="ordenar_por" id="ordenar_por" class="form-control">
+                                        <option value="fecha_entrega_pedido">Fecha de entrega</option>
+                                        <option value="hora_fecha_now">Fecha de compra</option>
+                                        <option value="total_pedido">Total a pagar</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="orden">Orden:</label>
+                                    <select name="orden" id="orden" class="form-control">
+                                        <option value="asc">Ascendente</option>
+                                        <option value="desc">Descendente</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fecha_inicio">Fecha de inicio:</label>
+                                    <input type="date" name="fecha_inicio" id="fecha_inicio" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fecha_fin">Fecha de fin:</label>
+                                    <input type="date" name="fecha_fin" id="fecha_fin" class="form-control">
+                                </div>
+                            </div>
                         </div>
                         <button type="submit" name="btnfiltrar" class="btn btn-primary">Filtrar</button>
                     </form>
-
                 </div>
             </div>
         </div>
@@ -75,7 +97,7 @@ if (!$resultados) {
                                 </p>
                                 <p class="card-text" style="text-align:left;">El total a pagar es $
                                     <?php echo $pedido['total_pedido']; ?></p>
-                                <a href="descripcionPedido.php?id_pedido=<?php echo $pedido['id_pedido']; ?>&token=<?php echo hash_hmac('sha1', $pedido['id_pedido'], KEY_TOKEN); ?>"" class=" btn btn-primary">Ver más</a>
+                                <a href="descripcionPedido.php?id_pedido=<?php echo $pedido['id_pedido']; ?>&token=<?php echo hash_hmac('sha1', $pedido['id_pedido'], KEY_TOKEN); ?>" class="btn btn-primary">Ver más</a>
                             </div>
                         </div>
                     </div>
@@ -83,5 +105,5 @@ if (!$resultados) {
             </div>
         </div>
     </div>
-<?php    } ?>
+<?php } ?>
 <?php include('components/footer.php'); ?>
